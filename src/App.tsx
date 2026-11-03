@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 
 type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
-type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; editionOf?:string; editionNumber?:number; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; firstWeekRecorded?: boolean; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; labelContractId?:string; territories?:string[] }
+type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; editionOf?:string; editionNumber?:number; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; firstWeekRecorded?: boolean; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; labelContractId?:string; masterContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
 export type FinanceWeek = {week:number;year:number;spotifyStreams:number;appleStreams:number;youtubeStreams:number;radioPlays:number;spotifyRevenue:number;appleRevenue:number;youtubeRevenue:number;radioRevenue:number;streamingGross:number;publishingRevenue:number;merchGross:number;merchCosts:number;tourGross:number;artistShare:number;labelShare:number;distributionFee:number;recouped:number;net:number}
@@ -199,7 +199,6 @@ function App() {
     const merchRevenue=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.price,0)
     const merchCosts=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.cost,0)
     const tourRevenue=artist.tour.filter(s=>s.week===week&&s.year===year).reduce((s,x)=>s+x.revenue,0)
-    const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
     const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistNonStreamingShare=activeContract
