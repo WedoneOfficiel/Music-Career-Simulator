@@ -33,7 +33,7 @@ export type Artist = {
   label: string; labelShare: number; tour: TourShow[]; merch: number; merchRevenue: number
   socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number;releaseId?:string}[]
   age?:number; bio?:string; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:LabelContract[]
-  merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; ownLabelName?:string; ownLabelCapital?:number; ownLabelReputation?:number; ownLabelArtists?:{id:string;name:string;genre:string;popularity:number;fans:number;artistRoyalty:number;advance:number;remainingWeeks:number;streams:number;revenue:number}[]; tourName?:string
+  merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; ownLabelName?:string; ownLabelCapital?:number; ownLabelReputation?:number; ownLabelArtists?:{id:string;name:string;genre:string;popularity:number;fans:number;artistRoyalty:number;advance:number;remainingWeeks:number;streams:number;revenue:number;recoupableBalance?:number;artistEarnings?:number}[]; tourName?:string
 }
 const SAVE_KEY = 'music-career-simulator-save-v2'
 const OLD_KEY = 'music-career-simulator-save-v1'
@@ -186,7 +186,7 @@ function App() {
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
     const net=artistGrossShare-recouped+publishingRevenue
     const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
-    const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const revenue=streams*.0035*(1-a.artistRoyalty/100);return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,weeklyStreams:streams,weeklyRevenue:revenue}})
+    const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const gross=streams*.0035;const artistShare=gross*a.artistRoyalty/100;const recouped=Math.min(a.recoupableBalance??a.advance,artistShare);const artistPaid=artistShare-recouped;const revenue=gross-artistPaid;return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,recoupableBalance:Math.max(0,(a.recoupableBalance??a.advance)-recouped),artistEarnings:(a.artistEarnings??0)+artistPaid,weeklyStreams:streams,weeklyRevenue:revenue,weeklyArtistEarnings:artistPaid}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0),0,100)
