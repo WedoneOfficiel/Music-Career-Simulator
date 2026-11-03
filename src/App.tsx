@@ -54,7 +54,7 @@ function normalizeSave(value:unknown):Artist|null {
   if(!value||typeof value!=='object')return null
   const a=value as Partial<Artist>
   if(typeof a.name!=='string'||!a.name.trim())return null
-  const tracks=Array.isArray(a.tracks)?a.tracks.map(t=>({spotify:0,apple:0,youtube:0,radio:0,total:0,rank:null,peak:null,released:false,...t})): []
+  const tracks=Array.isArray(a.tracks)?a.tracks.map(t=>({...t,spotify:Number.isFinite(t.spotify)?t.spotify:0,apple:Number.isFinite(t.apple)?t.apple:0,youtube:Number.isFinite(t.youtube)?t.youtube:0,radio:Number.isFinite(t.radio)?t.radio:0,total:Number.isFinite(t.total)?t.total:0,rank:typeof t.rank==='number'?t.rank:null,peak:typeof t.peak==='number'?t.peak:null,released:!!t.released})): []
   const releases=Array.isArray(a.releases)?a.releases.map(r=>({...r,trackIds:Array.isArray(r.trackIds)?r.trackIds:[],firstWeekStreams:Number.isFinite(r.firstWeekStreams)?r.firstWeekStreams:0})): []
   return {...a,tracks,releases,posts:Array.isArray(a.posts)?a.posts:[],wiki:Array.isArray(a.wiki)?a.wiki:[],chart:Array.isArray(a.chart)?a.chart:[],albumChart:Array.isArray(a.albumChart)?a.albumChart:[],chartHistory:Array.isArray(a.chartHistory)?a.chartHistory:[],tour:Array.isArray(a.tour)?a.tour:[],contracts:Array.isArray(a.contracts)?a.contracts:[]} as Artist
 }
