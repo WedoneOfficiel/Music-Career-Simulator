@@ -180,7 +180,7 @@ function App() {
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistGrossShare=activeContract
       ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+publishingRevenue+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
-      : gross
+      : gross+publishingRevenue
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
     const net=artistGrossShare-recouped
     const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
