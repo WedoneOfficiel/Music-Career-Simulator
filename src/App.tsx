@@ -20,7 +20,7 @@ export type LabelContract = {
   royalty:number; artistRoyalty?:number; advance:number; marketing:number; recordingBudget?:number; recoupableBalance?:number;
   masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; distributionFee?:number;
   territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
-  signedWeek?:number; signedYear?:number; status?:'active'|'expired'|'terminated';
+  signedWeek?:number; signedYear?:number; terminationFee?:number; status?:'active'|'expired'|'terminated';
 }
 export type Artist = {
   name: string; genre: string; country: string; image: string
