@@ -856,3 +856,23 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .contract-week-recovery-row b{font-size:11px}
 .contract-week-recovery-row small{font-size:9px;color:var(--muted)}
 .contract-week-recovery-row>strong{font-size:12px;color:#8c5b69;white-space:nowrap}
+
+/* Tour management: forecast, cost visibility and compact date calendar */
+.tour-finance-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;margin:16px 0;border:1px solid #e8dfec;border-radius:12px;background:linear-gradient(135deg,#faf7fc,#f8f3f0)}
+.tour-finance-preview>div{display:flex;flex-direction:column;gap:5px}
+.tour-finance-preview span{font-size:10px;color:var(--muted)}
+.tour-finance-preview strong{font:800 14px Manrope,sans-serif;color:var(--ink)}
+.tour-finance-preview .tour-preview-net{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #e6dce9}
+.tour-finance-preview .tour-preview-net strong{font-size:19px;color:#755b91}
+.tour-finance-preview>small{grid-column:1/-1;font-size:9px;line-height:1.55;color:var(--muted)}
+.tour-calendar-panel{margin-top:16px}
+.tour-date-row{align-items:flex-start}
+.tour-date-row>span{min-width:0}
+.tour-date-row em{display:block;margin-top:6px;font-style:normal;font-size:9px;font-weight:700}
+.tour-date-upcoming{color:#8b70ae}
+.tour-date-past{color:#7a9a83}
+.tour-date-actions{display:flex;align-items:flex-end;flex-direction:column;gap:7px;flex-shrink:0}
+.tour-date-actions>strong{font-size:12px;white-space:nowrap}
+.tour-date-actions .mini-action{font-size:9px;padding:6px 9px}
+.field-hint{display:block;color:var(--muted);font-size:10px;padding:7px 0}
+@media(max-width:560px){.tour-finance-preview{gap:9px;padding:12px}.tour-date-row{gap:8px}.tour-date-actions>strong{font-size:10px}}
