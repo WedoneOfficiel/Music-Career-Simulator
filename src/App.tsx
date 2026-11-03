@@ -189,7 +189,7 @@ function App() {
       const revenue=(t.spotify-(oldTrack?.spotify??0))*.0035+(t.apple-(oldTrack?.apple??0))*.007+(t.youtube-(oldTrack?.youtube??0))*.0012+(t.radio-(oldTrack?.radio??0))*.0008
       const royalty=owner==='label'?(rightsContract?.artistRoyalty??(rightsContract?100-rightsContract.royalty:0)):masterShare
       const fee=rightsContract?(rightsContract.distributionFee??0):0
-      return {revenue,artistMaster:revenue*(1-fee/100)*royalty/100,distribution:revenue*fee/100,publishing:revenue*.16*publishingShare/100}
+      return {contractId:rightsContract?.id,revenue,artistMaster:revenue*(1-fee/100)*royalty/100,distribution:revenue*fee/100,publishing:revenue*.16*publishingShare/100}
     })
     const artistMasterRevenue=trackRights.reduce((sum,r)=>sum+r.artistMaster,0)
     const distributionIncome=trackRights.reduce((sum,r)=>sum+r.distribution,0)
@@ -205,13 +205,19 @@ function App() {
       ? (merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
       : (merchRevenue-merchCosts)+tourRevenue
     const artistGrossShare=artistMasterRevenue+artistNonStreamingShare
-    const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
+    // Une avance ne se rembourse qu'avec la part artiste générée par les enregistrements rattachés à ce contrat.
+    const eligibleByContract=trackRights.reduce<Record<string,number>>((totals,r)=>{if(r.contractId)totals[r.contractId]=(totals[r.contractId]??0)+r.artistMaster;return totals},{})
+    const recoupedByContract=Object.fromEntries(Object.entries(eligibleByContract).map(([contractId,eligible])=>{
+      const contract=(artist.contracts??[]).find(c=>c.id===contractId)
+      return [contractId,Math.min(contract?.recoupableBalance??0,eligible)]
+    })) as Record<string,number>
+    const recouped=Object.values(recoupedByContract).reduce((sum,value)=>sum+value,0)
     const net=artistGrossShare-recouped+publishingRevenue
     const labelStreamingShare=Math.max(0,streamingRevenue-distributionIncome-artistMasterRevenue)
     const labelMerchShare=activeContract?(merchRevenue-merchCosts)*merchCut/100:0
     const labelLiveShare=activeContract?tourRevenue*liveCut/100:0
     const financeWeek:FinanceWeek={week,year,spotifyStreams:platformDelta.spotify,appleStreams:platformDelta.apple,youtubeStreams:platformDelta.youtube,radioPlays:platformDelta.radio,spotifyRevenue:platformDelta.spotify*.0035,appleRevenue:platformDelta.apple*.007,youtubeRevenue:platformDelta.youtube*.0012,radioRevenue:platformDelta.radio*.0008,streamingGross:streamingRevenue,publishingRevenue,merchGross:merchRevenue,merchCosts,tourGross:tourRevenue,artistShare:artistGrossShare,labelShare:labelStreamingShare+labelMerchShare+labelLiveShare,distributionFee:distributionIncome,recouped,net}
-    const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
+    const settledContracts=contracts.map(c=>({...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-(recoupedByContract[c.id]??0))}))
     const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const gross=streams*.0035;const artistShare=gross*a.artistRoyalty/100;const recouped=Math.min(a.recoupableBalance??a.advance,artistShare);const artistPaid=artistShare-recouped;const revenue=gross-artistPaid;return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,recoupableBalance:Math.max(0,(a.recoupableBalance??a.advance)-recouped),artistEarnings:(a.artistEarnings??0)+artistPaid,weeklyStreams:streams,weeklyRevenue:revenue,weeklyArtistEarnings:artistPaid}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000)))
