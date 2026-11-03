@@ -76,12 +76,19 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
     tracks.push(...artistTracks)
     const artistTotal=artistTracks.reduce((sum,t)=>sum+t.streams,0)
     artists.push({id:artistId,name,artist:name,streams:artistTotal})
-    albumShares.forEach((share,slot)=>{
-      const age=((index*23+slot*27)%100)+4
-      const decay=Math.max(.1,1-age*.009)
-      const albumId=artistId+'-album-'+slot
-      const title=albumTitles[(index*2+slot*3)%albumTitles.length]
-      const streams=Math.round(weeklyPotential*share*decay*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
+    // Chaque artiste lance un nouvel album environ une fois par an.
+    // Les deux précédents restent au catalogue avec une décroissance progressive.
+    const albumEra=Math.floor((now+index*19)/52)
+    const albumAge=((now+index*19)%52+52)%52
+    ;[0,1,2].forEach(ageOffset=>{
+      const era=albumEra-ageOffset
+      const age=albumAge+ageOffset*52
+      const albumId=artistId+'-album-era-'+era
+      const title=albumTitles[((index*2+era)%albumTitles.length+albumTitles.length)%albumTitles.length]
+      const share=albumShares[ageOffset]
+      const decay=Math.max(.055,1-age*.0085)
+      const launchLift=age<4?1.95:age<9?1.38:1
+      const streams=Math.round(weeklyPotential*share*decay*launchLift*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
       albums.push({id:albumId,name:title,artist:name,streams})
     })
   })
