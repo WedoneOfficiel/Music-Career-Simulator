@@ -170,6 +170,8 @@ function App() {
     // On calcule donc les revenus avec le contrat avant de décrémenter sa durée.
     const activeContract=(artist.contracts??[]).find(c=>(c.remainingWeeks??c.years*52)>0&&(c.status??'active')==='active')
     const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.status==='terminated'?'terminated':(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active') as LabelContract['status']}))
+    const breachedContracts=contracts.filter(c=>c.status==='expired'&&(artist.contracts??[]).some(old=>old.id===c.id&&(old.status??'active')==='active'&&((old.obligations??[]).reduce((sum,o)=>sum+Math.max(0,o.remaining),0)+(old.legacyRemainingProjects??0))>0))
+    const breachPenalty=Math.min(3.5,breachedContracts.reduce((sum,c)=>sum+Math.max(0,(artist.contracts??[]).find(old=>old.id===c.id)?.obligations?.reduce((n,o)=>n+Math.max(0,o.remaining),0)??0)*0.65+Math.max(0,(artist.contracts??[]).find(old=>old.id===c.id)?.legacyRemainingProjects??0)*0.65,0))
     const platformDelta={spotify:updatedTracks.reduce((s,t)=>s+(t.spotify-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)),0),apple:updatedTracks.reduce((s,t)=>s+(t.apple-(artist.tracks.find(x=>x.id===t.id)?.apple||0)),0),youtube:updatedTracks.reduce((s,t)=>s+(t.youtube-(artist.tracks.find(x=>x.id===t.id)?.youtube||0)),0),radio:updatedTracks.reduce((s,t)=>s+(t.radio-(artist.tracks.find(x=>x.id===t.id)?.radio||0)),0)}
     const streamingRevenue=platformDelta.spotify*.0035+platformDelta.apple*.007+platformDelta.youtube*.0012+platformDelta.radio*.0008
     // Chaque enregistrement conserve ses propres clauses : une réédition ne remplace jamais les droits de l'original.
@@ -189,7 +191,7 @@ function App() {
       const oldTrack=artist.tracks.find(x=>x.id===t.id)
       const revenue=(t.spotify-(oldTrack?.spotify??0))*.0035+(t.apple-(oldTrack?.apple??0))*.007+(t.youtube-(oldTrack?.youtube??0))*.0012+(t.radio-(oldTrack?.radio??0))*.0008
       const royalty=owner==='label'?(rightsContract?.artistRoyalty??(rightsContract?100-rightsContract.royalty:0)):masterShare
-      const fee=rightsContract?(rightsContract.distributionFee??0):0
+      const fee=rightsContract&&(rightsContract.status??'active')==='active'&&(rightsContract.remainingWeeks??rightsContract.years*52)>0?(rightsContract.distributionFee??0):0
       return {contractId:rightsContract?.id,revenue,artistMaster:revenue*(1-fee/100)*royalty/100,distribution:revenue*fee/100,publishing:revenue*.16*publishingShare/100}
     })
     const artistMasterRevenue=trackRights.reduce((sum,r)=>sum+r.artistMaster,0)
@@ -228,12 +230,13 @@ function App() {
     const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const gross=streams*.0035;const artistShare=gross*a.artistRoyalty/100;const recouped=Math.min(a.recoupableBalance??a.advance,artistShare);const artistPaid=artistShare-recouped;const revenue=gross-artistPaid;return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,recoupableBalance:Math.max(0,(a.recoupableBalance??a.advance)-recouped),artistEarnings:(a.artistEarnings??0)+artistPaid,weeklyStreams:streams,weeklyRevenue:revenue,weeklyArtistEarnings:artistPaid}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000))*(1+(artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.fanBonus:0)))
-    const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0),0,100)
+    const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0)-breachPenalty,0,100)
     const randomCompetitor=competitors[(week+year)%competitors.length]
     const weeklyPosts:FeedPost[]=[
       {id:id(),week,year,source:'Music News',text:`Bilan de la semaine : ${artist.name} cumule ${fmt(weeklyStreams)} nouvelles écoutes sur les plateformes.`},
       ...chartPosts.slice(0,3)
     ]
+    for(const c of breachedContracts)weeklyPosts.push({id:id(),week,year,source:'Industry News',text:`Le contrat de ${artist.name} avec ${c.label} arrive à échéance sans que tous les engagements de sortie aient été remplis. Cette situation fragilise sa réputation auprès des partenaires.`})
     if(chart.some(c=>c.own&&c.rank===1))weeklyPosts.unshift({id:id(),week,year,source:'Pop Crave',text:`NUMBER ONE ! ${artist.name} décroche la première place du classement mondial cette semaine.`})
     else weeklyPosts.push({id:id(),week,year,source:'Pop Base',text:`Dans les charts cette semaine : ${randomCompetitor} fait parler de lui, tandis que ${artist.name} poursuit son ascension.`})
     const wiki=[...artist.wiki,`Semaine ${week} de ${year} : ${fmt(weeklyStreams)} nouvelles écoutes enregistrées sur Spotify, Apple Music et YouTube.`,...updatedTracks.filter(t=>t.rank!==null).map(t=>`Semaine ${week} de ${year} : « ${t.title} » atteint la position ${t.rank} du classement mondial (meilleur classement : ${t.peak}).`)]
