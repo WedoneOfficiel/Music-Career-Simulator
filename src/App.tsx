@@ -130,7 +130,8 @@ function App() {
       const releaseTracks=updatedTracks.filter(t=>r.trackIds.includes(t.id))
       const streams=releaseTracks.reduce((s,t)=>s+t.total,0)
       const previousStreams=releaseTracks.reduce((sum,t)=>sum+(t.total-(artist.tracks.find(old=>old.id===t.id)?.total??0)),0)
-      const firstWeekRecorded=r.firstWeekRecorded??(r.firstWeekStreams>0)
+      const isReleaseWeek=r.week===artist.week&&r.year===artist.year
+      const firstWeekRecorded=r.firstWeekRecorded??((r.firstWeekStreams??0)>0||!isReleaseWeek)
       const firstWeekStreams=firstWeekRecorded?(r.firstWeekStreams??0):previousStreams
       const rank=(r.type==='Album'?albumChart.find(c=>c.own&&c.name===r.title)?.rank:chart.find(c=>c.own&&releaseTracks.some(t=>t.title===c.name))?.rank)??null
       return {...r,firstWeekStreams,firstWeekRecorded:true,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
