@@ -11,7 +11,7 @@ import {
 type Track = { id: string; title: string; released: boolean; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
 type Release = { id: string; title: string; type: 'Single' | 'Album'; trackIds: string[]; week: number; year: number; firstWeekStreams: number; currentRank: number | null; peak: number | null }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
-export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number }
+export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number }
 export type Artist = {
