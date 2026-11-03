@@ -654,3 +654,21 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-studio .ls-valuation-row b,.label-studio .ls-valuation-row strong{font-size:12px}
 .label-studio .ls-valuation-row small,.label-studio .ls-valuation-row span{display:block;color:#9998a3;font-size:10px;margin-top:4px}
 @media(max-width:640px){.label-studio .ls-valuation-hero{grid-template-columns:1fr}.label-studio .ls-valuation-grid{grid-template-columns:1fr}.label-studio .ls-valuation-row{grid-template-columns:1fr auto}.label-studio .ls-valuation-row span{grid-column:1/-1}}
+
+/* Guided contract negotiation: readable decision cards */
+.label-studio .ls-decision-card{background:#202027;border:1px solid #393541;border-radius:13px;padding:16px;margin-top:15px}
+.label-studio .ls-decision-card h4{font-size:15px;letter-spacing:-.02em;margin:0 0 7px}
+.label-studio .ls-decision-card>div>p,.label-studio .ls-decision-card>p{font-size:11px;line-height:1.65;color:#b0adb8;margin:0 0 13px}
+.label-studio .ls-help{display:block;color:#a5a2ad;font-size:10px;font-weight:450;line-height:1.55;max-width:58ch}
+.label-studio .ls-proposal>label,.label-studio .ls-field-grid>label,.label-studio .ls-master-editor>label{gap:8px;margin-bottom:17px;font-size:12px}
+.label-studio .ls-proposal input[type=range],.label-studio .ls-master-editor input[type=range]{min-height:24px;cursor:pointer}
+.label-studio .ls-proposal select,.label-studio .ls-proposal input:not([type=range]){min-height:43px;font-size:12px}
+.label-studio .ls-obligation-editor>label{padding:11px 4px;font-size:12px}
+.label-studio .ls-obligation-editor>label button{width:32px;height:32px;font-size:16px}
+.label-studio .ls-master-editor>label{font-size:12px}
+.label-studio .ls-explain{font-size:11px;line-height:1.7;padding:13px}
+.label-studio .ls-advanced{background:#202027;border:1px solid #393541;border-radius:13px;padding:15px;margin-top:15px}
+.label-studio .ls-advanced summary{font-size:12px;padding:3px}
+.label-studio .ls-offer-footer{position:sticky;bottom:10px;z-index:3;background:#18181f;border:1px solid #4a4056;border-radius:12px;padding:13px;margin-top:17px;box-shadow:0 8px 28px #0005}
+.label-studio .ls-response-panel{top:12px}
+@media(max-width:760px){.label-studio .ls-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}.label-studio .ls-negotiation-grid{grid-template-columns:1fr}.label-studio .ls-response-panel{position:static}.label-studio .ls-decision-card{padding:13px}}
