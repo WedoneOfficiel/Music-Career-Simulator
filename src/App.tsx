@@ -82,7 +82,7 @@ function App() {
   const [tab,setTab]=useState('Vue d’ensemble')
   const [notice,setNotice]=useState('')
 
-  useEffect(()=>{if(!artist)return;try{const next=JSON.stringify(artist),previous=localStorage.getItem(SAVE_KEY);if(previous&&previous!==next)localStorage.setItem(BACKUP_KEY,previous);localStorage.setItem(SAVE_KEY,next)}catch{/* A full browser quota must not crash the simulation. */}},[artist])
+  useEffect(()=>{if(!artist)return;try{const next=JSON.stringify(artist),previous=localStorage.getItem(SAVE_KEY);if(previous&&previous!==next){try{if(normalizeSave(JSON.parse(previous)))localStorage.setItem(BACKUP_KEY,previous)}catch{/* Never replace a valid backup with corrupt data. */}}localStorage.setItem(SAVE_KEY,next)}catch{/* A full browser quota must not crash the simulation. */}},[artist])
   const dateLabel=useMemo(()=>artist?`Semaine ${artist.week} · ${artist.year}`:'',[artist])
 
   function createCareer(e:FormEvent<HTMLFormElement>) {
