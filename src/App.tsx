@@ -198,7 +198,10 @@ function App() {
     const merchUnits=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0)),0)
     const merchRevenue=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.price,0)
     const merchCosts=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.cost,0)
-    const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)\n    const tourRevenue=showsThisWeek.reduce((s,x)=>s+x.revenue,0)\n    const tourCosts=showsThisWeek.reduce((s,x)=>s+(x.productionCost??0),0)\n    const tourProfit=tourRevenue-tourCosts
+    const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)
+    const tourRevenue=showsThisWeek.reduce((s,x)=>s+x.revenue,0)
+    const tourCosts=showsThisWeek.reduce((s,x)=>s+(x.productionCost??0),0)
+    const tourProfit=tourRevenue-tourCosts
     const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistNonStreamingShare=activeContract
