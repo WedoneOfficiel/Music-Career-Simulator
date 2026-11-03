@@ -1550,3 +1550,38 @@ button.mini-action,.manager-option { border-radius:999px; }
 @media (min-width:1100px) {
   .new-header-top,.new-main-nav { padding-left:max(5.2%, calc((100% - 1440px)/2)); padding-right:max(5.2%, calc((100% - 1440px)/2)); }
 }
+
+/* Onboarding follows the new STAGE identity */
+.welcome-screen {
+  min-height:100vh; padding:clamp(28px,5vw,72px);
+  background:radial-gradient(ellipse at 14% 28%,#34382b 0,transparent 34%),#171817;
+  color:#fff;
+}
+.welcome-glow { width:480px; height:480px; background:#d9ff43; opacity:.09; filter:blur(120px); top:20%; left:4%; }
+.welcome-content { width:min(100%,1120px); display:grid; grid-template-columns:minmax(0,.9fr) minmax(420px,1fr); column-gap:clamp(36px,7vw,100px); align-items:center; }
+.welcome-content > .brand-mark { grid-column:1; grid-row:1; background:#d9ff43; color:#171817; border-radius:13px; box-shadow:none; }
+.welcome-content > .eyebrow { grid-column:1; grid-row:2; margin:28px 0 12px; color:#d9ff43; }
+.welcome-content h1 { grid-column:1; grid-row:3; color:#fff; font-size:clamp(48px,6vw,82px); letter-spacing:-.075em; line-height:.98; }
+.welcome-content h1 span { color:#d9ff43; }
+.welcome-copy { grid-column:1; grid-row:4; color:#b7b9af; font-size:15px; max-width:430px; line-height:1.7; }
+.creation-card { grid-column:2; grid-row:1 / span 5; background:#fff; border:0; border-radius:22px; padding:clamp(22px,3vw,38px); box-shadow:0 28px 90px #0005; }
+.card-heading { color:#171817; font-size:16px; }
+.card-heading svg { color:#171817; }
+.eyebrow { color:#777970; }
+.creation-card .eyebrow { color:#686b60; }
+.start-options { background:#f3f4ee; border:1px solid #e6e8dd; border-radius:13px; }
+.start-options label strong { color:#171817; }
+.start-options input[type=range] { accent-color:#171817; }
+.creation-card input,.creation-card select { border-radius:9px; background:#f8f8f4; border-color:#e5e6de; }
+.creation-card input:focus,.creation-card select:focus { border-color:#171817; box-shadow:0 0 0 3px #17181712; }
+.primary-button { background:#171817; color:#d9ff43; border-radius:999px; box-shadow:none; }
+.primary-button:hover { background:#33362c; box-shadow:none; }
+.form-footnote { color:#85877e; }
+.welcome-footer { grid-column:1 / -1; color:#888b80; border-top:1px solid #ffffff20; padding-top:17px; margin-top:30px; }
+@media (max-width:760px) {
+  .welcome-content { display:flex; flex-direction:column; align-items:stretch; gap:0; width:min(100%,560px); }
+  .welcome-content > .eyebrow { margin-top:28px; }
+  .welcome-content h1 { font-size:clamp(46px,12vw,64px); }
+  .creation-card { margin-top:24px; }
+  .welcome-footer { width:100%; }
+}
