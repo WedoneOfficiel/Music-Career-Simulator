@@ -876,3 +876,5 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .tour-date-actions .mini-action{font-size:9px;padding:6px 9px}
 .field-hint{display:block;color:var(--muted);font-size:10px;padding:7px 0}
 @media(max-width:560px){.tour-finance-preview{gap:9px;padding:12px}.tour-date-row{gap:8px}.tour-date-actions>strong{font-size:10px}}
+
+.finance-summary>div:has(span:first-child){min-width:0}
