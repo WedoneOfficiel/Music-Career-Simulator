@@ -69,7 +69,7 @@ function App() {
       energy:100,money:startMoney,fans,popularity,week:1,year:2026,tracks:[],releases:[],
       spotify:0,apple:0,youtube:0,radio:0,posts:[{id:id(),week:1,year:2026,source:'Système',text:`Bienvenue dans l’industrie musicale, ${name} ! Une nouvelle carrière commence aujourd’hui.`}],
       wiki:[`${name} est un artiste ou une artiste de musique ${String(d.get('genre')||'Pop')}, originaire de ${String(d.get('country')||'France')}.`,'Sa carrière débute en 2026.'],
-      chart:[],chartHistory:[],label:'Indépendant',labelShare:0,tour:[],merch:0,merchRevenue:0
+      chart:[],albumChart:[],chartHistory:[],label:'Indépendant',labelShare:0,tour:[],merch:0,merchRevenue:0
     }
     localStorage.removeItem(OLD_KEY);localStorage.setItem(SAVE_KEY,JSON.stringify(newArtist));setArtist(newArtist);setNotice('Votre carrière est lancée. À vous de construire la suite !')
   }
