@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 
 type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
-type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; labelContractId?:string; territories?:string[] }
+type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; firstWeekRecorded?: boolean; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; labelContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
@@ -128,10 +128,10 @@ function App() {
     })
     const releases=artist.releases.map(r=>{
       const releaseTracks=updatedTracks.filter(t=>r.trackIds.includes(t.id))
-      const streams=releaseTracks.reduce((s,t)=>s+t.total,0)
-      const firstWeekStreams=r.firstWeekStreams||streams
+      const firstWeekRecorded=r.firstWeekRecorded??((r.firstWeekStreams??0)>0||r.week!==artist.week||r.year!==artist.year)
+      const firstWeekStreams=firstWeekRecorded?(r.firstWeekStreams??0):releaseTracks.reduce((sum,t)=>sum+(t.total-(artist.tracks.find(old=>old.id===t.id)?.total??0)),0)
       const rank=(r.type==='Album'?albumChart.find(c=>c.own&&c.name===r.title)?.rank:chart.find(c=>c.own&&releaseTracks.some(t=>t.title===c.name))?.rank)??null
-      return {...r,firstWeekStreams,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
+      return {...r,firstWeekStreams,firstWeekRecorded:true,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
     const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.status==='terminated'?'terminated':(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active') as LabelContract['status']}))
