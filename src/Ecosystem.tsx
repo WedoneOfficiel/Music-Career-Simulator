@@ -6,12 +6,10 @@ type SocialPlatform = 'X' | 'Instagram' | 'TikTok'
 type SocialPublication = { id:string; platform:SocialPlatform; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number }
 type EcosystemProps = { artist:Artist; update:(patch:Partial<Artist>)=>void; notify:(message:string)=>void }
 const number=(n:number)=>new Intl.NumberFormat('fr-FR',{notation:n>=1000000?'compact':'standard',maximumFractionDigits:1}).format(n)
-const euro=(n:number)=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n)
 const uid=()=>Math.random().toString(36).slice(2,10)
 const appList=[{id:'spotify',name:'Spotify',desc:'Écouter et découvrir',color:'#1ed760',letter:'◉'},{id:'sfa',name:'Spotify for Artists',desc:'Analyser votre carrière',color:'#171717',letter:'♫'},{id:'x',name:'X',desc:'Actualités et conversations',color:'#111111',letter:'𝕏'},{id:'tiktok',name:'TikTok',desc:'Vidéos et tendances',color:'#15151b',letter:'♪'},{id:'instagram',name:'Instagram',desc:'Photos, stories et reels',color:'#c13584',letter:'◎'},{id:'apple',name:'Apple Music',desc:'Albums et classements',color:'#e64b72',letter:'♪'}]
 export default function Ecosystem({artist,update,notify}:EcosystemProps){
  const [active,setActive]=useState('launcher')
- const [query,setQuery]=useState('')
  const [playing,setPlaying]=useState<string|null>(null)
  const [draft,setDraft]=useState('')
  const [videoKind,setVideoKind]=useState('Clip musical')
@@ -47,7 +45,6 @@ export default function Ecosystem({artist,update,notify}:EcosystemProps){
  const back=()=>open('launcher')
  const title=appList.find(a=>a.id===active)?.name
  const topTrack=[...songs].sort((a,b)=>b.total-a.total).slice(0,5)
- const filtered=songs.filter(t=>t.title.toLowerCase().includes(query.toLowerCase()))
  const socialFeed=pubs
  const topSong=topTrack[0]
  return <section className="ecosystem">
