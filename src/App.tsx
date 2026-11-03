@@ -143,7 +143,12 @@ function App() {
     const tourRevenue=artist.tour.filter(s=>s.week===week&&s.year===year).reduce((s,x)=>s+x.revenue,0)
     const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
     const artistRoyaltyRate=activeContract?(activeContract.artistRoyalty??(100-activeContract.royalty)):100
-    const artistGrossShare=gross*artistRoyaltyRate/100
+    const distributionFee=activeContract?(activeContract.distributionFee??0):0
+    const merchCut=activeContract?(activeContract.merchShare??activeContract.threeSixtyShare??0):0
+    const liveCut=activeContract?(activeContract.liveShare??activeContract.threeSixtyShare??0):0
+    const artistGrossShare=activeContract
+      ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
+      : gross
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
     const net=artistGrossShare-recouped
     const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
