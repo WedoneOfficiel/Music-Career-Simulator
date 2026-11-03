@@ -878,3 +878,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 @media(max-width:560px){.tour-finance-preview{gap:9px;padding:12px}.tour-date-row{gap:8px}.tour-date-actions>strong{font-size:10px}}
 
 .finance-summary>div:has(span:first-child){min-width:0}
+
+.manager-contract-card{padding:16px;border:1px solid var(--line,#e8e1e9);border-radius:14px;background:var(--panel,#fff)}
+.manager-contract-card p{margin:8px 0;color:var(--muted,#777)}
+.manager-option{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left}
+.manager-option small{font-size:.82rem;color:var(--muted,#777);font-weight:400}
