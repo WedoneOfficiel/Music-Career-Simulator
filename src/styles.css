@@ -1540,3 +1540,13 @@ button.mini-action,.manager-option { border-radius:999px; }
   .page-content { padding:23px 13px 45px; }
   .panel { padding:18px; }
 }
+
+.new-nav-menu.has-current > summary { color:#d9ff43; }
+.new-nav-menu.has-current > summary::before { content:""; width:6px; height:6px; border-radius:50%; background:#d9ff43; }
+.new-nav-menu > summary { transition:color .16s,border-color .16s; }
+.new-nav-dropdown { z-index:40; }
+.new-nav-dropdown button svg { color:#777b6c; }
+.new-nav-dropdown button.active svg { color:#171817; }
+@media (min-width:1100px) {
+  .new-header-top,.new-main-nav { padding-left:max(5.2%, calc((100% - 1440px)/2)); padding-right:max(5.2%, calc((100% - 1440px)/2)); }
+}
