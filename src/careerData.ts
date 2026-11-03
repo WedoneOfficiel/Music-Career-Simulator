@@ -34,8 +34,8 @@ function rankBoard(
 ):MarketChartEntry[] {
   const competitors=Array.from({length:100},(_,i)=>{
     const n=i+1
-    const name=market.names[n%market.names.length]+' '+(n+week+(kind==='albums'?3:kind==='artists'?7:0))
-    const artist=kind==='artists'?name:rivalArtists[(n+week+(market.code==='UK'?3:market.code==='FR'?6:0))%rivalArtists.length]
+    const name=market.names[n%market.names.length]+' '+(n+(kind==='albums'?3:kind==='artists'?7:0))
+    const artist=kind==='artists'?name:rivalArtists[(n+(market.code==='UK'?3:market.code==='FR'?6:0))%rivalArtists.length]
     const id='rival-'+market.code+'-'+kind+'-'+n
     const variation=.72+seed(id+'-'+week+'-'+year)*.58
     const base=kind==='artists'?34_000_000:kind==='albums'?27_000_000:19_000_000
