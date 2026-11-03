@@ -176,6 +176,8 @@ function App() {
     const marketStories:FeedPost[]=[]
     for(const [code,label] of [['US','États-Unis'],['UK','Royaume-Uni'],['FR','France']] as const){
       const board=marketCharts[code]
+      const albumDebut=board.albums.filter(x=>!x.own&&x.isNew&&x.rank<=20&&x.id.includes('-album-era-')).sort((a,b)=>a.rank-b.rank)[0]
+      if(artist.marketCharts?.[code]&&albumDebut)marketStories.push({id:id(),week,year,source:'Sorties · '+label,text:'Nouvel album dans le top 20 en '+label+' : « '+albumDebut.name+' » de '+albumDebut.artist+' démarre à la position #'+albumDebut.rank+'.'})
       const songLeader=board.songs[0]
       if(songLeader&&!songLeader.own&&songLeader.lastWeek!==1&&songLeader.rank===1)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Nouveau numéro un en '+label+' : « '+songLeader.name+' » de '+songLeader.artist+' prend la tête du classement des chansons.'})
       const climber=board.songs.filter(x=>!x.own&&x.lastWeek!==null).sort((a,b)=>(b.lastWeek!-b.rank)-(a.lastWeek!-a.rank))[0]
