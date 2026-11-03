@@ -130,11 +130,7 @@ function App() {
       const managerBoost=artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.streamBoost:1
       const socialBoost=Math.min(2.5,(artist.socialPosts??[]).filter(p=>p.boostWeeks>0).reduce((v,p)=>v*p.boost,1))
       const campaignBoost=Math.min(2,(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&(!c.releaseId||artist.releases.some(r=>r.id===c.releaseId&&r.trackIds.includes(t.id)))).reduce((v,c)=>v*c.multiplier,1))
-      const dueSyncDeals=(artist.syncDeals??[]).filter(d=>d.status==='pending'&&d.paymentWeek===week&&d.paymentYear===year)
-    const syncGross=dueSyncDeals.reduce((sum,d)=>sum+d.fee,0)
-    const syncArtistMaster=dueSyncDeals.reduce((sum,d)=>sum+d.artistMasterAmount,0)
-    const syncArtistPublishing=dueSyncDeals.reduce((sum,d)=>sum+d.artistPublishingAmount,0)
-    const syncLabelShare=dueSyncDeals.reduce((sum,d)=>sum+d.labelMasterAmount+d.labelPublishingAmount,0)
+
     const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)
       const tourBoost=showsThisWeek.length?1.18:1
       const setlistBoost=showsThisWeek.some(s=>s.setlist?.includes(t.id))?1.22:1
@@ -207,6 +203,11 @@ function App() {
     const publishingRevenue=trackRights.reduce((sum,r)=>sum+r.publishing,0)
     const publishingGross=trackRights.reduce((sum,r)=>sum+(r.publishingGross??0),0)
     const labelPublishingShare=trackRights.reduce((sum,r)=>sum+(r.labelPublishing??0),0)
+    const dueSyncDeals=(artist.syncDeals??[]).filter(d=>d.status==='pending'&&d.paymentWeek===week&&d.paymentYear===year)
+    const syncGross=dueSyncDeals.reduce((sum,d)=>sum+d.fee,0)
+    const syncArtistMaster=dueSyncDeals.reduce((sum,d)=>sum+d.artistMasterAmount,0)
+    const syncArtistPublishing=dueSyncDeals.reduce((sum,d)=>sum+d.artistPublishingAmount,0)
+    const syncLabelShare=dueSyncDeals.reduce((sum,d)=>sum+d.labelMasterAmount+d.labelPublishingAmount,0)
     const merchItems=(artist.merchItems??[]).map(item=>{const sold=item.active?Math.min(Math.max(0,Math.round(artist.fans*.00016*(.7+artist.popularity/100))),Math.max(0,100000-item.sold)):0;return {...item,sold:item.sold+sold}})
     const merchUnits=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0)),0)
     const merchRevenue=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.price,0)
