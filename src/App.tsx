@@ -171,7 +171,25 @@ function App() {
     const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.status==='terminated'?'terminated':(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active') as LabelContract['status']}))
     const platformDelta={spotify:updatedTracks.reduce((s,t)=>s+(t.spotify-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)),0),apple:updatedTracks.reduce((s,t)=>s+(t.apple-(artist.tracks.find(x=>x.id===t.id)?.apple||0)),0),youtube:updatedTracks.reduce((s,t)=>s+(t.youtube-(artist.tracks.find(x=>x.id===t.id)?.youtube||0)),0),radio:updatedTracks.reduce((s,t)=>s+(t.radio-(artist.tracks.find(x=>x.id===t.id)?.radio||0)),0)}
     const streamingRevenue=platformDelta.spotify*.0035+platformDelta.apple*.007+platformDelta.youtube*.0012+platformDelta.radio*.0008
-    const publishingRevenue=updatedTracks.reduce((sum,t)=>{const old=artist.tracks.find(x=>x.id===t.id);const trackRevenue=(t.spotify-(old?.spotify??0))*.0035+(t.apple-(old?.apple??0))*.007+(t.youtube-(old?.youtube??0))*.0012+(t.radio-(old?.radio??0))*.0008;return sum+trackRevenue*.16*(t.artistPublishingShare??100)/100},0)
+    // Chaque enregistrement conserve ses propres clauses : une réédition ne remplace jamais les droits de l'original.
+    const trackRights=updatedTracks.map(t=>{
+      const originalRelease=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(t.id))??artist.releases.find(r=>r.trackIds.includes(t.id))
+      const contractId=t.masterContractId??originalRelease?.masterContractId??originalRelease?.labelContractId
+      const rightsContract=(artist.contracts??[]).find(c=>c.id===contractId)??activeContract
+      const rawOwner=t.masterOwnership??originalRelease?.masterOwnership??rightsContract?.masterOwnership??'artist'
+      const owner=rawOwner==='license'?'artist':rawOwner
+      const masterShare=t.masterArtistShare??originalRelease?.masterArtistShare??(owner==='artist'?100:owner==='shared'?rightsContract?.artistMasterShare??50:0)
+      const publishingOwner=t.publishingOwnership??originalRelease?.publishingOwnership??rightsContract?.publishingOwnership??'artist'
+      const publishingShare=t.artistPublishingShare??originalRelease?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?rightsContract?.artistPublishingShare??50:0)
+      const oldTrack=artist.tracks.find(x=>x.id===t.id)
+      const revenue=(t.spotify-(oldTrack?.spotify??0))*.0035+(t.apple-(oldTrack?.apple??0))*.007+(t.youtube-(oldTrack?.youtube??0))*.0012+(t.radio-(oldTrack?.radio??0))*.0008
+      const royalty=owner==='label'?(rightsContract?.artistRoyalty??(rightsContract?100-rightsContract.royalty:0)):masterShare
+      const fee=rightsContract?(rightsContract.distributionFee??0):0
+      return {revenue,artistMaster:revenue*(1-fee/100)*royalty/100,distribution:revenue*fee/100,publishing:revenue*.16*publishingShare/100}
+    })
+    const artistMasterRevenue=trackRights.reduce((sum,r)=>sum+r.artistMaster,0)
+    const distributionIncome=trackRights.reduce((sum,r)=>sum+r.distribution,0)
+    const publishingRevenue=trackRights.reduce((sum,r)=>sum+r.publishing,0)
     const merchItems=(artist.merchItems??[]).map(item=>{const sold=item.active?Math.min(Math.max(0,Math.round(artist.fans*.00016*(.7+artist.popularity/100))),Math.max(0,100000-item.sold)):0;return {...item,sold:item.sold+sold}})
     const merchUnits=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0)),0)
     const merchRevenue=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.price,0)
@@ -182,13 +200,13 @@ function App() {
     const distributionFee=activeContract?(activeContract.distributionFee??0):0
     const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
-    const artistGrossShare=activeContract
-      ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
-      : gross
+    const artistNonStreamingShare=activeContract
+      ? (merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
+      : (merchRevenue-merchCosts)+tourRevenue
+    const artistGrossShare=artistMasterRevenue+artistNonStreamingShare
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
     const net=artistGrossShare-recouped+publishingRevenue
-    const distributionIncome=streamingRevenue*distributionFee/100
-    const labelStreamingShare=Math.max(0,streamingRevenue-distributionIncome-streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100)
+    const labelStreamingShare=Math.max(0,streamingRevenue-distributionIncome-artistMasterRevenue)
     const labelMerchShare=activeContract?(merchRevenue-merchCosts)*merchCut/100:0
     const labelLiveShare=activeContract?tourRevenue*liveCut/100:0
     const financeWeek:FinanceWeek={week,year,spotifyStreams:platformDelta.spotify,appleStreams:platformDelta.apple,youtubeStreams:platformDelta.youtube,radioPlays:platformDelta.radio,spotifyRevenue:platformDelta.spotify*.0035,appleRevenue:platformDelta.apple*.007,youtubeRevenue:platformDelta.youtube*.0012,radioRevenue:platformDelta.radio*.0008,streamingGross:streamingRevenue,publishingRevenue,merchGross:merchRevenue,merchCosts,tourGross:tourRevenue,artistShare:artistGrossShare,labelShare:labelStreamingShare+labelMerchShare+labelLiveShare,distributionFee:distributionIncome,recouped,net}
