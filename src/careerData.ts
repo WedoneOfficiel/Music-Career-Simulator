@@ -57,7 +57,8 @@ function finishBoard(
    rotate every 32 weeks; older songs and albums have a slower catalogue decay. */
 function rivalMarket(market:typeof markets[number],week:number,year:number){
   const now=absoluteWeek(week,year)
-  const event=getRivalMarketEvent(week,year)\n  const tracks:{id:string;name:string;artist:string;streams:number;artistId:string;slot:number}[]=[]
+  const event=getRivalMarketEvent(week,year)
+  const tracks:{id:string;name:string;artist:string;streams:number;artistId:string;slot:number}[]=[]
   const artists:{id:string;name:string;artist:string;streams:number}[]=[]
   const albums:{id:string;name:string;artist:string;streams:number}[]=[]
   const songShares=[.38,.23,.17,.13,.09]
@@ -80,7 +81,8 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       const releaseLift=isLead&&age<5?1.22:1
       const id=isLead?artistId+'-lead-'+cycle:artistId+'-catalogue-'+slot
       const title=songTitles[(index*3+(isLead?cycle:slot*4+index))%songTitles.length]
-      const eventMultiplier=event?.artist===name&&(event.kind==='viral'&&isLead?2.15:event.kind==='comeback'&&slot===2?2.05:event.kind==='blockbuster'?1.28:1):1\n      const weekly=Math.round(weeklyPotential*share*decay*releaseLift*eventMultiplier*(.84+seed(id+'-'+Math.floor(now/2))*.32))
+      const eventMultiplier=event?.artist===name&&(event.kind==='viral'&&isLead?2.15:event.kind==='comeback'&&slot===2?2.05:event.kind==='blockbuster'?1.28:1):1
+      const weekly=Math.round(weeklyPotential*share*decay*releaseLift*eventMultiplier*(.84+seed(id+'-'+Math.floor(now/2))*.32))
       return {id,name:title,artist:name,streams:weekly,artistId,slot}
     })
     tracks.push(...artistTracks)
@@ -98,7 +100,8 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       const share=albumShares[ageOffset]
       const decay=Math.max(.055,1-age*.0085)
       const launchLift=age<4?1.95:age<9?1.38:1
-      const eventMultiplier=event?.artist===name&&event.kind==='blockbuster'?1.9:1\n      const streams=Math.round(weeklyPotential*share*decay*launchLift*eventMultiplier*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
+      const eventMultiplier=event?.artist===name&&event.kind==='blockbuster'?1.9:1
+      const streams=Math.round(weeklyPotential*share*decay*launchLift*eventMultiplier*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
       albums.push({id:albumId,name:title,artist:name,streams})
     })
   })
