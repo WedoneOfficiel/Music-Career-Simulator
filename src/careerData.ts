@@ -23,7 +23,10 @@ const markets: {code:MarketCode;factor:number;ownFactor:number;names:string[]}[]
   {code:'UK',factor:.91,ownFactor:1.04,names:['London Calling','Velvet Sky','After Hours','Electric Love','Blue Monday','Silver Lining','Paper Planes','Northern Lights','Fever Dream','Sweet Nothing']},
   {code:'FR',factor:.76,ownFactor:1.08,names:['Les heures bleues','À contre-jour','Comme avant','La nuit entière','Cœur électrique','Tout recommence','Les étoiles','Dernier été','Paradis','Minuit']},
 ]
-const rivalArtists=['Luna Vale','The Velvet Hours','Milo June','Nova Grey','Éloïse','Jade Rivers','Sienna Rose','Atlas Bloom','Maya Sol','Noah West','Iris Monroe','The Satellites','Ariane Blue','Kai Rivers','Sunday Club','Léonie','Romy Skye','Eden Park','Lola June','Mister Moon']
+const establishedRivals=['Luna Vale','The Velvet Hours','Milo June','Nova Grey','Éloïse','Jade Rivers','Sienna Rose','Atlas Bloom','Maya Sol','Noah West','Iris Monroe','The Satellites','Ariane Blue','Kai Rivers','Sunday Club','Léonie','Romy Skye','Eden Park','Lola June','Mister Moon']
+const extraFirstNames=['Avery','Rowan','Camille','Theo','Amara','Ellis','Margot','Luca','Celeste','Julian','Maeve','Adrian','Noémie','Felix','Esme','Leon','Skye','Remy','Clara','August']
+const extraSurnames=['Hart','Knight','Laurent','Sinclair']
+const rivalArtists=[...establishedRivals,...Array.from({length:80},(_,i)=>extraFirstNames[i%20]+' '+extraSurnames[Math.floor(i/20)])]
 const songTitles=['Paper Moons','Out of the Blue','Glass Houses','Slow Motion','Electric Touch','Wildfire Season','No Apologies','Velvet Rope','Anywhere Tonight','Fever Letters','Satellite Heart','Little Disasters','Golden','Better in the Dark','The Last Summer','City of Angels','Blue Hour','Beautiful Mess','Stay for the Lights','Almost Famous']
 const albumTitles=['First Light','Parallel Lines','The Good Part','Everything Changes','After the Noise','Soft Focus','Open Season','The Art of Leaving','Neon Years','A Different Sky']
 const seed=(s:string)=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0)/4294967295}
@@ -51,8 +54,8 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
   const albumShares=[.34,.25,.19,.13,.09]
   rivalArtists.forEach((name,index)=>{
     const artistId='rival-artist-'+index
-    const fans=58_000_000*Math.pow(.79,index)
-    const popularity=Math.max(34,97-index*2.7)
+    const fans=58_000_000*Math.pow(.94,index)
+    const popularity=Math.max(34,97-index*.58)
     const homeMarket=index%3
     const localFactor=homeMarket===(market.code==='US'?0:market.code==='UK'?1:2)?1.16:.94
     const cyclePosition=((now+index*13)%32+32)%32
