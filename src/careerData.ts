@@ -77,7 +77,7 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
     const artistTracks=songShares.map((share,slot)=>{
       const isLead=slot===0
       const age=isLead?leadAge:((index*17+slot*29)%88)+12
-      const decay=Math.max(.12,1-age*(isLead?.021:.014))
+      const decay=Math.max(.12,1-age*(isLead ? .021 : .014))
       const releaseLift=isLead&&age<5?1.22:1
       const id=isLead?artistId+'-lead-'+cycle:artistId+'-catalogue-'+slot
       const title=songTitles[(index*3+(isLead?cycle:slot*4+index))%songTitles.length]
