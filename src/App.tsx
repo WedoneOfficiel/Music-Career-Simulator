@@ -144,8 +144,8 @@ function App() {
     const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
     const artistRoyaltyRate=activeContract?(activeContract.artistRoyalty??(100-activeContract.royalty)):100
     const distributionFee=activeContract?(activeContract.distributionFee??0):0
-    const merchCut=activeContract?(activeContract.merchShare??activeContract.threeSixtyShare??0):0
-    const liveCut=activeContract?(activeContract.liveShare??activeContract.threeSixtyShare??0):0
+    const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
+    const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistGrossShare=activeContract
       ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
       : gross
