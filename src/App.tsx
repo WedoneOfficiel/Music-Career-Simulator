@@ -138,11 +138,11 @@ function App() {
     const weeklyStreams=weekly.reduce((s,t)=>s+(t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0)),0)
     const competitorEntries=Array.from({length:99},(_,i)=>{
       const n=i+1,seed=Math.abs(Math.sin((year*52+week+n*19)*7.31))
-      return {name:['Neon Hearts','Golden Hour','Afterglow','Satellite','Wildflower','Blue','Midnight City','Heartbeat'][n%8]+' '+(n+week),artist:competitors[(n+week)%competitors.length],streams:Math.round((19000000/(n**.78))*(.75+seed*.55)),own:false,rank:0}
+      return {name:['Neon Hearts','Golden Hour','Afterglow','Satellite','Wildflower','Blue','Midnight City','Heartbeat'][n%8]+' '+n,artist:competitors[n%competitors.length],streams:Math.round((19000000/(n**.78))*(.75+seed*.55)),own:false,rank:0}
     })
     const ownEntries=weekly.map(t=>({name:t.title,artist:artist.name,trackId:t.id,streams:Math.max(1,Math.round(t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0))),own:true,rank:0}))
     const chart:ChartEntry[]=[...competitorEntries,...ownEntries].sort((a,b)=>b.streams-a.streams).slice(0,100).map((x,i)=>({...x,rank:i+1}))
-    const albumCompetitors=Array.from({length:99},(_,i)=>{const n=i+1,seed=Math.abs(Math.sin((year*19+week+n*31)*3.17));return {name:['Golden Hour','Blue Skies','The Other Side','Afterglow','Electric Dreams'][n%5]+' — '+(n+week),artist:competitors[(n+week*2)%competitors.length],streams:Math.round((28000000/(n**.82))*(.7+seed*.6)),own:false,rank:0}})
+    const albumCompetitors=Array.from({length:99},(_,i)=>{const n=i+1,seed=Math.abs(Math.sin((year*19+week+n*31)*3.17));return {name:['Golden Hour','Blue Skies','The Other Side','Afterglow','Electric Dreams'][n%5]+' — '+n,artist:competitors[(n+2)%competitors.length],streams:Math.round((28000000/(n**.82))*(.7+seed*.6)),own:false,rank:0}})
     const ownAlbums=artist.releases.filter(r=>r.type==='Album').map(r=>({name:r.title,artist:artist.name,releaseId:r.id,streams:r.trackIds.reduce((sum,trackId)=>{const now=weekly.find(t=>t.id===trackId),old=artist.tracks.find(t=>t.id===trackId);return sum+(now?now.total-(old?.total||0):0)},0),own:true,rank:0}))
     const albumChart:ChartEntry[]=[...albumCompetitors,...ownAlbums].sort((a,b)=>b.streams-a.streams).slice(0,100).map((x,i)=>({...x,rank:i+1}))
     const chartPosts:FeedPost[]=[]
