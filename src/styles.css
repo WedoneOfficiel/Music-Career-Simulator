@@ -747,3 +747,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-studio .ls-publishing-editor>label{color:#302d36}
 .label-studio .ls-roster-grid article>div b{color:#302d36}
 .label-studio .ls-roster-grid button{color:#fff}
+
+/* Navigation persistante sur grand écran, sans bloquer le défilement mobile */
+@media(min-width:721px){
+ .sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;overscroll-behavior:contain}
+ .sidebar::-webkit-scrollbar{width:5px}
+ .sidebar::-webkit-scrollbar-thumb{background:#d9d1c9;border-radius:8px}
+}
+@media(max-width:720px){
+ .sidebar{position:static;height:auto;overflow:visible}
+}
