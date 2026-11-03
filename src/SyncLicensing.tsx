@@ -16,19 +16,21 @@ export default function SyncLicensing({artist,update,notify}:Props){
  const deals=artist.syncDeals??[]
  const offers=useMemo(()=>tracks.slice().sort((a,b)=>b.total-a.total).slice(0,8).flatMap((track)=>{
   const release=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(track.id))??artist.releases.find(r=>r.trackIds.includes(track.id))
-  const contractId=track.masterContractId??release?.masterContractId??release?.labelContractId??track.publishingContractId??release?.publishingContractId
-  const contract=(artist.contracts??[]).find(c=>c.id===contractId)
-  const rawOwner=track.masterOwnership??release?.masterOwnership??contract?.masterOwnership??'artist'
+  const masterContractId=track.masterContractId??release?.masterContractId??release?.labelContractId
+  const masterContract=(artist.contracts??[]).find(c=>c.id===masterContractId)
+  const publishingContractId=track.publishingContractId??release?.publishingContractId??masterContractId
+  const publishingContract=(artist.contracts??[]).find(c=>c.id===publishingContractId)
+  const rawOwner=track.masterOwnership??release?.masterOwnership??masterContract?.masterOwnership??'artist'
   const masterOwner=rawOwner==='license'?'artist':rawOwner
-  const masterArtistShare=masterOwner==='artist'?100:masterOwner==='shared'?(track.masterArtistShare??release?.masterArtistShare??contract?.artistMasterShare??50):(contract?.artistRoyalty??(contract?100-contract.royalty:0))
-  const publishingOwner=track.publishingOwnership??release?.publishingOwnership??contract?.publishingOwnership??'artist'
-  const publishingArtistShare=track.artistPublishingShare??release?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?(contract?.artistPublishingShare??50):0)
+  const masterArtistShare=masterOwner==='artist'?100:masterOwner==='shared'?(track.masterArtistShare??release?.masterArtistShare??masterContract?.artistMasterShare??50):(masterContract?.artistRoyalty??(masterContract?100-masterContract.royalty:0))
+  const publishingOwner=track.publishingOwnership??release?.publishingOwnership??publishingContract?.publishingOwnership??'artist'
+  const publishingArtistShare=track.artistPublishingShare??release?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?(publishingContract?.artistPublishingShare??50):0)
   const popularityFactor=1+artist.popularity/100
   const catalogueFactor=1+Math.log10(track.total+1)*.16
   return opportunities.map((op)=>{
    const fee=Math.max(1200,Math.round((850+artist.popularity*38+Math.log10(track.total+1)*115+Math.min(600,artist.fans/120))*op.multiplier*popularityFactor*catalogueFactor/100)*100)
    const already=deals.some(d=>d.trackId===track.id&&d.client===op.client)
-   return {id:track.id+'-'+op.kind,track,op,fee,already,masterArtistAmount:fee*.5*masterArtistShare/100,publishingArtistAmount:fee*.5*publishingArtistShare/100,labelMasterAmount:fee*.5*(1-masterArtistShare/100),labelPublishingAmount:fee*.5*(1-publishingArtistShare/100),contractId}
+   return {id:track.id+'-'+op.kind,track,op,fee,already,masterArtistAmount:fee*.5*masterArtistShare/100,publishingArtistAmount:fee*.5*publishingArtistShare/100,labelMasterAmount:fee*.5*(1-masterArtistShare/100),labelPublishingAmount:fee*.5*(1-publishingArtistShare/100),contractId:masterContractId}
   })
  }),[tracks,artist.releases,artist.contracts,artist.popularity,artist.fans,deals])
  function accept(offer:typeof offers[number]){
