@@ -22,7 +22,7 @@ export type Artist = {
   spotify: number; apple: number; youtube: number; radio: number
   posts: FeedPost[]; wiki: string[]; chart: ChartEntry[]; albumChart: ChartEntry[]; chartHistory: {week:number;year:number;rank:number;title:string}[]
   label: string; labelShare: number; tour: TourShow[]; merch: number; merchRevenue: number
-  socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number}[]
+  socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number;releaseId?:string}[]
   age?:number; bio?:string; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:{id:string;label:string;years:number;projects:number;remainingProjects?:number;remainingWeeks?:number;types:string[];royalty:number;advance:number;marketing:number}[]
   merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; ownLabelName?:string; tourName?:string
 }
@@ -86,7 +86,7 @@ function App() {
       const decay=Math.max(.16,1-weeksOld*.045)
       const seed=Math.abs(Math.sin((week+year+i*13)*91.7))
       const socialBoost=Math.min(2.5,(artist.socialPosts??[]).filter(p=>p.boostWeeks>0).reduce((v,p)=>v*p.boost,1))
-      const campaignBoost=Math.min(2,(artist.campaigns??[]).filter(c=>c.remainingWeeks>0).reduce((v,c)=>v*c.multiplier,1))
+      const campaignBoost=Math.min(2,(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&(!c.releaseId||artist.releases.some(r=>r.id===c.releaseId&&r.trackIds.includes(t.id)))).reduce((v,c)=>v*c.multiplier,1))
       const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)
       const tourBoost=showsThisWeek.length?1.18:1
       const setlistBoost=showsThisWeek.some(s=>s.setlist?.includes(t.id))?1.22:1
