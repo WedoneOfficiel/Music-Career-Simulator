@@ -29,7 +29,7 @@ const labels:LabelInfo[]=[
 {name:'Parlophone',group:'Warner Music Group',tier:'Major',focus:'Pop britannique et alternative',advance:125000,marketing:205000,royalty:20,color:'#f3f1e8',logo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Parlophone%20logo.svg'},
 {name:'Elektra Records',group:'Warner Music Group',tier:'Major',focus:'Pop, rock et scènes alternatives',advance:110000,marketing:190000,royalty:19,color:'#efefef',logo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Elektra%20Records%20logo.svg'},
 {name:'Domino Recording Company',group:'Indépendant',tier:'Indépendant',focus:'Indie, pop alternative et liberté artistique',advance:65000,marketing:105000,royalty:17,color:'#edf0eb'},
-{name:'Because Music',group:'Indépendant',tier:'Indépendant',focus:'Électro, pop française et développement',advance:75000,marketing:125000,royalty:18,color:'#f2eee9'},
+{name:'Because Music',group:'Indépendant',tier:'Indépendant',focus:'Électro, pop française et développement',advance:75000,marketing:125000,royalty:18,color:'#f2eee9',logo:'https://www.because.tv/img/logo.svg'},
 {name:'XL Recordings',group:'Indépendant',tier:'Indépendant',focus:'Pop alternative et musique électronique',advance:85000,marketing:145000,royalty:18,color:'#edf0f4',logo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/XL%20Recordings%20Logo.svg'},
 {name:'Beggars Group',group:'Indépendant',tier:'Indépendant',focus:'Réseau indépendant et longévité de catalogue',advance:60000,marketing:95000,royalty:16,color:'#f1eee9'},
 {name:'4AD',group:'Beggars Group',tier:'Indépendant',focus:'Indie, art-pop et projets singuliers',advance:55000,marketing:90000,royalty:15,color:'#f1eee9'},
