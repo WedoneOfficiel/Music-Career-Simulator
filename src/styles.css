@@ -825,3 +825,24 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .finance-summary .finance-net strong{font-size:19px;color:#76549d}
 @media(max-width:900px){.finance-breakdown .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.finance-summary{grid-template-columns:1fr}.finance-summary>div:nth-last-child(-n+2){border-bottom:1px solid #eee9e3}.finance-summary .finance-net{border-bottom:0}.finance-breakdown .stats-grid{grid-template-columns:1fr 1fr}}
+
+/* Grand relevé des recoupements : lecture par contrat, dette et progression */
+.contract-recovery-panel{margin-top:18px}
+.contract-recovery-list{display:grid;gap:0}
+.contract-recovery-row{padding:16px 0;border-top:1px solid var(--line)}
+.contract-recovery-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.contract-recovery-head>div{display:grid;gap:4px}
+.contract-recovery-head strong{font-size:13px}
+.contract-recovery-head small{font-size:10px;color:var(--muted)}
+.contract-recovery-head>b{font-size:15px;white-space:nowrap}
+.contract-recovery-head>b small{font-size:9px;font-weight:500;color:var(--muted)}
+.contract-recovery-progress{display:flex;align-items:center;gap:12px;margin:12px 0}
+.contract-recovery-progress>i,.ls-recoupment-track>i{height:7px;display:block;flex:1;overflow:hidden;border-radius:20px;background:#eee8e2}
+.contract-recovery-progress>i>b,.ls-recoupment-track>i>b{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#9a80c4,#d79bb6)}
+.contract-recovery-progress>span{font-size:10px;font-weight:800;color:#76599a;min-width:95px;text-align:right}
+.contract-recovery-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.contract-recovery-values span,.ls-recoupment>div:not(.ls-recoupment-track){display:flex;flex-direction:column;gap:4px;font-size:9px;color:var(--muted)}
+.contract-recovery-values b,.ls-recoupment strong{font-size:12px;color:var(--ink)}
+.ls-recoupment{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding:10px 12px;margin:10px 0 14px;border-radius:10px;background:var(--panel-soft)}
+.ls-recoupment-track{grid-column:1/-1}
+@media(max-width:560px){.contract-recovery-values{grid-template-columns:1fr 1fr}.contract-recovery-values span:last-child{grid-column:1/-1}.contract-recovery-progress{align-items:flex-start;flex-direction:column;gap:6px}.contract-recovery-progress>span{text-align:left}}
