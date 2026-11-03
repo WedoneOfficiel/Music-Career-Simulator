@@ -196,8 +196,6 @@ function App() {
     const merchCosts=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.cost,0)
     const tourRevenue=artist.tour.filter(s=>s.week===week&&s.year===year).reduce((s,x)=>s+x.revenue,0)
     const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
-    const artistRoyaltyRate=activeContract?(activeContract.artistRoyalty??(100-activeContract.royalty)):100
-    const distributionFee=activeContract?(activeContract.distributionFee??0):0
     const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistNonStreamingShare=activeContract
