@@ -4,7 +4,6 @@ import { Clapperboard, CheckCircle2, Clock3, Film, Gamepad2, Megaphone, Music2, 
 
 type Props={artist:Artist;update:(patch:Partial<Artist>)=>void;notify:(message:string)=>void}
 const euro=(n:number)=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.round(n))
-const number=(n:number)=>new Intl.NumberFormat('fr-FR').format(Math.round(n))
 const uid=()=>Math.random().toString(36).slice(2,10)
 const opportunities=[
  {client:'Northstar Pictures',format:'Long-métrage',kind:'film',multiplier:1.55,icon:Film,description:'Une production cinéma cherche un titre pour une séquence émotionnelle.'},
@@ -15,7 +14,7 @@ const opportunities=[
 export default function SyncLicensing({artist,update,notify}:Props){
  const tracks=artist.tracks.filter(t=>t.released)
  const deals=artist.syncDeals??[]
- const offers=useMemo(()=>tracks.slice().sort((a,b)=>b.total-a.total).slice(0,12).flatMap((track)=>{
+ const offers=useMemo(()=>tracks.slice().sort((a,b)=>b.total-a.total).slice(0,8).flatMap((track)=>{
   const release=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(track.id))??artist.releases.find(r=>r.trackIds.includes(track.id))
   const contractId=track.masterContractId??release?.masterContractId??release?.labelContractId??track.publishingContractId??release?.publishingContractId
   const contract=(artist.contracts??[]).find(c=>c.id===contractId)
@@ -29,7 +28,7 @@ export default function SyncLicensing({artist,update,notify}:Props){
   return opportunities.map((op)=>{
    const fee=Math.max(1200,Math.round((850+artist.popularity*38+Math.log10(track.total+1)*115+Math.min(600,artist.fans/120))*op.multiplier*popularityFactor*catalogueFactor/100)*100)
    const already=deals.some(d=>d.trackId===track.id&&d.client===op.client)
-   return {id:track.id+'-'+op.kind,track,release,op,fee,already,masterArtistAmount:fee*.5*masterArtistShare/100,publishingArtistAmount:fee*.5*publishingArtistShare/100,labelMasterAmount:fee*.5*(1-masterArtistShare/100),labelPublishingAmount:fee*.5*(1-publishingArtistShare/100),contractId}
+   return {id:track.id+'-'+op.kind,track,op,fee,already,masterArtistAmount:fee*.5*masterArtistShare/100,publishingArtistAmount:fee*.5*publishingArtistShare/100,labelMasterAmount:fee*.5*(1-masterArtistShare/100),labelPublishingAmount:fee*.5*(1-publishingArtistShare/100),contractId}
   })
  }),[tracks,artist.releases,artist.contracts,artist.popularity,artist.fans,deals])
  function accept(offer:typeof offers[number]){
@@ -54,7 +53,7 @@ export default function SyncLicensing({artist,update,notify}:Props){
   <section className="panel">
    <div className="panel-top"><div><p className="eyebrow">APPELS À LICENCES</p><h2>Opportunités disponibles</h2></div><span className="count-pill">{offers.filter(o=>!o.already).length} offres</span></div>
    <p className="panel-description">Les montants sont des propositions fictives calculées selon votre popularité et les performances du titre. Un accord est non exclusif, mondial et valable cinq ans. Le paiement intervient la semaine suivante, après validation des ayants droit.</p>
-   {offers.length?<div className="sync-market-grid">{offers.map(offer=>{const Icon=offer.op.icon;return <article className="sync-offer-card" key={offer.id}><div className="sync-offer-top"><span className="sync-offer-icon"><Icon size={19}/></span><span className="sync-offer-format">{offer.op.format}</span></div><p className="eyebrow">{offer.op.client}</p><h3>{offer.track.title}</h3><p>{offer.op.description}</p><div className="sync-offer-meta"><span>Master · artiste <b>{Math.round(offer.masterArtistAmount/offer.fee*100)} %</b></span><span>Édition · artiste <b>{Math.round(offer.publishingArtistAmount/offer.fee*100)} %</b></span></div><div className="sync-offer-fee"><small>Valeur totale de la licence</small><strong>{euro(offer.fee)}</strong></div><button className="mini-action" disabled={offer.already} onClick={()=>accept(offer)}>{offer.already?'Accord déjà signé':'Accepter la licence'}</button></article>})}</div>:<div className="empty-state"><Music2 size={26}/><b>Aucun titre disponible</b><span>Publiez d’abord un single ou un album pour proposer vos morceaux aux productions.</span></div>}
+   {offers.length?<div className="sync-market-grid">{offers.map(offer=>{const Icon=offer.op.icon;return <article className="sync-offer-card" key={offer.id}><div className="sync-offer-top"><span className="sync-offer-icon"><Icon size={19}/></span><span className="sync-offer-format">{offer.op.format}</span></div><p className="eyebrow">{offer.op.client}</p><h3>{offer.track.title}</h3><p>{offer.op.description}</p><div className="sync-offer-meta"><span>Part artiste · master <b>{euro(offer.masterArtistAmount)}</b></span><span>Part artiste · édition <b>{euro(offer.publishingArtistAmount)}</b></span></div><div className="sync-offer-fee"><small>Valeur totale de la licence</small><strong>{euro(offer.fee)}</strong></div><button className="mini-action" disabled={offer.already} onClick={()=>accept(offer)}>{offer.already?'Accord déjà signé':'Accepter la licence'}</button></article>})}</div>:<div className="empty-state"><Music2 size={26}/><b>Aucun titre disponible</b><span>Publiez d’abord un single ou un album pour proposer vos morceaux aux productions.</span></div>}
   </section>
   <section className="panel">
    <div className="panel-top"><div><p className="eyebrow">SUIVI CONTRACTUEL</p><h2>Vos accords</h2></div><span className="count-pill">{deals.length} dossier(s)</span></div>
