@@ -39,7 +39,7 @@ export default function Ecosystem({artist,update,notify}:EcosystemProps){
   const trend=/challenge|danse|dance|trend|viral|choré|chorégraphie/i.test(text)
   const boost=isVideo?(trend?1.75:1.28):platform==='X'?1.04:1.12
   const publication:SocialPublication={id:uid(),platform,kind,text,week:artist.week,year:artist.year,views:baseViews,likes:Math.round(baseViews*(platform==='TikTok'?.105:.055)),comments:Math.round(baseViews*.006),shares:Math.round(baseViews*.012),boostWeeks:isVideo?3:platform==='Instagram'?2:1,boost,mediaData:mediaData||undefined,mediaType:mediaType||undefined}
-  const socialPosts=[publication,...pubs].slice(0,30).map((p,i)=>i>2?({...p,mediaData:undefined}):p)
+  const socialPosts=[publication,...pubs].slice(0,30).map((p,i)=>i>0?({...p,mediaData:undefined}):p)
   const nextSocial={...social,[platform==='X'?'x':platform.toLowerCase() as 'instagram'|'tiktok']:social[platform==='X'?'x':platform.toLowerCase() as 'instagram'|'tiktok']+Math.round(baseViews*(trend?.012:.004))}
   update({socialPosts,socialAccounts:nextSocial,posts:[{id:uid(),week:artist.week,year:artist.year,source:platform,text:artist.name+' : '+text},...artist.posts].slice(0,100)})
   setDraft('');setMediaData('');setMediaType('');setShowComposer(false);notify(isVideo?'Vidéo publiée ! Son potentiel de viralité agira sur les écoutes pendant les trois prochaines semaines.':'Publication en ligne. Votre communauté peut maintenant réagir.')
