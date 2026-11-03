@@ -15,7 +15,7 @@ type Track = { id: string; title: string; released: boolean; masterOwnership?:'l
 type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; firstWeekRecorded?: boolean; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; labelContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
-type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number; releaseId?: string }
+type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number; releaseId?: string; trackId?: string }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
 export type LabelContract = {
   id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Album deluxe'|'Réédition'|'Compilation'|'Album live';required:number;remaining:number}[]; legacyRemainingProjects?:number;
@@ -140,7 +140,7 @@ function App() {
       const n=i+1,seed=Math.abs(Math.sin((year*52+week+n*19)*7.31))
       return {name:['Neon Hearts','Golden Hour','Afterglow','Satellite','Wildflower','Blue','Midnight City','Heartbeat'][n%8]+' '+(n+week),artist:competitors[(n+week)%competitors.length],streams:Math.round((19000000/(n**.78))*(.75+seed*.55)),own:false,rank:0}
     })
-    const ownEntries=weekly.map(t=>({name:t.title,artist:artist.name,streams:Math.max(1,Math.round(t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0))),own:true,rank:0}))
+    const ownEntries=weekly.map(t=>({name:t.title,artist:artist.name,trackId:t.id,streams:Math.max(1,Math.round(t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0))),own:true,rank:0}))
     const chart=[...competitorEntries,...ownEntries].sort((a,b)=>b.streams-a.streams).slice(0,100).map((x,i)=>({...x,rank:i+1}))
     const albumCompetitors=Array.from({length:99},(_,i)=>{const n=i+1,seed=Math.abs(Math.sin((year*19+week+n*31)*3.17));return {name:['Golden Hour','Blue Skies','The Other Side','Afterglow','Electric Dreams'][n%5]+' — '+(n+week),artist:competitors[(n+week*2)%competitors.length],streams:Math.round((28000000/(n**.82))*(.7+seed*.6)),own:false,rank:0}})
     const ownAlbums=artist.releases.filter(r=>r.type==='Album').map(r=>({name:r.title,artist:artist.name,releaseId:r.id,streams:r.trackIds.reduce((sum,trackId)=>{const now=weekly.find(t=>t.id===trackId),old=artist.tracks.find(t=>t.id===trackId);return sum+(now?now.total-(old?.total||0):0)},0),own:true,rank:0}))
@@ -160,7 +160,7 @@ function App() {
       const releaseTracks=updatedTracks.filter(t=>r.trackIds.includes(t.id))
       const firstWeekRecorded=r.firstWeekRecorded??((r.firstWeekStreams??0)>0||r.week!==artist.week||r.year!==artist.year)
       const firstWeekStreams=firstWeekRecorded?(r.firstWeekStreams??0):releaseTracks.reduce((sum,t)=>sum+(t.total-(artist.tracks.find(old=>old.id===t.id)?.total??0)),0)
-      const rank=(r.type==='Album'?albumChart.find(c=>c.own&&c.releaseId===r.id)?.rank:chart.find(c=>c.own&&releaseTracks.some(t=>t.title===c.name))?.rank)??null
+      const rank=(r.type==='Album'?albumChart.find(c=>c.own&&c.releaseId===r.id)?.rank:chart.find(c=>c.own&&releaseTracks.some(t=>t.id===c.trackId))?.rank)??null
       return {...r,firstWeekStreams,firstWeekRecorded:true,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
