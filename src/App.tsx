@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import {
-  Activity, Award, BarChart3, CalendarDays, ChevronRight, Disc3, DollarSign,
-  Headphones, Home, Mic2, Music2, Plus, Radio, Settings2, Sparkles, Star,
-  Users, Wallet, Zap, Play, Building2, Clapperboard, Instagram, Youtube,
-  Globe2, TrendingUp, Ticket, Shirt, Newspaper, Send, BadgeCheck, Music,
-  CircleDollarSign, ExternalLink, RadioTower
+  Activity, BarChart3, CalendarDays, ChevronRight, Disc3,
+  Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
+  Users, Wallet, Zap, Play, Building2, Instagram,
+  Globe2, TrendingUp, Ticket, Shirt, Newspaper, Send, BadgeCheck,
+  CircleDollarSign
 } from 'lucide-react'
 
 type Track = { id: string; title: string; released: boolean; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
@@ -57,7 +57,6 @@ function App() {
 
   useEffect(()=>{if(artist)localStorage.setItem(SAVE_KEY,JSON.stringify(artist))},[artist])
   const dateLabel=useMemo(()=>artist?`Semaine ${artist.week} · ${artist.year}`:'',[artist])
-  const totalStreams=artist?artist.spotify+artist.apple+artist.youtube:0
 
   function createCareer(e:FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -132,7 +131,6 @@ function App() {
     const releases=artist.releases.map(r=>{
       const releaseTracks=updatedTracks.filter(t=>r.trackIds.includes(t.id))
       const streams=releaseTracks.reduce((s,t)=>s+t.total,0)
-      const previous=artist.releases.find(x=>x.id===r.id)
       const firstWeekStreams=r.firstWeekStreams||streams
       const rank=chart.find(c=>c.own&&releaseTracks.some(t=>t.title===c.name))?.rank??null
       return {...r,firstWeekStreams,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
