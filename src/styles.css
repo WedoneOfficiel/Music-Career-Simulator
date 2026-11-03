@@ -958,3 +958,17 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .career-momentum-strip>span{display:grid;gap:3px;padding-left:12px;border-left:1px solid #e6dce9}
 .career-momentum-strip>span strong{font-size:10px;color:#55485d}
 .career-momentum-strip>span small{font-size:9px;color:#8d8292}
+
+.chart-story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px;margin:0 0 18px}
+.chart-story-card{position:relative;display:flex;flex-direction:column;gap:7px;min-height:122px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,#fffdfa,#f8f5f1);overflow:hidden}
+.chart-story-card:after{content:"";position:absolute;right:-24px;top:-28px;width:90px;height:90px;border-radius:50%;background:rgba(137,108,171,.055)}
+.chart-story-kicker{font-size:8px;letter-spacing:1px;font-weight:900;color:#93869a}
+.chart-story-card>strong{font:800 14px/1.3 Manrope,sans-serif;color:var(--ink);position:relative;z-index:1}
+.chart-story-card>small{font-size:10px;line-height:1.45;color:var(--muted)}
+.chart-story-card>b{margin-top:auto;font:800 13px Manrope;color:#755a91}
+.chart-story-leader{background:linear-gradient(140deg,#302d36,#49404f);border-color:#49404f}
+.chart-story-leader .chart-story-kicker,.chart-story-leader>small{color:#d0c6d7}
+.chart-story-leader>strong,.chart-story-leader>b{color:#fff}
+.chart-story-climber>b{color:#3e936c}
+@media(max-width:680px){.chart-story-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.chart-story-card{min-height:115px;padding:12px}.chart-story-card>strong{font-size:12px}}
+@media(max-width:390px){.chart-story-grid{grid-template-columns:1fr}}
