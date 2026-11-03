@@ -584,3 +584,5 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 @media(max-width:520px){.ls-label-grid{grid-template-columns:1fr}.ls-field-grid{grid-template-columns:1fr}.ls-own-label{grid-template-columns:1fr}.ls-own-stats{grid-column:auto;flex-wrap:wrap;gap:10px}.ls-obligation{grid-template-columns:90px 1fr 55px}.ls-master-title{flex-direction:column}.ls-master-rights{grid-template-columns:1fr 1fr}.ls-offer-footer{align-items:stretch;flex-direction:column}.ls-offer-footer button{width:100%}.ls-filter-row{width:100%}.ls-filter-row button{flex:1}.ls-proposal{padding:13px}}
 
 .ls-counter-actions{display:grid;gap:8px;margin-top:14px}.ls-counter-actions button{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #80649c;background:#4a365e;color:#fff;border-radius:9px;padding:10px 12px;font-size:10px;font-weight:800;cursor:pointer}.ls-counter-actions button.ls-secondary{background:#24242c;border-color:#44444f;color:#d2d2d9}
+
+.ls-legacy-note{display:block;color:#a7a7b2;font-size:10px;line-height:1.55;margin:9px 0 2px;padding:9px 10px;background:#22222a;border-radius:8px}
