@@ -364,3 +364,5 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-negotiation-summary b{font-size:12px}
 .label-negotiation-summary small{font-size:10px;line-height:1.5;color:#776d81}
 @media(max-width:680px){.label-contract-grid,.label-finance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.label-search{align-items:stretch!important;flex-direction:column}.label-search input{max-width:none}.label-contract-heading{align-items:flex-start;flex-direction:column}}
+
+.label-negotiation-accepted .module-form-grid,.label-negotiation-accepted fieldset,.label-negotiation-accepted>.check-option{pointer-events:none;opacity:.72}
