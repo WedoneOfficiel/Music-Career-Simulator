@@ -4,7 +4,7 @@ import CareerModules from './CareerModules'
 import LabelStudio from './LabelStudio'
 import Discography from './Discography'
 import SyncLicensing from './SyncLicensing'
-import { buildMarketCharts, type MarketCharts } from './careerData'
+import { buildMarketCharts, getRivalMarketEvent, type MarketCharts } from './careerData'
 import {
   Activity, BarChart3, CalendarDays, ChevronRight, Disc3, RotateCcw, Clapperboard,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
@@ -174,6 +174,15 @@ function App() {
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
     const marketStories:FeedPost[]=[]
+    const industryEvent=getRivalMarketEvent(week,year)
+    if(industryEvent?.headline){
+      const eventText=industryEvent.kind==='viral'
+        ?industryEvent.artist+' signe un phénomène viral : son nouveau single bénéficie d’un puissant regain d’écoutes pendant plusieurs semaines.'
+        :industryEvent.kind==='blockbuster'
+          ?industryEvent.artist+' lance un album événement. Ses ventes d’écoutes progressent fortement et captent une part supplémentaire de l’attention du marché.'
+          :industryEvent.artist+' connaît un retour inattendu : un ancien titre ressort du catalogue et retrouve une forte visibilité.'
+      marketStories.push({id:id(),week,year,source:'Événement de l’industrie',text:eventText})
+    }
     for(const [code,label] of [['US','États-Unis'],['UK','Royaume-Uni'],['FR','France']] as const){
       const board=marketCharts[code]
       const albumDebut=board.albums.filter(x=>!x.own&&x.isNew&&x.rank<=20&&x.id.includes('-album-era-')).sort((a,b)=>a.rank-b.rank)[0]
