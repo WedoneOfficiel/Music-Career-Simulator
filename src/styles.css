@@ -1081,7 +1081,11 @@ label{color:#4d5669}
    padding:10px 12px 9px;overflow:visible;border:0;box-shadow:0 5px 18px rgba(24,30,45,.13)}
  .sidebar-brand{padding:0 5px;font-size:12px}
  .sidebar-brand .brand-mark{width:30px;height:30px}
- .profile-mini,.nav-caption,.sidebar-bottom{display:none}
+ .profile-mini,.nav-caption{display:none}
+ .sidebar-bottom{display:flex;flex-direction:row;align-items:center;gap:5px;flex-wrap:wrap;margin:7px 0 0;padding:7px 0 0;border-top:1px solid #3a4559}
+ .sidebar-bottom .season-chip{padding:6px 8px;font-size:9px;margin-right:auto}
+ .sidebar-bottom .settings-button{padding:6px 7px;font-size:9px}
+ .sidebar-bottom .version-label{display:none}
  .sidebar nav{display:flex;overflow-x:auto;gap:5px;padding:10px 0 1px;scrollbar-width:none}
  .sidebar nav::-webkit-scrollbar{display:none}
  .nav-group{display:contents}
