@@ -105,7 +105,7 @@ export default function LabelStudio({artist,update,notify}:Props){
   const price=Math.max(1000,Math.round(t.total*.0018*labelShare/100+artist.popularity*450*labelShare/100))
   if(artist.money<price){notify('Rachat impossible : '+euro(price)+' nécessaires.');return}
   if(!window.confirm('Racheter les '+labelShare+' % détenus par le label sur « '+t.title+' » pour '+euro(price)+' ?'))return
-  update({money:artist.money-price,tracks:artist.tracks.map(x=>x.id===t.id?{...x,masterOwnership:'artist',masterArtistShare:100,masterLicense:'none'}:x)})
+  update({money:artist.money-price,tracks:artist.tracks.map(x=>x.id===t.id?{...x,masterOwnership:'artist',masterArtistShare:100}:x)})
   notify('Vous détenez désormais 100 % du master « '+t.title+' ». Rachat : '+euro(price)+'.')
  }
  function sellShare(t:typeof rights[number],amount:number){
