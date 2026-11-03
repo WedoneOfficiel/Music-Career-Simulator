@@ -179,10 +179,10 @@ function App() {
     const merchCut=activeContract?(activeContract.merchShare||activeContract.threeSixtyShare||0):0
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistGrossShare=activeContract
-      ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+publishingRevenue+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
-      : gross+publishingRevenue
+      ? streamingRevenue*(1-distributionFee/100)*artistRoyaltyRate/100+(merchRevenue-merchCosts)*(1-merchCut/100)+tourRevenue*(1-liveCut/100)
+      : gross
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
-    const net=artistGrossShare-recouped
+    const net=artistGrossShare-recouped+publishingRevenue
     const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
     const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const revenue=streams*.0035*(1-a.artistRoyalty/100);return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,weeklyStreams:streams,weeklyRevenue:revenue}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
