@@ -1,31 +1,37 @@
 # Music Career Simulator
 
-Un jeu de gestion de carrière musicale en français, jouable directement depuis GitHub Pages.
+**Version 1.0 — écosystème d'applications musicales simulées**
 
-## Vision
+Un jeu de gestion de carrière musicale en français, jouable depuis GitHub Pages. Le joueur crée un artiste et pilote sa carrière au moyen d'un ensemble d'applications intégrées qui partagent les mêmes données de simulation.
 
-Créer un artiste et piloter sa carrière de bout en bout. Le jeu utilise un univers fictif : les artistes concurrents, leurs titres, les classements, les médias et les événements sont générés par la simulation. La priorité est donnée à la progression de l'artiste du joueur, pas à la reproduction de l'histoire musicale réelle.
+## Applications intégrées
 
-## Systèmes déjà intégrés (alpha 0.2)
+- **Spotify** : interface de streaming simulée, discographie, titres populaires, lecteur visuel et classement mondial.
+- **Spotify for Artists** : tableau de bord d'audience, streams, abonnés, titres principaux, pays d'écoute et campagnes de promotion.
+- **X** : fil d'actualité et publication de messages.
+- **TikTok** : publication de vidéos et estimation des vues, likes, commentaires et partages. Les vidéos peuvent stimuler les écoutes pendant plusieurs semaines ; les concepts liés aux challenges et aux tendances ont un potentiel supérieur.
+- **Instagram** : profil artiste, grille de publications, stories et Reels simulés.
+- **Apple Music** : espace d'écoute et classements des titres et albums.
 
-- Création d'artiste avec choix du nom, genre, pays et portrait par URL.
-- Réglage libre du point de départ : trésorerie, nombre de fans et popularité.
-- Studio : écriture de chansons, publication de singles et d'albums.
-- Simulations hebdomadaires de Spotify, Apple Music, YouTube et radio.
-- Revenus estimés par plateforme, trésorerie et croissance de la fanbase.
-- Classement mondial fictif avec concurrents générés et positions des titres du joueur.
-- Fil d'actualité automatique : sorties, bilans hebdomadaires et évolutions dans les charts.
-- Contrats de labels et commissions sur les revenus.
-- Programmation de concerts, jauges, billetterie et recettes.
-- Merchandising avec ventes hebdomadaires automatiques.
-- Biographie évolutive qui enregistre les sorties et les performances.
+## Systèmes de carrière
+
+- Création d'artiste avec nom, genre, pays, portrait et réglages de départ (argent, fans, popularité).
+- Studio : création de titres, publication de singles et d'albums.
+- Simulation hebdomadaire des écoutes, revenus, abonnés, popularité et classements.
+- Campagnes promotionnelles payantes avec effet temporaire sur les écoutes.
+- Réseaux sociaux persistants : publications, audience et métriques qui évoluent au fil des semaines.
+- Labels, concerts, billetterie, merchandising et biographie évolutive.
 - Sauvegarde automatique locale dans le navigateur.
 
-## Simulation et données
+## Comment fonctionne l'écosystème
 
-Les plateformes, les revenus, les classements, les concurrents et les comptes médias sont entièrement fictifs et simulés. Aucun compte Spotify, Apple Music, YouTube, X, Instagram ou Wikipédia n'est connecté. Les chiffres ne représentent pas des rémunérations réelles.
+Les applications ne sont pas indépendantes : elles lisent et modifient le même état de carrière. Une vidéo TikTok ou un Reel peut créer un multiplicateur temporaire sur les écoutes ; une campagne achetée dans Spotify for Artists augmente temporairement le potentiel de streaming ; les écoutes influencent les classements, les revenus et les évolutions de carrière.
 
-Les systèmes sont reliés par le passage de semaine : les sorties génèrent des écoutes, les écoutes influencent les classements et la popularité, les résultats alimentent le fil d'actualité et la biographie, tandis que les fans influencent les ventes de merchandising et la billetterie.
+## Simulation et limites
+
+Les interfaces et les données sont reproduites **à l'intérieur du jeu** : aucun compte Spotify, Apple Music, TikTok, Instagram ou X n'est connecté. Il s'agit d'un univers fictif, pas d'une connexion aux services réels ni d'une copie de leurs données en direct. Les lecteurs sont visuels : aucun catalogue commercial réel n'est diffusé. Les chiffres et rémunérations sont des estimations ludiques.
+
+Les artistes concurrents, leurs sorties, les médias et les classements sont générés par le simulateur. La priorité est donnée à la progression de l'artiste du joueur.
 
 ## Développement local
 
@@ -36,15 +42,15 @@ npm install
 npm run dev
 ```
 
-Vérifier la version de production :
+Vérification de production :
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Publication GitHub Pages
+## Publication
 
-Le dépôt est configuré pour construire l'application avec Vite et la publier automatiquement sur GitHub Pages à chaque mise à jour de la branche `main`.
+Le dépôt construit l'application avec Vite et la publie automatiquement sur GitHub Pages à chaque mise à jour de `main`.
 
-URL du jeu : https://wedoneofficiel.github.io/Music-Career-Simulator/
+Jeu : https://wedoneofficiel.github.io/Music-Career-Simulator/
