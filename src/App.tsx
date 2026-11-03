@@ -173,6 +173,16 @@ function App() {
       return {...r,firstWeekStreams,firstWeekRecorded:true,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
+    const marketStories:FeedPost[]=[]
+    for(const [code,label] of [['US','États-Unis'],['UK','Royaume-Uni'],['FR','France']] as const){
+      const board=marketCharts[code]
+      const songLeader=board.songs[0]
+      if(songLeader&&!songLeader.own&&songLeader.lastWeek!==1&&songLeader.rank===1)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Nouveau numéro un en '+label+' : « '+songLeader.name+' » de '+songLeader.artist+' prend la tête du classement des chansons.'})
+      const climber=board.songs.filter(x=>!x.own&&x.lastWeek!==null).sort((a,b)=>(b.lastWeek!-b.rank)-(a.lastWeek!-a.rank))[0]
+      if(climber&&climber.lastWeek!==null&&climber.lastWeek-climber.rank>=12)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Belle remontée en '+label+' : « '+climber.name+' » de '+climber.artist+' gagne '+(climber.lastWeek-climber.rank)+' places et atteint le #'+climber.rank+'.'})
+      const ownArtist=board.artists.find(x=>x.own)
+      if(ownArtist&&ownArtist.rank<=10&&(ownArtist.lastWeek===null||ownArtist.lastWeek>10))marketStories.push({id:id(),week,year,source:'Charts · '+label,text:artist.name+' entre dans le top 10 des artistes en '+label+', à la position #'+ownArtist.rank+'.'})
+    }
     // Les clauses restent applicables pendant toute la semaine qui vient de commencer.
     // On calcule donc les revenus avec le contrat avant de décrémenter sa durée.
     const activeContract=(artist.contracts??[]).find(c=>(c.remainingWeeks??c.years*52)>0&&(c.status??'active')==='active')
@@ -248,15 +258,14 @@ function App() {
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000))*(1+(artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.fanBonus:0)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0)-breachPenalty,0,100)
-    const randomCompetitor=competitors[(week+year)%competitors.length]
     const weeklyPosts:FeedPost[]=[
       {id:id(),week,year,source:'Music News',text:`Bilan de la semaine : ${artist.name} cumule ${fmt(weeklyStreams)} nouvelles écoutes sur les plateformes.`},
       ...dueSyncDeals.map(d=>({id:id(),week,year,source:'Industry News',text:`Le titre « ${d.trackTitle} » décroche une synchronisation pour ${d.client} (${d.format}). Le paiement de ${money(d.fee)} est intégré à vos comptes.`})),
+      ...marketStories.slice(0,3),
       ...chartPosts.slice(0,3)
     ]
     for(const c of breachedContracts)weeklyPosts.push({id:id(),week,year,source:'Industry News',text:`Le contrat de ${artist.name} avec ${c.label} arrive à échéance sans que tous les engagements de sortie aient été remplis. Cette situation fragilise sa réputation auprès des partenaires.`})
     if(chart.some(c=>c.own&&c.rank===1))weeklyPosts.unshift({id:id(),week,year,source:'Pop Crave',text:`NUMBER ONE ! ${artist.name} décroche la première place du classement mondial cette semaine.`})
-    else weeklyPosts.push({id:id(),week,year,source:'Pop Base',text:`Dans les charts cette semaine : ${randomCompetitor} fait parler de lui, tandis que ${artist.name} poursuit son ascension.`})
     const wiki=[...artist.wiki,`Semaine ${week} de ${year} : ${fmt(weeklyStreams)} nouvelles écoutes enregistrées sur Spotify, Apple Music et YouTube.`,...updatedTracks.filter(t=>t.rank!==null).map(t=>`Semaine ${week} de ${year} : « ${t.title} » atteint la position ${t.rank} du classement mondial (meilleur classement : ${t.peak}).`)]
     const eventRoll=Math.abs(Math.sin((year*52+week)*12.9898))
     const eventIndex=Math.floor(Math.abs(Math.sin((year*52+week)*78.233))*10)
