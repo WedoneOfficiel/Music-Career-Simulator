@@ -926,3 +926,29 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
  .sync-deal-row { align-items: flex-start; }
  .sync-deal-status { margin-left: 0; }
 }
+
+
+/* Career moments: narrative choices instead of another management checklist */
+.career-event-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;background:rgba(34,27,39,.56);backdrop-filter:blur(7px)}
+.career-event-card{width:min(650px,100%);max-height:min(86vh,850px);overflow:auto;padding:clamp(22px,4vw,36px);border:1px solid rgba(255,255,255,.72);border-radius:22px;background:linear-gradient(145deg,#fffdfa 0%,#f8f3fa 100%);box-shadow:0 28px 100px rgba(23,16,31,.28);animation:career-event-in .22s ease-out}
+@keyframes career-event-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.career-event-top{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:20px}
+.career-event-spark{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#eee5f5;color:#805e9e}
+.career-event-top .eyebrow{margin:0;font-size:9px}
+.career-event-new{margin-left:auto;padding:6px 9px;border-radius:20px;background:#f2e8ef;color:#9b6680;font-size:8px;font-weight:850;letter-spacing:.8px}
+.career-event-card h2{max-width:540px;margin:0;color:#3e3544;font:800 clamp(25px,4vw,34px)/1.12 Manrope,sans-serif;letter-spacing:-.8px}
+.career-event-description{margin:14px 0 23px;color:#746b79;font-size:13px;line-height:1.75}
+.career-event-choices{display:grid;gap:10px}
+.career-event-choice{width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(115px,auto) 18px;align-items:center;gap:15px;padding:16px 17px;text-align:left;border:1px solid #e8deeb;border-radius:14px;background:rgba(255,255,255,.82);color:#453c4b;cursor:pointer;transition:border-color .16s,transform .16s,background .16s}
+.career-event-choice:hover:not(:disabled){transform:translateY(-1px);border-color:#bca4ce;background:#fff}
+.career-event-choice:focus-visible{outline:2px solid #8e70a9;outline-offset:3px}
+.career-event-choice:disabled{opacity:.48;cursor:not-allowed}
+.career-event-choice>span:first-child{display:grid;gap:5px}
+.career-event-choice>span:first-child b{font-size:13px}
+.career-event-choice>span:first-child small{font-size:10px;line-height:1.5;color:#817887}
+.career-event-impact{display:grid;gap:5px;text-align:right;font-size:12px;font-weight:850;color:#74558e;white-space:normal}
+.career-event-impact small{max-width:190px;color:#89808d;font-size:9px;font-weight:550;line-height:1.5}
+.career-event-impact .career-event-unaffordable{color:#b04e5a;font-weight:800}
+.career-event-footnote{margin:18px 0 0;color:#928995;font-size:10px;line-height:1.55}
+.next-week:disabled{opacity:.55;cursor:not-allowed;transform:none}
+@media(max-width:560px){.career-event-backdrop{padding:10px;align-items:end}.career-event-card{max-height:91vh;padding:21px 17px;border-radius:20px 20px 12px 12px}.career-event-choice{grid-template-columns:minmax(0,1fr) 18px;gap:9px;padding:14px}.career-event-impact{grid-column:1/-1;grid-row:2;text-align:left;display:flex;align-items:center;flex-wrap:wrap;gap:5px}.career-event-impact small{max-width:none}.career-event-choice>svg{grid-column:2;grid-row:1}.career-event-new{margin-left:0}}
