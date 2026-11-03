@@ -952,3 +952,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .career-event-footnote{margin:18px 0 0;color:#928995;font-size:10px;line-height:1.55}
 .next-week:disabled{opacity:.55;cursor:not-allowed;transform:none}
 @media(max-width:560px){.career-event-backdrop{padding:10px;align-items:end}.career-event-card{max-height:91vh;padding:21px 17px;border-radius:20px 20px 12px 12px}.career-event-choice{grid-template-columns:minmax(0,1fr) 18px;gap:9px;padding:14px}.career-event-impact{grid-column:1/-1;grid-row:2;text-align:left;display:flex;align-items:center;flex-wrap:wrap;gap:5px}.career-event-impact small{max-width:none}.career-event-choice>svg{grid-column:2;grid-row:1}.career-event-new{margin-left:0}}
+
+.career-momentum-strip{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 18px;padding:13px 16px;border:1px solid #e8dff0;border-radius:12px;background:linear-gradient(100deg,#faf6fc,#fffaf7)}
+.career-momentum-strip>div{display:flex;align-items:center;gap:8px;color:#785b94;font-size:11px}
+.career-momentum-strip>span{display:grid;gap:3px;padding-left:12px;border-left:1px solid #e6dce9}
+.career-momentum-strip>span strong{font-size:10px;color:#55485d}
+.career-momentum-strip>span small{font-size:9px;color:#8d8292}
