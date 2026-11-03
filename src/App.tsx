@@ -18,7 +18,7 @@ export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; 
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
 export type LabelContract = {
-  id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Compilation'|'Album live';required:number;remaining:number}[];
+  id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Album deluxe'|'Réédition'|'Compilation'|'Album live';required:number;remaining:number}[];
   royalty:number; artistRoyalty?:number; advance:number; marketing:number; recordingBudget?:number; recoupableBalance?:number;
   masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; distributionFee?:number;
   territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
@@ -37,6 +37,7 @@ export type Artist = {
 }
 const SAVE_KEY = 'music-career-simulator-save-v2'
 const OLD_KEY = 'music-career-simulator-save-v1'
+const BACKUP_KEY = 'music-career-simulator-save-backup-v2'
 const genres = ['Pop','Pop-rock','R&B','Rap','Hip-hop','Électro','Rock','Country','Indie','Soul','K-pop','Afro-pop','Jazz','Folk','Dance']
 const competitors = ['Luna Vale','The Velvet Hours','Milo June','Nova Grey','Éloïse','Jade Rivers','Sienna Rose','Atlas Bloom','Maya Sol','Noah West','Iris Monroe','The Satellites','Ariane Blue','Kai Rivers','Sunday Club','Léonie','Romy Skye','Eden Park','Lola June','Mister Moon']
 const platforms = [
@@ -49,24 +50,39 @@ const fmt = (n:number) => new Intl.NumberFormat('fr-FR').format(Math.round(n))
 const money = (n:number) => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n)
 const id = () => Math.random().toString(36).slice(2,10)
 const clamp = (n:number,min:number,max:number) => Math.max(min,Math.min(max,n))
+function normalizeSave(value:unknown):Artist|null {
+  if(!value||typeof value!=='object')return null
+  const a=value as Partial<Artist>
+  if(typeof a.name!=='string'||!a.name.trim())return null
+  const tracks=Array.isArray(a.tracks)?a.tracks.map(t=>({spotify:0,apple:0,youtube:0,radio:0,total:0,rank:null,peak:null,released:false,...t})): []
+  const releases=Array.isArray(a.releases)?a.releases.map(r=>({...r,trackIds:Array.isArray(r.trackIds)?r.trackIds:[],firstWeekStreams:Number.isFinite(r.firstWeekStreams)?r.firstWeekStreams:0})): []
+  return {...a,tracks,releases,posts:Array.isArray(a.posts)?a.posts:[],wiki:Array.isArray(a.wiki)?a.wiki:[],chart:Array.isArray(a.chart)?a.chart:[],albumChart:Array.isArray(a.albumChart)?a.albumChart:[],chartHistory:Array.isArray(a.chartHistory)?a.chartHistory:[],tour:Array.isArray(a.tour)?a.tour:[],contracts:Array.isArray(a.contracts)?a.contracts:[]} as Artist
+}
 function saveLoad(): Artist | null {
+  for(const key of [SAVE_KEY,BACKUP_KEY]) {
+    try {
+      const raw=localStorage.getItem(key)
+      if(raw) {
+        const parsed=normalizeSave(JSON.parse(raw))
+        if(parsed)return parsed
+      }
+    } catch { /* try the next recoverable save */ }
+  }
   try {
-    const raw=localStorage.getItem(SAVE_KEY)
-    if(raw) return JSON.parse(raw) as Artist
     const old=localStorage.getItem(OLD_KEY)
     if(old) {
       const a=JSON.parse(old)
-      return {...a,image:'',tracks:(a.songs||[]).map((title:string)=>({id:id(),title,released:false,spotify:0,apple:0,youtube:0,radio:0,total:0,rank:null,peak:null})),releases:[],spotify:0,apple:0,youtube:0,radio:0,posts:[],wiki:['La carrière de '+a.name+' débute dans l’industrie musicale.'],chart:[],albumChart:[],chartHistory:[],label:'Indépendant',labelShare:0,tour:[],merch:0,merchRevenue:0}
+      return normalizeSave({...a,image:'',tracks:(a.songs||[]).map((title:string)=>({id:id(),title,released:false,spotify:0,apple:0,youtube:0,radio:0,total:0,rank:null,peak:null})),releases:[],spotify:0,apple:0,youtube:0,radio:0,posts:[],wiki:['La carrière de '+a.name+' débute dans l’industrie musicale.'],chart:[],albumChart:[],chartHistory:[],label:'Indépendant',labelShare:0,tour:[],merch:0,merchRevenue:0})
     }
-    return null
   } catch { return null }
+  return null
 }
 function App() {
   const [artist,setArtist]=useState<Artist|null>(()=>saveLoad())
   const [tab,setTab]=useState('Vue d’ensemble')
   const [notice,setNotice]=useState('')
 
-  useEffect(()=>{if(artist)localStorage.setItem(SAVE_KEY,JSON.stringify(artist))},[artist])
+  useEffect(()=>{if(!artist)return;try{const next=JSON.stringify(artist),previous=localStorage.getItem(SAVE_KEY);if(previous&&previous!==next)localStorage.setItem(BACKUP_KEY,previous);localStorage.setItem(SAVE_KEY,next)}catch{/* A full browser quota must not crash the simulation. */}},[artist])
   const dateLabel=useMemo(()=>artist?`Semaine ${artist.week} · ${artist.year}`:'',[artist])
 
   function createCareer(e:FormEvent<HTMLFormElement>) {
@@ -169,13 +185,13 @@ function App() {
     const next={...artist,week,year,energy:Math.min(100,artist.energy+18),money:artist.money+net,fans:artist.fans+newFans,popularity:pop,tracks:updatedTracks,lastWeekStreams:weeklyStreams,spotifyFollowers:(artist.spotifyFollowers??Math.round(artist.fans*.72))+Math.round(newFans*.48),socialPosts:(artist.socialPosts??[]).map(p=>({...p,boostWeeks:Math.max(0,p.boostWeeks-1),views:p.views+Math.round(p.views*.08),likes:p.likes+Math.round(p.views*.004),comments:p.comments+Math.round(p.views*.0004)})),campaigns:(artist.campaigns??[]).map(c=>({...c,remainingWeeks:Math.max(0,c.remainingWeeks-1)})),contracts:settledContracts,ownLabelArtists,ownLabelCapital:(artist.ownLabelCapital??0)+ownLabelIncome,ownLabelReputation:Math.min(100,(artist.ownLabelReputation??0)+(ownLabelIncome>1000?.15:0)),label:activeContract?artist.label:(artist.ownLabelName??'Indépendant'),labelShare:activeContract?100-artistRoyaltyRate:0,releases,spotify:artist.spotify+platformDelta.spotify,apple:artist.apple+platformDelta.apple,youtube:artist.youtube+platformDelta.youtube,radio:artist.radio+platformDelta.radio,posts:[...weeklyPosts,...artist.posts].slice(0,80),wiki:wiki.slice(-150),chart,albumChart,marketCharts,chartHistory:chartHistory.slice(-300),merchItems,merch:artist.merch+merchUnits,merchRevenue:artist.merchRevenue+merchRevenue}
     setArtist(next);setNotice(`Semaine ${week} terminée : +${fmt(weeklyStreams)} écoutes, +${fmt(newFans)} fans et ${money(net)} de revenus nets.`)
   }
-  function reset() {if(!window.confirm('Supprimer définitivement cette carrière et sa sauvegarde ?'))return;localStorage.removeItem(SAVE_KEY);localStorage.removeItem(OLD_KEY);setArtist(null);setTab('Vue d’ensemble');setNotice('')}
+  function reset() {if(!window.confirm('Supprimer définitivement cette carrière et sa sauvegarde ?'))return;localStorage.removeItem(SAVE_KEY);localStorage.removeItem(BACKUP_KEY);localStorage.removeItem(OLD_KEY);setArtist(null);setTab('Vue d’ensemble');setNotice('')}
   const nav=[
     {label:'Vue d’ensemble',icon:Home},{label:'Applications',icon:Sparkles},{label:'Studio & sorties',icon:Mic2},{label:'Ma discographie',icon:Disc3},{label:'Plateformes',icon:Headphones},
     {label:'Identité',icon:Users},{label:'Classements',icon:BarChart3},{label:'Promotion',icon:TrendingUp},{label:'Tournées',icon:Ticket},
     {label:'Labels',icon:Building2},{label:'Merch',icon:Shirt},{label:'Wikipédia',icon:Globe2},{label:'Médias & presse',icon:Newspaper}
   ]
-  if(!artist)return <main className="welcome-screen"><div className="welcome-glow"/><div className="welcome-content"><div className="brand-mark"><Music2 size={22}/></div><p className="eyebrow">VOTRE HISTOIRE COMMENCE ICI</p><h1>La musique.<br/><span>Votre carrière.</span></h1><p className="welcome-copy">Créez votre artiste, choisissez votre point de départ et prenez les commandes de votre ascension dans l’industrie musicale.</p><form className="creation-card" onSubmit={createCareer}><div className="card-heading"><Sparkles size={18}/><span>Créer une nouvelle carrière</span></div><label>Nom d’artiste<input name="name" placeholder="Ex. : Nova" maxLength={32} required/></label><div className="form-row"><label>Genre musical<select name="genre">{genres.map(g=><option key={g}>{g}</option>)}</select></label><label>Pays<select name="country">{['France','États-Unis','Royaume-Uni','Canada','Belgique','Corée du Sud','Autre'].map(x=><option key={x}>{x}</option>)}</select></label></div><label>Âge (facultatif)<input name="age" type="number" min="13" max="100" placeholder="Ex. : 24"/></label><label>Photo / portrait (URL facultative)<input name="image" type="url" placeholder="https://…"/></label><div className="start-options"><p className="eyebrow">CHOISISSEZ VOTRE POINT DE DÉPART — TRICHE AUTORISÉE</p><label>Argent de départ <strong id="money-value">250 000 €</strong><input name="money" type="range" min="0" max="100000000" step="50000" defaultValue="250000" onInput={e=>{const el=document.getElementById('money-value');if(el)el.textContent=money(Number(e.currentTarget.value))}}/></label><label>Fans au départ <strong id="fans-value">1 200</strong><input name="fans" type="range" min="0" max="100000000" step="100" defaultValue="1200" onInput={e=>{const el=document.getElementById('fans-value');if(el)el.textContent=fmt(Number(e.currentTarget.value))}}/></label><label>Popularité <strong id="pop-value">8 / 100</strong><input name="popularity" type="range" min="0" max="100" defaultValue="8" onInput={e=>{const el=document.getElementById('pop-value');if(el)el.textContent=e.currentTarget.value+' / 100'}}/></label></div><button className="primary-button" type="submit">Lancer ma carrière <ChevronRight size={18}/></button><p className="form-footnote">Sauvegarde automatique sur cet appareil · Vous pourrez ajuster les règles plus tard.</p></form><div className="welcome-footer"><span>UNIVERS MUSICAL SIMULÉ</span><span>VERSION 1.1.0</span></div></div></main>
+  if(!artist)return <main className="welcome-screen"><div className="welcome-glow"/><div className="welcome-content"><div className="brand-mark"><Music2 size={22}/></div><p className="eyebrow">VOTRE HISTOIRE COMMENCE ICI</p><h1>La musique.<br/><span>Votre carrière.</span></h1><p className="welcome-copy">Créez votre artiste, choisissez votre point de départ et prenez les commandes de votre ascension dans l’industrie musicale.</p><form className="creation-card" onSubmit={createCareer}><div className="card-heading"><Sparkles size={18}/><span>Créer une nouvelle carrière</span></div><label>Nom d’artiste<input name="name" placeholder="Ex. : Nova" maxLength={32} required/></label><div className="form-row"><label>Genre musical<select name="genre">{genres.map(g=><option key={g}>{g}</option>)}</select></label><label>Pays<select name="country">{['France','États-Unis','Royaume-Uni','Canada','Belgique','Corée du Sud','Autre'].map(x=><option key={x}>{x}</option>)}</select></label></div><label>Âge (facultatif)<input name="age" type="number" min="13" max="100" placeholder="Ex. : 24"/></label><label>Photo / portrait (URL facultative)<input name="image" type="url" placeholder="https://…"/></label><div className="start-options"><p className="eyebrow">CHOISISSEZ VOTRE POINT DE DÉPART — TRICHE AUTORISÉE</p><label>Argent de départ <strong id="money-value">250 000 €</strong><input name="money" type="range" min="0" max="100000000" step="50000" defaultValue="250000" onInput={e=>{const el=document.getElementById('money-value');if(el)el.textContent=money(Number(e.currentTarget.value))}}/></label><label>Fans au départ <strong id="fans-value">1 200</strong><input name="fans" type="range" min="0" max="100000000" step="100" defaultValue="1200" onInput={e=>{const el=document.getElementById('fans-value');if(el)el.textContent=fmt(Number(e.currentTarget.value))}}/></label><label>Popularité <strong id="pop-value">8 / 100</strong><input name="popularity" type="range" min="0" max="100" defaultValue="8" onInput={e=>{const el=document.getElementById('pop-value');if(el)el.textContent=e.currentTarget.value+' / 100'}}/></label></div><button className="primary-button" type="submit">Lancer ma carrière <ChevronRight size={18}/></button><p className="form-footnote">Sauvegarde automatique sur cet appareil · Vous pourrez ajuster les règles plus tard.</p></form><div className="welcome-footer"><span>UNIVERS MUSICAL SIMULÉ</span><span>VERSION 1.2.0</span></div></div></main>
 
   const recent=artist.posts.slice(0,8)
   const total=artist.spotify+artist.apple+artist.youtube
