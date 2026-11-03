@@ -1375,3 +1375,43 @@ label,legend{color:#555e6e}
  .finance-summary{grid-template-columns:1fr}
  .studio-wizard-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+
+/* Accueil / création d'artiste : écran d'entrée éditorial en deux colonnes */
+.welcome-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:55px clamp(22px,5vw,80px);overflow:hidden;background:radial-gradient(ellipse at 10% 15%,#37345e 0,transparent 34%),radial-gradient(ellipse at 90% 85%,#33345a 0,transparent 32%),#171b28}
+.welcome-glow{width:650px;height:650px;top:auto;left:auto;right:-260px;bottom:-390px;background:#766be9;opacity:.18;filter:blur(120px)}
+.welcome-content{width:min(100%,1180px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(440px,1.1fr);grid-template-rows:auto auto auto auto 1fr auto;column-gap:clamp(36px,6vw,90px);align-items:start}
+.welcome-content>.brand-mark{grid-column:1;grid-row:1;width:52px;height:52px;border-radius:15px;background:linear-gradient(145deg,#7165e8,#a28aff);box-shadow:0 10px 28px #7668ed55}
+.welcome-content>.eyebrow{grid-column:1;grid-row:2;margin:36px 0 13px;color:#aaa4ff;font-size:9px;letter-spacing:2px}
+.welcome-content>h1{grid-column:1;grid-row:3;font-size:clamp(47px,6vw,77px);line-height:1.01;letter-spacing:-4px;color:#fff}
+.welcome-content>h1 span{color:#a69cff}
+.welcome-copy{grid-column:1;grid-row:4;max-width:420px;margin:19px 0 25px;color:#b3bacb;font-size:13px;line-height:1.85}
+.creation-card{grid-column:2;grid-row:1/6;width:100%;padding:29px 31px;background:#fff;border:1px solid #ffffff80;border-radius:17px;box-shadow:0 25px 80px #080a1680}
+.card-heading{color:#252a38;font-size:14px;margin-bottom:22px}
+.card-heading svg{color:#6658d3}
+.creation-card label{color:#4f5868;font-size:10px;gap:7px;margin-bottom:14px}
+.creation-card input,.creation-card select{min-height:42px;padding:10px 12px;background:#f8f9fb;border-color:#e2e5eb;border-radius:8px;font-size:11px}
+.creation-card input:focus,.creation-card select:focus{border-color:#8a82ed;box-shadow:0 0 0 3px #8a82ed20}
+.start-options{padding:15px 16px;background:#f5f4ff;border:1px solid #e7e5ff;border-radius:11px}
+.start-options .eyebrow{margin:0 0 10px;color:#7268d4;font-size:8px;line-height:1.5}
+.start-options label{margin:11px 0 0;color:#50596a}
+.start-options label strong{color:#6258d5;font-size:11px}
+.start-options input[type=range]{accent-color:#6658d3}
+.primary-button{min-height:45px;margin-top:3px;background:#6258d5;color:#fff}
+.form-footnote{color:#969eac;font-size:9px}
+.welcome-footer{grid-column:1;grid-row:6;align-self:end;display:grid;gap:7px;color:#788198;font-size:8px;letter-spacing:1.3px;margin:30px 0 0}
+@media(max-width:900px){
+ .welcome-content{grid-template-columns:1fr;grid-template-rows:auto;max-width:590px}
+ .welcome-content>.brand-mark,.welcome-content>.eyebrow,.welcome-content>h1,.welcome-copy,.creation-card,.welcome-footer{grid-column:1;grid-row:auto}
+ .welcome-content>.eyebrow{margin-top:25px}
+ .welcome-content>h1{font-size:55px}
+ .welcome-copy{margin:15px 0 22px}
+ .creation-card{padding:23px}
+ .welcome-footer{display:flex;justify-content:space-between}
+}
+@media(max-width:520px){
+ .welcome-screen{padding:28px 15px}
+ .welcome-content>h1{font-size:46px;letter-spacing:-2.5px}
+ .creation-card{padding:19px}
+ .welcome-footer{font-size:7px}
+}
