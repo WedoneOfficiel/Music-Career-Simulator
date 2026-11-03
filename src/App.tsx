@@ -152,7 +152,7 @@ function App() {
     const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
     const net=artistGrossShare-recouped
     const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
-    const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4));const revenue=streams*.0035*(1-a.artistRoyalty/100);return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,weeklyStreams:streams,weeklyRevenue:revenue}})
+    const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const revenue=streams*.0035*(1-a.artistRoyalty/100);return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,weeklyStreams:streams,weeklyRevenue:revenue}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0),0,100)
