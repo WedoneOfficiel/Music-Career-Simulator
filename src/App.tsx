@@ -114,7 +114,10 @@ function App() {
       const seed=Math.abs(Math.sin((week+year+i*13)*91.7))
       const socialBoost=Math.min(2.5,(artist.socialPosts??[]).filter(p=>p.boostWeeks>0).reduce((v,p)=>v*p.boost,1))
       const campaignBoost=Math.min(2,(artist.campaigns??[]).filter(c=>c.remainingWeeks>0).reduce((v,c)=>v*c.multiplier,1))
-      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*socialBoost*campaignBoost)
+      const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)
+      const tourBoost=showsThisWeek.length?1.18:1
+      const setlistBoost=showsThisWeek.some(s=>s.setlist?.includes(t.id))?1.22:1
+      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*socialBoost*campaignBoost*tourBoost*setlistBoost)
       const spotify=Math.round(base*.64),apple=Math.round(base*.23),youtube=Math.round(base*.13)
       const radio=Math.round(base*(artist.popularity/100)*.08)
       return {...t,spotify:t.spotify+spotify,apple:t.apple+apple,youtube:t.youtube+youtube,radio:t.radio+radio,total:t.total+spotify+apple+youtube,rank:null as number|null}
@@ -153,8 +156,9 @@ function App() {
     const merchItems=(artist.merchItems??[]).map(item=>{const sold=item.active?Math.min(Math.max(0,Math.round(artist.fans*.00016*(.7+artist.popularity/100))),Math.max(0,100000-item.sold)):0;return {...item,sold:item.sold+sold}})
     const merchUnits=merchItems.reduce((sum,item)=>sum+(item.sold-(artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0),0)
     const merchRevenue=merchItems.reduce((sum,item)=>sum+(item.sold-(artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0)*item.price,0)
+    const merchCosts=merchItems.reduce((sum,item)=>sum+(item.sold-(artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0)*item.cost,0)
     const tourRevenue=artist.tour.filter(s=>s.week===week&&s.year===year).reduce((s,x)=>s+x.revenue,0)
-    const gross=streamingRevenue+merchRevenue+tourRevenue
+    const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
     const net=gross*(1-artist.labelShare/100)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0),0,100)
