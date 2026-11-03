@@ -793,3 +793,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-studio .ls-roster-grid article>div{margin:8px 0}
 .label-studio .ls-roster-grid article>div span{gap:10px;align-items:flex-start}
 .label-studio .ls-roster-grid article>div b{white-space:nowrap;text-align:right}
+
+
+.promotion-preview{display:grid;gap:7px;margin:12px 0 16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft,rgba(120,110,130,.06))}
+.promotion-preview>div{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.promotion-preview>div small{font-size:9px;font-weight:800;letter-spacing:.09em;color:var(--muted)}
+.promotion-preview>div strong{font-size:22px;letter-spacing:-.04em}
+.promotion-preview p{margin:0;font-size:11px;font-weight:700}
+.promotion-preview>small{font-size:10px;line-height:1.5;color:var(--muted)}
