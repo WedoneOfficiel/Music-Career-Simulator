@@ -186,15 +186,19 @@ function App() {
       if(climber&&climber.lastWeek!==null&&climber.lastWeek-climber.rank>=12)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Belle remontée en '+label+' : « '+climber.name+' » de '+climber.artist+' gagne '+(climber.lastWeek-climber.rank)+' places et atteint le #'+climber.rank+'.'})
       // La concurrence a désormais un effet narratif direct sur les sorties du joueur.
       const previousSongs=artist.marketCharts?.[code]?.songs??[]
-      const ownSongs=board.songs.filter(x=>x.own)
-      for(const ownSong of ownSongs){
-        const prior=previousSongs.find(x=>x.id===ownSong.id)
-        if(prior&&prior.rank<ownSong.rank&&ownSong.rank-prior.rank>=12){
-          const newRival=board.songs.find(x=>!x.own&&x.rank<ownSong.rank&&x.lastWeek!==null&&x.lastWeek>prior.rank)
-          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'La concurrence se renforce en '+label+' : « '+ownSong.name+' » recule de '+(ownSong.rank-prior.rank)+' places, notamment face à '+(newRival?.artist??'plusieurs sorties concurrentes')+'.'})
+      for(const prior of previousSongs.filter(x=>x.own)){
+        const current=board.songs.find(x=>x.id===prior.id)
+        if(!current){
+          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'« '+prior.name+' » quitte le top 100 en '+label+'. La pression des nouvelles sorties devient plus forte.'})
+          continue
         }
-        if(prior&&!board.songs.some(x=>x.id===ownSong.id)){
-          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'« '+ownSong.name+' » quitte le top 100 en '+label+'. La pression des nouvelles sorties devient plus forte.'})
+        if(current.rank-prior.rank>=12){
+          const newRival=board.songs.find(x=>!x.own&&x.rank<current.rank&&x.lastWeek!==null&&x.lastWeek>prior.rank)
+          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'La concurrence se renforce en '+label+' : « '+current.name+' » recule de '+(current.rank-prior.rank)+' places'+(newRival?', notamment face à '+newRival.artist:'')+'.'})
+        }
+        const overtaker=board.songs.find(x=>!x.own&&x.rank<current.rank&&x.lastWeek!==null&&x.lastWeek>prior.rank)
+        if(overtaker&&prior.rank<overtaker.lastWeek!){
+          marketStories.push({id:id(),week,year,source:'Rivalité · '+label,text:overtaker.artist+' dépasse « '+current.name+' » en '+label+' et prend la position #'+overtaker.rank+'.'})
         }
       }
       const ownArtist=board.artists.find(x=>x.own)
