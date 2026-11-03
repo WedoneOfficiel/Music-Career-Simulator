@@ -801,3 +801,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .promotion-preview>div strong{font-size:22px;letter-spacing:-.04em}
 .promotion-preview p{margin:0;font-size:11px;font-weight:700}
 .promotion-preview>small{font-size:10px;line-height:1.5;color:var(--muted)}
+
+
+.discography-artwork-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.discography-artwork-actions .discography-upload{margin:0}
+.discography-remove-art{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:8px 10px;font-size:10px;font-weight:700;cursor:pointer}
+.discography-remove-art:hover{border-color:#c66;color:#b44}
+.discography-art-error{display:block;margin-top:7px;color:#b44;font-size:10px}
