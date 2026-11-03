@@ -4,9 +4,9 @@ import CareerModules from './CareerModules'
 import LabelStudio from './LabelStudio'
 import Discography from './Discography'
 import SyncLicensing from './SyncLicensing'
-import { getRivalMarketEvent, type MarketCharts } from './careerData'
+import { type MarketCharts } from './careerData'
 import {
-  ArrowUpRight, BarChart3, ChevronRight, Disc3, RotateCcw, Clapperboard,
+  BarChart3, ChevronRight, Disc3, RotateCcw, Clapperboard,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
   Users, Wallet, Play, Building2,
   Globe2, TrendingUp, Ticket, Shirt, Newspaper
