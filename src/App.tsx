@@ -86,7 +86,7 @@ function App() {
     setNotice('La semaine est terminée : votre carrière a progressé.')
   }
 
-  function writeSong(event: React.FormEvent<HTMLFormElement>) {
+  function writeSong(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!artist || !songTitle.trim()) return
     setArtist({ ...artist, songs: [...artist.songs, songTitle.trim()], energy: Math.max(0, artist.energy - 10) })
