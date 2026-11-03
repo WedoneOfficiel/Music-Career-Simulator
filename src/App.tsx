@@ -184,6 +184,19 @@ function App() {
       if(songLeader&&!songLeader.own&&songLeader.lastWeek!==1&&songLeader.rank===1)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Nouveau numéro un en '+label+' : « '+songLeader.name+' » de '+songLeader.artist+' prend la tête du classement des chansons.'})
       const climber=board.songs.filter(x=>!x.own&&x.lastWeek!==null).sort((a,b)=>(b.lastWeek!-b.rank)-(a.lastWeek!-a.rank))[0]
       if(climber&&climber.lastWeek!==null&&climber.lastWeek-climber.rank>=12)marketStories.push({id:id(),week,year,source:'Charts · '+label,text:'Belle remontée en '+label+' : « '+climber.name+' » de '+climber.artist+' gagne '+(climber.lastWeek-climber.rank)+' places et atteint le #'+climber.rank+'.'})
+      // La concurrence a désormais un effet narratif direct sur les sorties du joueur.
+      const previousSongs=artist.marketCharts?.[code]?.songs??[]
+      const ownSongs=board.songs.filter(x=>x.own)
+      for(const ownSong of ownSongs){
+        const prior=previousSongs.find(x=>x.id===ownSong.id)
+        if(prior&&prior.rank<ownSong.rank&&ownSong.rank-prior.rank>=12){
+          const newRival=board.songs.find(x=>!x.own&&x.rank<ownSong.rank&&x.lastWeek!==null&&x.lastWeek>prior.rank)
+          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'La concurrence se renforce en '+label+' : « '+ownSong.name+' » recule de '+(ownSong.rank-prior.rank)+' places, notamment face à '+(newRival?.artist??'plusieurs sorties concurrentes')+'.'})
+        }
+        if(prior&&!board.songs.some(x=>x.id===ownSong.id)){
+          marketStories.push({id:id(),week,year,source:'Concurrence · '+label,text:'« '+ownSong.name+' » quitte le top 100 en '+label+'. La pression des nouvelles sorties devient plus forte.'})
+        }
+      }
       const ownArtist=board.artists.find(x=>x.own)
       if(ownArtist&&ownArtist.rank<=10&&(ownArtist.lastWeek===null||ownArtist.lastWeek>10))marketStories.push({id:id(),week,year,source:'Charts · '+label,text:artist.name+' entre dans le top 10 des artistes en '+label+', à la position #'+ownArtist.rank+'.'})
     }
