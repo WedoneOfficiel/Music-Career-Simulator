@@ -92,6 +92,24 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       albums.push({id:albumId,name:title,artist:name,streams})
     })
   })
+
+  // Collaborations ponctuelles entre concurrents : elles créent de nouveaux titres
+  // identifiables dans les charts, avec un pic de lancement puis une retombée.
+  const collaborationCycle=Math.floor(now/26)
+  const collaborationAge=((now%26)+26)%26
+  if(collaborationAge<18){
+    for(let slot=0;slot<5;slot++){
+      const first=(collaborationCycle*7+slot*17+3)%rivalArtists.length
+      let second=(first+7+slot*11+collaborationCycle*3)%rivalArtists.length
+      if(second===first)second=(second+1)%rivalArtists.length
+      const firstName=rivalArtists[first],secondName=rivalArtists[second]
+      const collaborationId='rival-collab-'+collaborationCycle+'-'+slot
+      const title=songTitles[(collaborationCycle*5+slot*3+first)%songTitles.length]
+      const baseFans=(58_000_000*Math.pow(.94,first)+58_000_000*Math.pow(.94,second))*.29
+      const streams=Math.round(baseFans*market.factor*(collaborationAge<3?1.65:collaborationAge<8?1.22:Math.max(.35,1-collaborationAge*.035))*(.88+seed(collaborationId+'-'+Math.floor(now/2))*.24))
+      tracks.push({id:collaborationId,name:title,artist:firstName+' feat. '+secondName,streams,artistId:collaborationId,slot:5})
+    }
+  }
   return {artists,albums,tracks}
 }
 
