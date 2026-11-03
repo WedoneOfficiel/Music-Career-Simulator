@@ -90,7 +90,8 @@ function App() {
       const showsThisWeek=artist.tour.filter(s=>s.week===week&&s.year===year)
       const tourBoost=showsThisWeek.length?1.18:1
       const setlistBoost=showsThisWeek.some(s=>s.setlist?.includes(t.id))?1.22:1
-      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*socialBoost*campaignBoost*tourBoost*setlistBoost)
+      const albumTourBoost=showsThisWeek.some(s=>s.associatedAlbum&&artist.releases.some(r=>r.id===s.associatedAlbum&&r.trackIds.includes(t.id)))?1.12:1
+      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*socialBoost*campaignBoost*tourBoost*setlistBoost*albumTourBoost)
       const spotify=Math.round(base*.64),apple=Math.round(base*.23),youtube=Math.round(base*.13)
       const radio=Math.round(base*(artist.popularity/100)*.08)
       return {...t,spotify:t.spotify+spotify,apple:t.apple+apple,youtube:t.youtube+youtube,radio:t.radio+radio,total:t.total+spotify+apple+youtube,rank:null as number|null}
