@@ -50,7 +50,7 @@ export default function LabelStudio({artist,update,notify}:Props){
  const leverage=Math.min(100,Math.round(artist.popularity*.48+Math.min(20,Math.log10(artist.fans+1)*4)+Math.min(15,Math.log10(artist.spotify+artist.apple+artist.youtube+1)*3)+Math.min(12,Math.log10(artist.money+1)*2)+artist.releases.length*1.4))
  const visible=labels.filter(l=>(filter==='Tous'||l.tier===filter)&&(l.name+' '+l.group+' '+l.focus).toLowerCase().includes(query.toLowerCase()))
  const rights=useMemo(()=>artist.tracks.filter(t=>t.released||t.total>0).map(t=>{
-  const release=artist.releases.slice().reverse().find(r=>r.trackIds.includes(t.id))
+  const release=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(t.id))??artist.releases.find(r=>r.trackIds.includes(t.id))
   const legacy=(t.masterOwnership??release?.masterOwnership)==='license'
   const raw=(t.masterOwnership??release?.masterOwnership??'artist')
   const owner:Owner=raw==='license'?'artist':raw as Owner
