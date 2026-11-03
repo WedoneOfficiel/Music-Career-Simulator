@@ -846,3 +846,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .ls-recoupment{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding:10px 12px;margin:10px 0 14px;border-radius:10px;background:var(--panel-soft)}
 .ls-recoupment-track{grid-column:1/-1}
 @media(max-width:560px){.contract-recovery-values{grid-template-columns:1fr 1fr}.contract-recovery-values span:last-child{grid-column:1/-1}.contract-recovery-progress{align-items:flex-start;flex-direction:column;gap:6px}.contract-recovery-progress>span{text-align:left}}
+
+.contract-week-recovery{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft)}
+.contract-week-recovery-title{display:grid;gap:4px;margin-bottom:8px}
+.contract-week-recovery-title b{font-size:12px}
+.contract-week-recovery-title small{font-size:10px;color:var(--muted)}
+.contract-week-recovery-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.contract-week-recovery-row>span{display:grid;gap:3px}
+.contract-week-recovery-row b{font-size:11px}
+.contract-week-recovery-row small{font-size:9px;color:var(--muted)}
+.contract-week-recovery-row>strong{font-size:12px;color:#8c5b69;white-space:nowrap}
