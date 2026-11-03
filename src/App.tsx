@@ -15,6 +15,13 @@ type FeedPost = { id: string; week: number; year: number; source: string; text: 
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
+export type LabelContract = {
+  id:string; label:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[];
+  royalty:number; artistRoyalty?:number; advance:number; marketing:number; recordingBudget?:number; recoupableBalance?:number;
+  masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; distributionFee?:number;
+  territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
+  signedWeek?:number; signedYear?:number; status?:'active'|'expired'|'terminated';
+}
 export type Artist = {
   name: string; genre: string; country: string; image: string
   energy: number; money: number; fans: number; popularity: number
@@ -23,7 +30,7 @@ export type Artist = {
   posts: FeedPost[]; wiki: string[]; chart: ChartEntry[]; albumChart: ChartEntry[]; chartHistory: {week:number;year:number;rank:number;title:string}[]
   label: string; labelShare: number; tour: TourShow[]; merch: number; merchRevenue: number
   socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number;releaseId?:string}[]
-  age?:number; bio?:string; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:{id:string;label:string;years:number;projects:number;remainingProjects?:number;remainingWeeks?:number;types:string[];royalty:number;advance:number;marketing:number}[]
+  age?:number; bio?:string; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:LabelContract[]
   merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; ownLabelName?:string; tourName?:string
 }
 const SAVE_KEY = 'music-career-simulator-save-v2'
@@ -125,8 +132,8 @@ function App() {
       return {...r,firstWeekStreams,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
-    const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1)}))
-    const activeContract=contracts.find(c=>(c.remainingProjects??c.projects)>0&&(c.remainingWeeks??0)>0)
+    const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active'}))
+    const activeContract=contracts.find(c=>(c.remainingWeeks??0)>0&&(c.status??'active')==='active')
     const platformDelta={spotify:updatedTracks.reduce((s,t)=>s+(t.spotify-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)),0),apple:updatedTracks.reduce((s,t)=>s+(t.apple-(artist.tracks.find(x=>x.id===t.id)?.apple||0)),0),youtube:updatedTracks.reduce((s,t)=>s+(t.youtube-(artist.tracks.find(x=>x.id===t.id)?.youtube||0)),0),radio:updatedTracks.reduce((s,t)=>s+(t.radio-(artist.tracks.find(x=>x.id===t.id)?.radio||0)),0)}
     const streamingRevenue=platformDelta.spotify*.0035+platformDelta.apple*.007+platformDelta.youtube*.0012+platformDelta.radio*.0008
     const merchItems=(artist.merchItems??[]).map(item=>{const sold=item.active?Math.min(Math.max(0,Math.round(artist.fans*.00016*(.7+artist.popularity/100))),Math.max(0,100000-item.sold)):0;return {...item,sold:item.sold+sold}})
@@ -135,7 +142,11 @@ function App() {
     const merchCosts=merchItems.reduce((sum,item)=>sum+(item.sold-((artist.merchItems??[]).find(old=>old.id===item.id)?.sold??0))*item.cost,0)
     const tourRevenue=artist.tour.filter(s=>s.week===week&&s.year===year).reduce((s,x)=>s+x.revenue,0)
     const gross=streamingRevenue+merchRevenue+tourRevenue-merchCosts
-    const net=gross*(1-artist.labelShare/100)
+    const artistRoyaltyRate=activeContract?(activeContract.artistRoyalty??(100-activeContract.royalty)):100
+    const artistGrossShare=gross*artistRoyaltyRate/100
+    const recouped=activeContract?Math.min(activeContract.recoupableBalance??0,artistGrossShare):0
+    const net=artistGrossShare-recouped
+    const settledContracts=contracts.map(c=>c.id===activeContract?.id?{...c,recoupableBalance:Math.max(0,(c.recoupableBalance??0)-recouped)}:c)
     const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0),0,100)
     const randomCompetitor=competitors[(week+year)%competitors.length]
@@ -146,7 +157,7 @@ function App() {
     if(chart.some(c=>c.own&&c.rank===1))weeklyPosts.unshift({id:id(),week,year,source:'Pop Crave',text:`NUMBER ONE ! ${artist.name} décroche la première place du classement mondial cette semaine.`})
     else weeklyPosts.push({id:id(),week,year,source:'Pop Base',text:`Dans les charts cette semaine : ${randomCompetitor} fait parler de lui, tandis que ${artist.name} poursuit son ascension.`})
     const wiki=[...artist.wiki,`Semaine ${week} de ${year} : ${fmt(weeklyStreams)} nouvelles écoutes enregistrées sur Spotify, Apple Music et YouTube.`,...updatedTracks.filter(t=>t.rank!==null).map(t=>`Semaine ${week} de ${year} : « ${t.title} » atteint la position ${t.rank} du classement mondial (meilleur classement : ${t.peak}).`)]
-    const next={...artist,week,year,energy:Math.min(100,artist.energy+18),money:artist.money+net,fans:artist.fans+newFans,popularity:pop,tracks:updatedTracks,lastWeekStreams:weeklyStreams,spotifyFollowers:(artist.spotifyFollowers??Math.round(artist.fans*.72))+Math.round(newFans*.48),socialPosts:(artist.socialPosts??[]).map(p=>({...p,boostWeeks:Math.max(0,p.boostWeeks-1),views:p.views+Math.round(p.views*.08),likes:p.likes+Math.round(p.views*.004),comments:p.comments+Math.round(p.views*.0004)})),campaigns:(artist.campaigns??[]).map(c=>({...c,remainingWeeks:Math.max(0,c.remainingWeeks-1)})),contracts,label:activeContract?artist.label:'Indépendant',labelShare:activeContract?artist.labelShare:0,releases,spotify:artist.spotify+platformDelta.spotify,apple:artist.apple+platformDelta.apple,youtube:artist.youtube+platformDelta.youtube,radio:artist.radio+platformDelta.radio,posts:[...weeklyPosts,...artist.posts].slice(0,80),wiki:wiki.slice(-150),chart,albumChart,marketCharts,chartHistory:chartHistory.slice(-300),merchItems,merch:artist.merch+merchUnits,merchRevenue:artist.merchRevenue+merchRevenue}
+    const next={...artist,week,year,energy:Math.min(100,artist.energy+18),money:artist.money+net,fans:artist.fans+newFans,popularity:pop,tracks:updatedTracks,lastWeekStreams:weeklyStreams,spotifyFollowers:(artist.spotifyFollowers??Math.round(artist.fans*.72))+Math.round(newFans*.48),socialPosts:(artist.socialPosts??[]).map(p=>({...p,boostWeeks:Math.max(0,p.boostWeeks-1),views:p.views+Math.round(p.views*.08),likes:p.likes+Math.round(p.views*.004),comments:p.comments+Math.round(p.views*.0004)})),campaigns:(artist.campaigns??[]).map(c=>({...c,remainingWeeks:Math.max(0,c.remainingWeeks-1)})),contracts:settledContracts,label:activeContract?artist.label:(artist.ownLabelName??'Indépendant'),labelShare:activeContract?100-artistRoyaltyRate:0,releases,spotify:artist.spotify+platformDelta.spotify,apple:artist.apple+platformDelta.apple,youtube:artist.youtube+platformDelta.youtube,radio:artist.radio+platformDelta.radio,posts:[...weeklyPosts,...artist.posts].slice(0,80),wiki:wiki.slice(-150),chart,albumChart,marketCharts,chartHistory:chartHistory.slice(-300),merchItems,merch:artist.merch+merchUnits,merchRevenue:artist.merchRevenue+merchRevenue}
     setArtist(next);setNotice(`Semaine ${week} terminée : +${fmt(weeklyStreams)} écoutes, +${fmt(newFans)} fans et ${money(net)} de revenus nets.`)
   }
   function reset() {if(!window.confirm('Supprimer définitivement cette carrière et sa sauvegarde ?'))return;localStorage.removeItem(SAVE_KEY);localStorage.removeItem(OLD_KEY);setArtist(null);setTab('Vue d’ensemble');setNotice('')}
