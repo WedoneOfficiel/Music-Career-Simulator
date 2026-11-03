@@ -216,7 +216,8 @@ function App() {
     })) as Record<string,number>
     const recouped=Object.values(recoupedByContract).reduce((sum,value)=>sum+value,0)
     const marketingSpend=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0).reduce((sum,c)=>sum+(c.weeklyCost??0),0)
-    const cashNet=artistGrossShare-recouped+publishingRevenue\n    const net=cashNet-marketingSpend
+    const cashNet=artistGrossShare-recouped+publishingRevenue
+    const net=cashNet-marketingSpend
     const labelStreamingShare=Math.max(0,streamingRevenue-distributionIncome-artistMasterRevenue)
     const labelMerchShare=activeContract?(merchRevenue-merchCosts)*merchCut/100:0
     const labelLiveShare=activeContract?Math.max(0,tourProfit)*liveCut/100:0
