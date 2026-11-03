@@ -5,7 +5,7 @@ import LabelStudio from './LabelStudio'
 import Discography from './Discography'
 import { buildMarketCharts, type MarketCharts } from './careerData'
 import {
-  Activity, BarChart3, CalendarDays, ChevronRight, Disc3,
+  Activity, BarChart3, CalendarDays, ChevronRight, Disc3, RotateCcw,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
   Users, Wallet, Play, Building2,
   Globe2, TrendingUp, Ticket, Shirt, Newspaper
@@ -99,6 +99,19 @@ function App() {
       chart:[],albumChart:[],chartHistory:[],label:'Indépendant',labelShare:0,tour:[],merch:0,merchRevenue:0
     }
     localStorage.removeItem(OLD_KEY);localStorage.setItem(SAVE_KEY,JSON.stringify(newArtist));setArtist(newArtist);setNotice('Votre carrière est lancée. À vous de construire la suite !')
+  }
+  function restoreBackup() {
+    try {
+      const raw=localStorage.getItem(BACKUP_KEY)
+      if(!raw){setNotice('Aucune sauvegarde précédente disponible.');return}
+      const restored=normalizeSave(JSON.parse(raw))
+      if(!restored){setNotice('La sauvegarde précédente est illisible. Votre carrière actuelle est conservée.');return}
+      const current=localStorage.getItem(SAVE_KEY)
+      if(current)localStorage.setItem('music-career-simulator-save-before-restore',current)
+      localStorage.setItem(SAVE_KEY,JSON.stringify(restored))
+      setArtist(restored)
+      setNotice('Sauvegarde précédente restaurée. Votre état juste avant la restauration reste conservé séparément.')
+    } catch {setNotice('Impossible de restaurer la sauvegarde. Votre carrière actuelle est conservée.')}
   }
   function nextWeek() {
     if(!artist)return
@@ -195,7 +208,7 @@ function App() {
 
   const recent=artist.posts.slice(0,8)
   const total=artist.spotify+artist.apple+artist.youtube
-  return <div className="app-shell"><aside className="sidebar"><div className="sidebar-brand"><div className="brand-mark small"><Music2 size={18}/></div><span>Music Career<br/><b>Simulator</b></span></div><div className="profile-mini">{artist.image?<img className="avatar-photo" src={artist.image} alt="Portrait de l’artiste"/>:<div className="avatar">{artist.name.slice(0,1).toUpperCase()}</div>}<div><strong>{artist.name}</strong><span>{artist.genre} · {artist.country}</span></div></div><p className="nav-caption">ESPACE ARTISTE</p><nav>{nav.map(item=><button key={item.label} className={tab===item.label?'nav-item active':'nav-item'} onClick={()=>setTab(item.label)}><item.icon size={17}/><span>{item.label}</span>{tab===item.label&&<span className="nav-dot"/>}</button>)}</nav><div className="sidebar-bottom"><div className="season-chip"><CalendarDays size={15}/><span>{dateLabel}</span></div><button className="settings-button" onClick={reset}><Settings2 size={16}/> Réinitialiser la partie</button><span className="version-label">MCS · VERSION 1.1</span></div></aside>
+  return <div className="app-shell"><aside className="sidebar"><div className="sidebar-brand"><div className="brand-mark small"><Music2 size={18}/></div><span>Music Career<br/><b>Simulator</b></span></div><div className="profile-mini">{artist.image?<img className="avatar-photo" src={artist.image} alt="Portrait de l’artiste"/>:<div className="avatar">{artist.name.slice(0,1).toUpperCase()}</div>}<div><strong>{artist.name}</strong><span>{artist.genre} · {artist.country}</span></div></div><p className="nav-caption">ESPACE ARTISTE</p><nav>{nav.map(item=><button key={item.label} className={tab===item.label?'nav-item active':'nav-item'} onClick={()=>setTab(item.label)}><item.icon size={17}/><span>{item.label}</span>{tab===item.label&&<span className="nav-dot"/>}</button>)}</nav><div className="sidebar-bottom"><div className="season-chip"><CalendarDays size={15}/><span>{dateLabel}</span></div><button className="settings-button" onClick={restoreBackup}><RotateCcw size={16}/> Restaurer la sauvegarde précédente</button><button className="settings-button" onClick={reset}><Settings2 size={16}/> Réinitialiser la partie</button><span className="version-label">MCS · VERSION 1.1</span></div></aside>
   <main className="main-area"><header className="topbar"><div><span className="breadcrumb">ESPACE ARTISTE</span><span className="breadcrumb-sep">/</span><strong>{tab}</strong></div><div className="topbar-right"><span className="live-indicator"><i/> Simulation active</span><button className="next-week" onClick={nextWeek}><Play size={14} fill="currentColor"/> Semaine suivante</button></div></header><div className="page-content">{notice&&<button className="notice" onClick={()=>setNotice('')}><Sparkles size={15}/>{notice}<span>×</span></button>}
   {tab==='Applications'&&<Ecosystem artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/> }
   {tab==='Labels'?<LabelStudio artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/>:tab==='Ma discographie'?<Discography artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)}/>:<CareerModules tab={tab} artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/>}
