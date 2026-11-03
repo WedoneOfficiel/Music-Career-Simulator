@@ -175,12 +175,16 @@ function App() {
     const trackRights=updatedTracks.map(t=>{
       const originalRelease=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(t.id))??artist.releases.find(r=>r.trackIds.includes(t.id))
       const contractId=t.masterContractId??originalRelease?.masterContractId??originalRelease?.labelContractId
-      const rightsContract=(artist.contracts??[]).find(c=>c.id===contractId)??activeContract
+      const hasMasterTerms=t.masterOwnership!==undefined||originalRelease?.masterOwnership!==undefined||contractId!==undefined
+      const rightsContract=contractId?(artist.contracts??[]).find(c=>c.id===contractId):hasMasterTerms?undefined:activeContract
       const rawOwner=t.masterOwnership??originalRelease?.masterOwnership??rightsContract?.masterOwnership??'artist'
       const owner=rawOwner==='license'?'artist':rawOwner
       const masterShare=t.masterArtistShare??originalRelease?.masterArtistShare??(owner==='artist'?100:owner==='shared'?rightsContract?.artistMasterShare??50:0)
-      const publishingOwner=t.publishingOwnership??originalRelease?.publishingOwnership??rightsContract?.publishingOwnership??'artist'
-      const publishingShare=t.artistPublishingShare??originalRelease?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?rightsContract?.artistPublishingShare??50:0)
+      const publishingContractId=t.publishingContractId??originalRelease?.publishingContractId??contractId
+      const hasPublishingTerms=t.publishingOwnership!==undefined||originalRelease?.publishingOwnership!==undefined||publishingContractId!==undefined
+      const publishingContract=publishingContractId?(artist.contracts??[]).find(c=>c.id===publishingContractId):hasPublishingTerms?undefined:activeContract
+      const publishingOwner=t.publishingOwnership??originalRelease?.publishingOwnership??publishingContract?.publishingOwnership??'artist'
+      const publishingShare=t.artistPublishingShare??originalRelease?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?publishingContract?.artistPublishingShare??50:0)
       const oldTrack=artist.tracks.find(x=>x.id===t.id)
       const revenue=(t.spotify-(oldTrack?.spotify??0))*.0035+(t.apple-(oldTrack?.apple??0))*.007+(t.youtube-(oldTrack?.youtube??0))*.0012+(t.radio-(oldTrack?.radio??0))*.0008
       const royalty=owner==='label'?(rightsContract?.artistRoyalty??(rightsContract?100-rightsContract.royalty:0)):masterShare
