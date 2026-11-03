@@ -81,7 +81,9 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       const releaseLift=isLead&&age<5?1.22:1
       const id=isLead?artistId+'-lead-'+cycle:artistId+'-catalogue-'+slot
       const title=songTitles[(index*3+(isLead?cycle:slot*4+index))%songTitles.length]
-      const eventMultiplier=event?.artist===name&&(event.kind==='viral'&&isLead?2.15:event.kind==='comeback'&&slot===2?2.05:event.kind==='blockbuster'?1.28:1):1
+      const eventMultiplier = event?.artist === name
+        ? (event.kind === 'viral' && isLead ? 2.15 : event.kind === 'comeback' && slot === 2 ? 2.05 : event.kind === 'blockbuster' ? 1.28 : 1)
+        : 1
       const weekly=Math.round(weeklyPotential*share*decay*releaseLift*eventMultiplier*(.84+seed(id+'-'+Math.floor(now/2))*.32))
       return {id,name:title,artist:name,streams:weekly,artistId,slot}
     })
