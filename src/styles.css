@@ -654,3 +654,17 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-studio .ls-valuation-row b,.label-studio .ls-valuation-row strong{font-size:12px}
 .label-studio .ls-valuation-row small,.label-studio .ls-valuation-row span{display:block;color:#9998a3;font-size:10px;margin-top:4px}
 @media(max-width:640px){.label-studio .ls-valuation-hero{grid-template-columns:1fr}.label-studio .ls-valuation-grid{grid-template-columns:1fr}.label-studio .ls-valuation-row{grid-template-columns:1fr auto}.label-studio .ls-valuation-row span{grid-column:1/-1}}
+
+/* Navigation principale — hiérarchie commune des espaces */
+.sidebar nav{display:grid;gap:15px}
+.nav-group{display:grid;gap:4px}
+.nav-group-label{padding:0 11px 4px;color:#a49ca6;font-size:8px;font-weight:850;letter-spacing:1.35px}
+.nav-item{min-height:40px}
+.nav-item.active{box-shadow:inset 3px 0 0 #8d70bd}
+@media(max-width:720px){
+ .sidebar nav{display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+ .nav-group{display:contents}
+ .nav-group-label{display:none}
+ .nav-item{flex:0 0 auto;min-height:38px}
+ .nav-item.active{box-shadow:inset 0 -3px 0 #8d70bd}
+}
