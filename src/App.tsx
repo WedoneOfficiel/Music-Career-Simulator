@@ -116,7 +116,7 @@ function App() {
       const n=i+1,seed=Math.abs(Math.sin((year*52+week+n*19)*7.31))
       return {name:['Neon Hearts','Golden Hour','Afterglow','Satellite','Wildflower','Blue','Midnight City','Heartbeat'][n%8]+' '+(n+week),artist:competitors[(n+week)%competitors.length],streams:Math.round((19000000/(n**.78))*(.75+seed*.55)),own:false,rank:0}
     })
-    const ownEntries=weekly.map(t=>({name:t.title,artist:artist.name,streams:Math.max(1,Math.round((t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0))),own:true,rank:0}))
+    const ownEntries=weekly.map(t=>({name:t.title,artist:artist.name,streams:Math.max(1,Math.round(t.spotify+t.apple+t.youtube-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)-(artist.tracks.find(x=>x.id===t.id)?.apple||0)-(artist.tracks.find(x=>x.id===t.id)?.youtube||0))),own:true,rank:0}))
     const chart=[...competitorEntries,...ownEntries].sort((a,b)=>b.streams-a.streams).slice(0,100).map((x,i)=>({...x,rank:i+1}))
     const chartPosts:FeedPost[]=[]
     const chartHistory=[...artist.chartHistory]
