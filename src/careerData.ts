@@ -53,7 +53,7 @@ function rankBoard(
 
 export function buildMarketCharts(artist:Artist, tracks:Artist['tracks'], week:number, year:number, old?:MarketCharts):MarketCharts {
   const oldBoard=old??({US:{artists:[],albums:[],songs:[]},UK:{artists:[],albums:[],songs:[]},FR:{artists:[],albums:[],songs:[]}} as MarketCharts)
-  const trackItems=tracks.filter(t=>t.released).map(t=>({id:t.id,name:t.title,artist:artist.name,streams:Math.max(0,t.spotify+t.apple+t.youtube-(artist.tracks.find(p=>p.id===t.id)?.spotify??0)-(artist.tracks.find(p=>p.id===t.id)?.apple??0)-(artist.tracks.find(p=>p.id===t.id)?.youtube??0))}))
+  const trackItems=tracks.filter(t=>t.released).map(t=>({id:t.id,name:t.title,artist:artist.name,streams:Math.max(0,t.spotify-(artist.tracks.find(p=>p.id===t.id)?.spotify??0))}))
   const songItems=trackItems
   const albumItems=artist.releases.filter(r=>r.type==='Album').map(r=>({
     id:r.id,name:r.title,artist:artist.name,
