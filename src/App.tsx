@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import {
   Activity, Award, BarChart3, CalendarDays, ChevronRight, Disc3, DollarSign,
   Headphones, Home, Mic2, Music2, Plus, Radio, Settings2, Sparkles, Star,
-  Users, Wallet, Zap, Play, TrendingUp, Building2, Clapperboard
+  Users, Wallet, Zap, Play, Building2, Clapperboard
 } from 'lucide-react'
 
 type Artist = {
@@ -48,7 +48,7 @@ function App() {
 
   const dateLabel = useMemo(() => artist ? `Semaine ${artist.week} · ${artist.year}` : '', [artist])
 
-  function createCareer(event: React.FormEvent<HTMLFormElement>) {
+  function createCareer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const name = String(data.get('name') || '').trim()
