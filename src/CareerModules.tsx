@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import type { Artist } from './App'
 import type { MarketCode, ChartKind, MarketChartEntry } from './careerData'
 
@@ -27,7 +27,7 @@ const venues=[
  ['Madison Square Garden','New York','États-Unis',20000],['Barclays Center','Brooklyn','États-Unis',19000],['Crypto.com Arena','Los Angeles','États-Unis',20000],['United Center','Chicago','États-Unis',23500],
  ['Hollywood Bowl','Los Angeles','États-Unis',17500],['Red Rocks Amphitheatre','Morrison','États-Unis',9525],['Tokyo Dome','Tokyo','Japon',55000],['Accor Stadium','Sydney','Australie',83500]
 ] as const
-const panel=(eyebrow:string,title:string,children:React.ReactNode)=><section className="panel career-module-panel"><div className="panel-top"><div><p className="eyebrow">{eyebrow}</p><h2>{title}</h2></div></div>{children}</section>
+const panel=(eyebrow:string,title:string,children:ReactNode)=><section className="panel career-module-panel"><div className="panel-top"><div><p className="eyebrow">{eyebrow}</p><h2>{title}</h2></div></div>{children}</section>
 function Charts({artist}:{artist:ExtendedArtist}){
  const [market,setMarket]=useState<MarketCode>('US'),[kind,setKind]=useState<ChartKind>('songs')
  const rows=artist.marketCharts?.[market]?.[kind]??[]
