@@ -15,7 +15,7 @@ const opportunities=[
 export default function SyncLicensing({artist,update,notify}:Props){
  const tracks=artist.tracks.filter(t=>t.released)
  const deals=artist.syncDeals??[]
- const offers=useMemo(()=>tracks.slice().sort((a,b)=>b.total-a.total).slice(0,12).flatMap((track,index)=>{
+ const offers=useMemo(()=>tracks.slice().sort((a,b)=>b.total-a.total).slice(0,12).flatMap((track)=>{
   const release=artist.releases.find(r=>!r.editionOf&&r.trackIds.includes(track.id))??artist.releases.find(r=>r.trackIds.includes(track.id))
   const contractId=track.masterContractId??release?.masterContractId??release?.labelContractId??track.publishingContractId??release?.publishingContractId
   const contract=(artist.contracts??[]).find(c=>c.id===contractId)
@@ -26,7 +26,7 @@ export default function SyncLicensing({artist,update,notify}:Props){
   const publishingArtistShare=track.artistPublishingShare??release?.artistPublishingShare??(publishingOwner==='artist'?100:publishingOwner==='shared'?(contract?.artistPublishingShare??50):0)
   const popularityFactor=1+artist.popularity/100
   const catalogueFactor=1+Math.log10(track.total+1)*.16
-  return opportunities.map((op,opIndex)=>{
+  return opportunities.map((op)=>{
    const fee=Math.max(1200,Math.round((850+artist.popularity*38+Math.log10(track.total+1)*115+Math.min(600,artist.fans/120))*op.multiplier*popularityFactor*catalogueFactor/100)*100)
    const already=deals.some(d=>d.trackId===track.id&&d.client===op.client)
    return {id:track.id+'-'+op.kind,track,release,op,fee,already,masterArtistAmount:fee*.5*masterArtistShare/100,publishingArtistAmount:fee*.5*publishingArtistShare/100,labelMasterAmount:fee*.5*(1-masterArtistShare/100),labelPublishingAmount:fee*.5*(1-publishingArtistShare/100),contractId}
