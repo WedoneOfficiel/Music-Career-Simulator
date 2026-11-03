@@ -628,10 +628,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .label-studio .ls-master-actions button{min-height:38px}
 .label-studio .ls-no-buyback{font-size:11px}
 .label-studio .ls-legal-note{padding:15px 17px}
-@media(max-width:900px){
- .label-studio .ls-negotiation-grid{grid-template-columns:1fr}
- .label-studio .ls-response-panel{position:static}
-}
+@media(max-width:900px){.label-studio .ls-negotiation-grid{grid-template-columns:1fr}.label-studio .ls-response-panel{position:static}}
 @media(max-width:640px){
  .label-studio .ls-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}
  .label-studio .ls-tab{padding:11px 9px}
