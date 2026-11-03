@@ -11,7 +11,7 @@ import {
   Globe2, TrendingUp, Ticket, Shirt, Newspaper
 } from 'lucide-react'
 
-type Track = { id: string; title: string; released: boolean; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
+type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
 type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; labelContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
