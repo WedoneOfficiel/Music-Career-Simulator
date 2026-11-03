@@ -586,3 +586,59 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .ls-counter-actions{display:grid;gap:8px;margin-top:14px}.ls-counter-actions button{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #80649c;background:#4a365e;color:#fff;border-radius:9px;padding:10px 12px;font-size:10px;font-weight:800;cursor:pointer}.ls-counter-actions button.ls-secondary{background:#24242c;border-color:#44444f;color:#d2d2d9}
 
 .ls-legacy-note{display:block;color:#a7a7b2;font-size:10px;line-height:1.55;margin:9px 0 2px;padding:9px 10px;background:#22222a;border-radius:8px}
+
+
+/* Label studio — horizontal station navigation and clearer business dashboard */
+.label-studio .ls-layout{display:block}
+.label-studio .ls-sidebar{position:static;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:9px;margin:0 0 22px;background:#111116;border:1px solid #292932;border-radius:15px}
+.label-studio .ls-tab{min-width:0;justify-content:flex-start;padding:13px 14px;background:#19191f;border:1px solid #2e2e37;border-radius:10px}
+.label-studio .ls-tab.active{background:linear-gradient(135deg,#292333,#1d1b24);border-color:#76618f;color:#fff}
+.label-studio .ls-tab>span{font-size:12px}
+.label-studio .ls-tab small{font-size:10px}
+.label-studio .ls-side-note{grid-column:1/-1;margin:2px 4px 0;padding:9px 11px;border-top:1px solid #2b2b34;display:flex;align-items:center;gap:9px}
+.label-studio .ls-side-note p{margin:0;font-size:10px;line-height:1.45}
+.label-studio .ls-section-heading{align-items:flex-end}
+.label-studio .ls-label-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.label-studio .ls-label-card{border-radius:15px;background:linear-gradient(145deg,#1b1b22,#15151a)}
+.label-studio .ls-logo-panel{height:112px}
+.label-studio .ls-logo-panel img{max-width:58%;max-height:70px}
+.label-studio .ls-label-copy{padding:17px}
+.label-studio .ls-label-copy h3{font-size:16px}
+.label-studio .ls-label-copy>p{font-size:12px;min-height:36px}
+.label-studio .ls-label-numbers small{font-size:10px}
+.label-studio .ls-label-numbers b{font-size:13px}
+.label-studio .ls-label-copy>button{min-height:42px;font-size:12px}
+.label-studio .ls-negotiation-grid{grid-template-columns:minmax(0,1fr) 300px;gap:16px}
+.label-studio .ls-proposal,.label-studio .ls-response-panel,.label-studio .ls-contract-card,.label-studio .ls-master-card,.label-studio .ls-own-label{border-radius:15px}
+.label-studio .ls-proposal{padding:21px}
+.label-studio .ls-response-panel{position:sticky;top:18px}
+.label-studio .ls-proposal>label,.label-studio .ls-field-grid>label,.label-studio .ls-master-editor>label{font-size:12px}
+.label-studio .ls-proposal input:not([type=range]),.label-studio .ls-proposal select{min-height:43px;font-size:12px}
+.label-studio .ls-obligation-editor>label{padding:10px 0;font-size:12px}
+.label-studio .ls-obligation-editor>label button{width:30px;height:30px}
+.label-studio .ls-master-editor{padding-top:18px;margin-top:14px}
+.label-studio .ls-explain{font-size:12px;line-height:1.55}
+.label-studio .ls-contract-card{padding:20px}
+.label-studio .ls-contract-stats{gap:10px}
+.label-studio .ls-obligations{margin-top:16px}
+.label-studio .ls-obligation{grid-template-columns:130px minmax(80px,1fr) minmax(160px,auto);gap:12px;padding:9px 0}
+.label-studio .ls-obligation strong{font-size:10px;white-space:nowrap}
+.label-studio .ls-master-card{padding:20px}
+.label-studio .ls-master-actions{flex-wrap:wrap}
+.label-studio .ls-master-actions button{min-height:38px}
+.label-studio .ls-no-buyback{font-size:11px}
+.label-studio .ls-legal-note{padding:15px 17px}
+@media(max-width:900px){
+ .label-studio .ls-negotiation-grid{grid-template-columns:1fr}
+ .label-studio .ls-response-panel{position:static}
+}
+@media(max-width:640px){
+ .label-studio .ls-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .label-studio .ls-tab{padding:11px 9px}
+ .label-studio .ls-tab small{display:none}
+ .label-studio .ls-label-grid{grid-template-columns:1fr}
+ .label-studio .ls-header{align-items:stretch;flex-direction:column}
+ .label-studio .ls-leverage{width:100%}
+ .label-studio .ls-obligation{grid-template-columns:90px minmax(45px,1fr);gap:8px}
+ .label-studio .ls-obligation strong{grid-column:1/-1;text-align:right}
+}

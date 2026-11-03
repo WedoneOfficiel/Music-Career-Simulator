@@ -11,16 +11,16 @@ import {
   Globe2, TrendingUp, Ticket, Shirt, Newspaper
 } from 'lucide-react'
 
-type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
-type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; labelContractId?:string; territories?:string[] }
+type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
+type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; labelContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
 export type LabelContract = {
-  id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Compilation'|'Album live';required:number;remaining:number}[];
+  id:string; label:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[];
   royalty:number; artistRoyalty?:number; advance:number; marketing:number; recordingBudget?:number; recoupableBalance?:number;
-  masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; distributionFee?:number;
+  masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; distributionFee?:number;
   territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
   signedWeek?:number; signedYear?:number; terminationFee?:number; status?:'active'|'expired'|'terminated';
 }
@@ -134,7 +134,7 @@ function App() {
       return {...r,firstWeekStreams,currentRank:rank,peak:rank===null?r.peak:Math.min(r.peak??rank,rank)}
     })
     const marketCharts=buildMarketCharts(artist,updatedTracks,week,year,artist.marketCharts)
-    const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.status==='terminated'?'terminated':(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active') as LabelContract['status']}))
+    const contracts=(artist.contracts??[]).map(c=>({...c,remainingWeeks:Math.max(0,(c.remainingWeeks??c.years*52)-1),status:(c.remainingWeeks??c.years*52)<=1?'expired':c.status??'active'}))
     const activeContract=contracts.find(c=>(c.remainingWeeks??0)>0&&(c.status??'active')==='active')
     const platformDelta={spotify:updatedTracks.reduce((s,t)=>s+(t.spotify-(artist.tracks.find(x=>x.id===t.id)?.spotify||0)),0),apple:updatedTracks.reduce((s,t)=>s+(t.apple-(artist.tracks.find(x=>x.id===t.id)?.apple||0)),0),youtube:updatedTracks.reduce((s,t)=>s+(t.youtube-(artist.tracks.find(x=>x.id===t.id)?.youtube||0)),0),radio:updatedTracks.reduce((s,t)=>s+(t.radio-(artist.tracks.find(x=>x.id===t.id)?.radio||0)),0)}
     const streamingRevenue=platformDelta.spotify*.0035+platformDelta.apple*.007+platformDelta.youtube*.0012+platformDelta.radio*.0008
