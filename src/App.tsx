@@ -18,7 +18,7 @@ export type SocialPublication = { id:string; platform:'X'|'Instagram'|'TikTok'; 
 type ChartEntry = { name: string; artist: string; streams: number; own: boolean; rank: number }
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
 export type LabelContract = {
-  id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Album deluxe'|'Réédition'|'Compilation'|'Album live';required:number;remaining:number}[];
+  id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Album deluxe'|'Réédition'|'Compilation'|'Album live';required:number;remaining:number}[]; legacyRemainingProjects?:number;
   royalty:number; artistRoyalty?:number; advance:number; marketing:number; recordingBudget?:number; recoupableBalance?:number;
   masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; distributionFee?:number;
   territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
@@ -56,7 +56,7 @@ function normalizeSave(value:unknown):Artist|null {
   if(typeof a.name!=='string'||!a.name.trim())return null
   const tracks=Array.isArray(a.tracks)?a.tracks.map(t=>({...t,spotify:Number.isFinite(t.spotify)?t.spotify:0,apple:Number.isFinite(t.apple)?t.apple:0,youtube:Number.isFinite(t.youtube)?t.youtube:0,radio:Number.isFinite(t.radio)?t.radio:0,total:Number.isFinite(t.total)?t.total:0,rank:typeof t.rank==='number'?t.rank:null,peak:typeof t.peak==='number'?t.peak:null,released:!!t.released})): []
   const releases=Array.isArray(a.releases)?a.releases.map(r=>({...r,trackIds:Array.isArray(r.trackIds)?r.trackIds:[],firstWeekStreams:Number.isFinite(r.firstWeekStreams)?r.firstWeekStreams:0})): []
-  return {...a,tracks,releases,posts:Array.isArray(a.posts)?a.posts:[],wiki:Array.isArray(a.wiki)?a.wiki:[],chart:Array.isArray(a.chart)?a.chart:[],albumChart:Array.isArray(a.albumChart)?a.albumChart:[],chartHistory:Array.isArray(a.chartHistory)?a.chartHistory:[],tour:Array.isArray(a.tour)?a.tour:[],contracts:Array.isArray(a.contracts)?a.contracts:[]} as Artist
+  return {...a,tracks,releases,posts:Array.isArray(a.posts)?a.posts:[],wiki:Array.isArray(a.wiki)?a.wiki:[],chart:Array.isArray(a.chart)?a.chart:[],albumChart:Array.isArray(a.albumChart)?a.albumChart:[],chartHistory:Array.isArray(a.chartHistory)?a.chartHistory:[],tour:Array.isArray(a.tour)?a.tour:[],contracts:Array.isArray(a.contracts)?a.contracts.map(c=>({...c,legacyRemainingProjects:c.legacyRemainingProjects??(!c.obligations?.length?(c.remainingProjects??c.projects):0)})):[]} as Artist
 }
 function saveLoad(): Artist | null {
   for(const key of [SAVE_KEY,BACKUP_KEY]) {
