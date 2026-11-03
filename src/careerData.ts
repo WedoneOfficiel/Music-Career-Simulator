@@ -33,6 +33,16 @@ const seed=(s:string)=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCo
 const previous=(old:MarketChartEntry[]|undefined,id:string)=>old?.find(x=>x.id===id)
 const absoluteWeek=(week:number,year:number)=>year*52+week
 
+export type RivalMarketEvent={id:string;artist:string;kind:'viral'|'blockbuster'|'comeback';headline:boolean}
+export function getRivalMarketEvent(week:number,year:number):RivalMarketEvent|null{
+  const now=absoluteWeek(week,year),cycle=Math.floor(now/9),age=((now%9)+9)%9
+  if(age>=3)return null
+  const index=Math.floor(seed('industry-event-'+cycle)*rivalArtists.length)
+  const roll=seed('industry-event-kind-'+cycle)
+  const kind=roll<.42?'viral':roll<.76?'blockbuster':'comeback'
+  return {id:'industry-event-'+cycle,artist:rivalArtists[index],kind,headline:age===0}
+}
+
 function finishBoard(
   entries:{id:string;name:string;artist:string;streams:number;own:boolean}[],
   old:MarketChartEntry[]|undefined
@@ -47,7 +57,7 @@ function finishBoard(
    rotate every 32 weeks; older songs and albums have a slower catalogue decay. */
 function rivalMarket(market:typeof markets[number],week:number,year:number){
   const now=absoluteWeek(week,year)
-  const tracks:{id:string;name:string;artist:string;streams:number;artistId:string;slot:number}[]=[]
+  const event=getRivalMarketEvent(week,year)\n  const tracks:{id:string;name:string;artist:string;streams:number;artistId:string;slot:number}[]=[]
   const artists:{id:string;name:string;artist:string;streams:number}[]=[]
   const albums:{id:string;name:string;artist:string;streams:number}[]=[]
   const songShares=[.38,.23,.17,.13,.09]
@@ -70,7 +80,7 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       const releaseLift=isLead&&age<5?1.22:1
       const id=isLead?artistId+'-lead-'+cycle:artistId+'-catalogue-'+slot
       const title=songTitles[(index*3+(isLead?cycle:slot*4+index))%songTitles.length]
-      const weekly=Math.round(weeklyPotential*share*decay*releaseLift*(.84+seed(id+'-'+Math.floor(now/2))*.32))
+      const eventMultiplier=event?.artist===name&&(event.kind==='viral'&&isLead?2.15:event.kind==='comeback'&&slot===2?2.05:event.kind==='blockbuster'?1.28:1):1\n      const weekly=Math.round(weeklyPotential*share*decay*releaseLift*eventMultiplier*(.84+seed(id+'-'+Math.floor(now/2))*.32))
       return {id,name:title,artist:name,streams:weekly,artistId,slot}
     })
     tracks.push(...artistTracks)
@@ -88,7 +98,7 @@ function rivalMarket(market:typeof markets[number],week:number,year:number){
       const share=albumShares[ageOffset]
       const decay=Math.max(.055,1-age*.0085)
       const launchLift=age<4?1.95:age<9?1.38:1
-      const streams=Math.round(weeklyPotential*share*decay*launchLift*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
+      const eventMultiplier=event?.artist===name&&event.kind==='blockbuster'?1.9:1\n      const streams=Math.round(weeklyPotential*share*decay*launchLift*eventMultiplier*(.86+seed(albumId+'-'+Math.floor(now/3))*.28))
       albums.push({id:albumId,name:title,artist:name,streams})
     })
   })
