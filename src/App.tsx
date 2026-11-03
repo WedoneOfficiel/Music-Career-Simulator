@@ -206,7 +206,7 @@ function App() {
     const liveCut=activeContract?(activeContract.liveShare||activeContract.threeSixtyShare||0):0
     const artistNonStreamingShare=activeContract
       ? (merchRevenue-merchCosts)*(1-merchCut/100)+tourProfit-Math.max(0,tourProfit)*liveCut/100
-      : (merchRevenue-merchCosts)+tourRevenue
+      : (merchRevenue-merchCosts)+tourProfit
     const artistGrossShare=artistMasterRevenue+artistNonStreamingShare
     // Une avance ne se rembourse qu'avec la part artiste générée par les enregistrements rattachés à ce contrat.
     const eligibleByContract=trackRights.reduce<Record<string,number>>((totals,r)=>{if(r.contractId)totals[r.contractId]=(totals[r.contractId]??0)+r.artistMaster;return totals},{})
