@@ -366,3 +366,6 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 @media(max-width:680px){.label-contract-grid,.label-finance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.label-search{align-items:stretch!important;flex-direction:column}.label-search input{max-width:none}.label-contract-heading{align-items:flex-start;flex-direction:column}}
 
 .label-negotiation-accepted .module-form-grid,.label-negotiation-accepted fieldset,.label-negotiation-accepted>.check-option{pointer-events:none;opacity:.72}
+
+.label-contract-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 17px;border:1px solid var(--line);border-radius:12px;background:#fffdfa;margin:-6px 0 18px}.label-contract-actions p{font-size:11px;color:var(--muted);line-height:1.5;margin:0}.label-contract-actions button{white-space:nowrap}
+@media(max-width:680px){.label-contract-actions{align-items:stretch;flex-direction:column}}
