@@ -24,7 +24,7 @@ export type Artist = {
   posts: FeedPost[]; wiki: string[]; chart: ChartEntry[]; albumChart: ChartEntry[]; chartHistory: {week:number;year:number;rank:number;title:string}[]
   label: string; labelShare: number; tour: TourShow[]; merch: number; merchRevenue: number
   socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number}[]
-  age?:number; bio?:string; marketCharts?:MarketCharts; contracts?:{id:string;label:string;years:number;projects:number;types:string[];royalty:number;advance:number;marketing:number}[]
+  age?:number; bio?:string; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:{id:string;label:string;years:number;projects:number;types:string[];royalty:number;advance:number;marketing:number}[]
   merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; ownLabelName?:string; tourName?:string
 }
 const SAVE_KEY = 'music-career-simulator-save-v2'
