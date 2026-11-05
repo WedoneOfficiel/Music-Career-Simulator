@@ -25,7 +25,7 @@ type ChartEntry = { name: string; artist: string; streams: number; own: boolean;
 type TourShow = { id: string; city: string; venue: string; capacity: number; sold: number; revenue: number; week: number; year: number; country?: string; productionCost?:number; ticketPrice?: number; vipPrice?: number; tourTitle?: string; setlist?: string[]; associatedAlbum?: string }
 export type LabelContract = {
   id:string; label:string; dealType?:string; years:number; projects:number; remainingProjects?:number; remainingWeeks?:number; types:string[]; obligations?:{format:'Single'|'EP'|'Album studio'|'Album deluxe'|'Réédition'|'Compilation'|'Album live';required:number;remaining:number}[]; legacyRemainingProjects?:number;
-  royalty:number; artistRoyalty?:number; advance:number; marketing:number; marketingBudgetRemaining?:number; recordingBudget?:number; recordingBudgetRemaining?:number; recoupableBalance?:number; recoupableTotal?:number; recoupedTotal?:number;
+  royalty:number; artistRoyalty?:number; advance:number; marketing:number; marketingBudgetRemaining?:number; marketingRecoupRate?:number; recordingBudget?:number; recordingBudgetRemaining?:number; recoupableBalance?:number; recoupableTotal?:number; recoupedTotal?:number;
   masterOwnership?:'label'|'artist'|'shared'|'license'; artistMasterShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; distributionFee?:number;
   territories?:string[]; exclusive?:boolean; creativeControl?:number; threeSixtyShare?:number; merchShare?:number; liveShare?:number;
   signedWeek?:number; signedYear?:number; terminationFee?:number; status?:'active'|'expired'|'terminated';
