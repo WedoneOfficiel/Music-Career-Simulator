@@ -4,7 +4,7 @@ import type { MarketCode, ChartKind } from './careerData'
 import { BarChart3, Bookmark, Clapperboard, Grid3X3, Send, ArrowLeft, ChevronRight, Disc3, Heart, Home, Library, MessageCircle, MoreHorizontal, Music2, Play, Plus, Repeat2, Search, Share2, Shuffle, SkipBack, SkipForward, Video } from 'lucide-react'
 
 type SocialPlatform = 'X' | 'Instagram' | 'TikTok'
-type SocialPublication = { id:string; platform:SocialPlatform; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string }
+type SocialPublication = { id:string; platform:SocialPlatform; kind:string; text:string; week:number; year:number; views:number; likes:number; comments:number; shares:number; boostWeeks:number; boost:number; mediaData?:string; mediaType?:string; replies?:string[] }
 type EcosystemProps = { artist:Artist; update:(patch:Partial<Artist>)=>void; notify:(message:string)=>void }
 const number=(n:number)=>new Intl.NumberFormat('fr-FR',{notation:n>=1000000?'compact':'standard',maximumFractionDigits:1}).format(n)
 const uid=()=>Math.random().toString(36).slice(2,10)
