@@ -4,7 +4,7 @@ import CareerModules from './CareerModules'
 import LabelStudio from './LabelStudio'
 import Discography from './Discography'
 import SyncLicensing from './SyncLicensing'
-import { type MarketCharts } from './careerData'
+import { buildMarketCharts, getRivalMarketEvent, type MarketCharts } from './careerData'
 import {
   BarChart3, ChevronRight, Disc3, RotateCcw, Clapperboard,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
