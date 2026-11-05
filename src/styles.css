@@ -2036,3 +2036,14 @@ legend { color:#c8baff!important;padding:0 7px;font-size:10px;font-weight:800;le
 .tour-impact-panel{position:sticky;top:165px}
 @media(max-width:1050px){.tour-workspace{grid-template-columns:1fr}.tour-impact-panel{position:static}.stage-primary-nav{gap:2px}.stage-primary-link{padding:10px 12px}}
 @media(max-width:700px){.stage-navigation{padding-left:12px;padding-right:12px}.stage-primary-nav{min-height:48px}.stage-primary-link{padding:9px 10px;font-size:10px}.stage-primary-link svg{width:14px}.stage-context-nav{gap:3px}.stage-context-label{font-size:8px}.stage-context-link{padding:6px 8px;font-size:9px}.tour-stepper span{display:none}.tour-stepper button{justify-content:center}.tour-stepper i{width:33px;height:33px}.tour-setting-grid,.tour-confirm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tour-step-actions{align-items:stretch;flex-wrap:wrap}.tour-step-actions .primary-button{justify-content:center}.tour-step-actions>span{max-width:100%;width:100%}.tour-setlist-field .check-option{width:100%}.tour-builder-head h2{font-size:24px!important}}
+
+
+/* Songwriting and recording workspace */
+.studio-composer{display:grid;gap:16px}
+.studio-credit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.studio-cost-preview{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:12px;background:rgba(255,255,255,.035)}
+.studio-cost-preview span{display:grid;gap:4px}
+.studio-cost-preview small,.studio-footnote{color:var(--muted,#999);font-size:.78rem;line-height:1.5}
+.studio-cost-preview>strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+.track-credits{display:block;margin-top:4px;line-height:1.45}
+@media(max-width:720px){.studio-credit-grid{grid-template-columns:1fr}.studio-cost-preview{align-items:flex-start}}
