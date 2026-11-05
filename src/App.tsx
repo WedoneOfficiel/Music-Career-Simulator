@@ -329,7 +329,7 @@ function App() {
     {key:'ACCUEIL',label:'Accueil',icon:Home,items:[{label:'Vue d’ensemble',short:'Vue générale'}]},
     {key:'STUDIO',label:'Studio',icon:Mic2,items:[{label:'Studio & sorties',short:'Créer'}]},
     {key:'SORTIES',label:'Sorties',icon:Disc3,items:[{label:'Ma discographie',short:'Catalogue'}]},
-    {key:'CARRIÈRE',label:'Carrière',icon:Users,items:[{label:'Promotion',short:'Campagnes'},{label:'Plateformes',short:'Audience'},{label:'Médias & presse',short:'Presse'},{label:'Identité',short:'Profil'}]},
+    {key:'CARRIÈRE',label:'Carrière',icon:Users,items:[{label:'Identité',short:'Profil'},{label:'Promotion',short:'Campagnes'},{label:'Applications',short:'Plateformes'},{label:'Médias & presse',short:'Presse'}]},
     {key:'CHARTS',label:'Charts',icon:BarChart3,items:[{label:'Classements',short:'Classements'}]},
     {key:'BUSINESS',label:'Business',icon:Wallet,items:[{label:'Finances',short:'Finances'},{label:'Synchronisations',short:'Synchros'},{label:'Tournées',short:'Live'},{label:'Labels',short:'Contrats'},{label:'Merch',short:'Boutique'}]}
   ]
