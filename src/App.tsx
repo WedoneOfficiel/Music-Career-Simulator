@@ -37,7 +37,7 @@ export type Artist = {
   spotify: number; apple: number; youtube: number; radio: number
   posts: FeedPost[]; wiki: string[]; chart: ChartEntry[]; albumChart: ChartEntry[]; chartHistory: {week:number;year:number;rank:number;title:string}[]
   label: string; labelShare: number; tour: TourShow[]; merch: number; merchRevenue: number
-  socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number;releaseId?:string;budget?:number;labelFundedBudget?:number;weeklyCost?:number;spent?:number;startedWeek?:number;startedYear?:number}[]
+  socialAccounts?: {instagram:number;x:number;tiktok:number}; socialPosts?: SocialPublication[]; spotifyFollowers?:number; lastWeekStreams?:number; campaigns?:{id:string;name:string;remainingWeeks:number;multiplier:number;releaseId?:string;budget?:number;labelFundedBudget?:number;paymentMode?:'weekly';weeklyCost?:number;spent?:number;startedWeek?:number;startedYear?:number}[]
   age?:number; bio?:string; financeHistory?:FinanceWeek[]; marketCharts?:MarketCharts; draftReleases?:{id:string;title:string;format:string;trackIds:string[];week:number;year:number}[]; contracts?:LabelContract[]; syncDeals?:SyncDeal[]; pendingEvent?:CareerEvent; careerBoosts?:CareerBoost[]
   merchItems?:{id:string;name:string;kind:string;price:number;cost:number;releaseId:string;active:boolean;sold:number}[]; manager?:string; managerContract?:{commission:number;streamBoost:number;fanBonus:number;remainingWeeks:number;signingFee:number}; ownLabelName?:string; ownLabelCapital?:number; ownLabelReputation?:number; ownLabelArtists?:{id:string;name:string;genre:string;popularity:number;fans:number;artistRoyalty:number;advance:number;remainingWeeks:number;streams:number;revenue:number;recoupableBalance?:number;artistEarnings?:number}[]; tourName?:string
 }
@@ -275,7 +275,7 @@ function App() {
       return [contractId,Math.min(contract?.recoupableBalance??0,eligible)]
     })) as Record<string,number>
     const recouped=Object.values(recoupedByContract).reduce((sum,value)=>sum+value,0)
-    const marketingSpend=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0).reduce((sum,c)=>{const due=Math.min(c.weeklyCost??0,Math.max(0,(c.budget??0)-(c.spent??0)));const labelRatio=(c.budget??0)>0?Math.min(1,(c.labelFundedBudget??0)/c.budget):0;return sum+due*(1-labelRatio)},0)
+    const marketingSpend=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&c.paymentMode==='weekly').reduce((sum,c)=>{const due=Math.min(c.weeklyCost??0,Math.max(0,(c.budget??0)-(c.spent??0)));const labelRatio=(c.budget??0)>0?Math.min(1,(c.labelFundedBudget??0)/c.budget):0;return sum+due*(1-labelRatio)},0)
     const artistTotalShare=artistGrossShare+publishingRevenue+syncArtistMaster+syncArtistPublishing
     const cashNet=artistTotalShare-recouped
     const managementFee=artist.managerContract&&artist.managerContract.remainingWeeks>0?Math.round(Math.max(0,cashNet)*artist.managerContract.commission/100):0
