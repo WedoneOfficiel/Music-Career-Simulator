@@ -134,7 +134,7 @@ function Press({artist}:{artist:ExtendedArtist}){
 export default function CareerModules({tab,artist,update,notify}:Props){
  if(tab==='Classements')return <Charts artist={artist}/>
  if(tab==='Identité')return <Identity artist={artist} update={update} notify={notify}/>
- if(tab==='Ma musique')return <Studio artist={artist} update={update} notify={notify}/>
+ if(tab==='Studio & sorties'||tab==='Ma musique')return <Studio artist={artist} update={update} notify={notify}/>
  if(tab==='Labels')return <Labels artist={artist} update={update} notify={notify}/>
  if(tab==='Promotion')return <Promotion artist={artist} update={update} notify={notify}/>
  if(tab==='Tournées')return <Tours artist={artist} update={update} notify={notify}/>
