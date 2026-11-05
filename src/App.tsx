@@ -46,12 +46,7 @@ const OLD_KEY = 'music-career-simulator-save-v1'
 const BACKUP_KEY = 'music-career-simulator-save-backup-v2'
 const genres = ['Pop','Pop-rock','R&B','Rap','Hip-hop','Électro','Rock','Country','Indie','Soul','K-pop','Afro-pop','Jazz','Folk','Dance']
 const competitors = ['Luna Vale','The Velvet Hours','Milo June','Nova Grey','Éloïse','Jade Rivers','Sienna Rose','Atlas Bloom','Maya Sol','Noah West','Iris Monroe','The Satellites','Ariane Blue','Kai Rivers','Sunday Club','Léonie','Romy Skye','Eden Park','Lola June','Mister Moon']
-const platforms = [
-  {name:'Spotify',key:'spotify' as const,rate:.0035,cls:'spotify',label:'SPOTIFY'},
-  {name:'Apple Music',key:'apple' as const,rate:.007,cls:'apple',label:'APPLE MUSIC'},
-  {name:'YouTube',key:'youtube' as const,rate:.0012,cls:'youtube',label:'YOUTUBE'},
-  {name:'Radio',key:'radio' as const,rate:.0008,cls:'radio',label:'RADIO'}
-]
+
 const fmt = (n:number) => new Intl.NumberFormat('fr-FR').format(Math.round(n))
 const money = (n:number) => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n)
 const id = () => Math.random().toString(36).slice(2,10)
@@ -454,7 +449,7 @@ function App() {
         <button className="control-label-link" onClick={()=>setTab('Labels')}>Gérer les contrats <ArrowUpRight size={14}/></button>
       </article>
     </section>
-    {(artist.careerBoosts??[]).length>0&&<section className="control-boost-strip"><Sparkles size={17}/><div><b>Momentum actif</b><span>{artist.careerBoosts.map(b=>b.label+' ×'+b.multiplier.toFixed(2)+' ('+b.remainingWeeks+' sem.)').join(' · ')}</span></div></section>}
+    {(artist.careerBoosts??[]).length>0&&<section className="control-boost-strip"><Sparkles size={17}/><div><b>Momentum actif</b><span>{(artist.careerBoosts??[]).map(b=>b.label+' ×'+b.multiplier.toFixed(2)+' ('+b.remainingWeeks+' sem.)').join(' · ')}</span></div></section>}
   </div>}
   </div></main></div>
 }
