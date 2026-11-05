@@ -382,10 +382,7 @@ function App() {
       <button className="next-week new-next-week" onClick={nextWeek} disabled={!!artist.pendingEvent}><Play size={13} fill="currentColor"/> {artist.pendingEvent?'Événement':'Semaine suivante'}</button>
       <details className="new-settings"><summary aria-label="Options"><Settings2 size={18}/></summary><div className="new-settings-menu"><button onClick={restoreBackup}><RotateCcw size={15}/> Restaurer la sauvegarde</button><button onClick={reset}><Settings2 size={15}/> Nouvelle partie</button></div></details>
     </div>
-    <nav className="stage-navigation" aria-label="Navigation principale">
-      <div className="stage-primary-nav">
-        {workspaces.map((item,i)=><button key={item.key} data-index={String(i+1).padStart(2,'0')} className={activeWorkspace.key===item.key?'stage-primary-link active':'stage-primary-link'} onClick={()=>setTab(item.items[0].label)}><item.icon size={17}/><span>{item.label}</span></button>)}
-      </div>
+    <nav className="stage-navigation" aria-label="Navigation secondaire">
       <div className="stage-context-nav" aria-label={activeWorkspace.label}>
         <span className="stage-context-label"><i/> {activeWorkspace.label.toUpperCase()} <b>—</b> ESPACE DE TRAVAIL</span>
         {activeWorkspace.items.map(item=><button key={item.label} className={tab===item.label?'stage-context-link active':'stage-context-link'} onClick={()=>setTab(item.label)}>{item.short}</button>)}
@@ -451,7 +448,13 @@ function App() {
     </section>
     {(artist.careerBoosts??[]).length>0&&<section className="control-boost-strip"><Sparkles size={17}/><div><b>Momentum actif</b><span>{(artist.careerBoosts??[]).map(b=>b.label+' ×'+b.multiplier.toFixed(2)+' ('+b.remainingWeeks+' sem.)').join(' · ')}</span></div></section>}
   </div>}
-  </div></main></div>
+  </div></main>
+  <nav className="mcs-dock" aria-label="Navigation principale">
+    {workspaces.map(item=><button key={item.key} className={activeWorkspace.key===item.key?'mcs-dock-item active':'mcs-dock-item'} onClick={()=>setTab(item.items[0].label)} aria-current={activeWorkspace.key===item.key?'page':undefined}>
+      <span className="mcs-dock-icon"><item.icon size={19}/></span><span className="mcs-dock-label">{item.label}</span>
+    </button>)}
+  </nav>
+  </div>
 }
 function Stat({icon:Icon,label,value,note}:{icon:typeof Wallet;label:string;value:string;note:string}){return <div className="stat-card"><div className="stat-top"><span>{label}</span><div className="stat-icon"><Icon size={17}/></div></div><strong>{value}</strong><small>{note}</small></div>}
 function PageHeading({eyebrow,title,subtitle}:{eyebrow:string;title:string;subtitle:string}){return <section className="page-intro simple"><div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{subtitle}</p></div></section>}
