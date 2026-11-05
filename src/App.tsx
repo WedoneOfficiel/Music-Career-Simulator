@@ -9,7 +9,7 @@ import {
   BarChart3, ChevronRight, Disc3, RotateCcw, Clapperboard,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
   Users, Wallet, Play, Building2,
-  Globe2, TrendingUp, Ticket, Shirt, Newspaper, ArrowUpRight, Activity
+  TrendingUp, Ticket, Shirt, Newspaper, ArrowUpRight, Activity
 } from 'lucide-react'
 
 type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
