@@ -12,7 +12,7 @@ import {
   TrendingUp, Ticket, Shirt, Newspaper, ArrowUpRight, Activity
 } from 'lucide-react'
 
-type Track = { id: string; title: string; released: boolean; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
+type Track = { id: string; title: string; released: boolean; songwriters?:string[]; producers?:string[]; productionStyle?:string; productionStudio?:string; productionQuality?:number; recordingCost?:number; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; masterContractId?:string; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; spotify: number; apple: number; youtube: number; radio: number; total: number; rank: number | null; peak: number | null }
 type Release = { id: string; title: string; type: 'Single' | 'Album'; format?: string; editionOf?:string; editionNumber?:number; coverArt?: string; trackIds: string[]; week: number; year: number; firstWeekStreams: number; firstWeekRecorded?: boolean; currentRank: number | null; peak: number | null; masterOwnership?:'label'|'artist'|'shared'|'license'; masterArtistShare?:number; masterLicense?:'none'|'exclusive'|'non-exclusive'; publishingOwnership?:'label'|'artist'|'shared'; artistPublishingShare?:number; publishingContractId?:string; labelContractId?:string; masterContractId?:string; territories?:string[] }
 type FeedPost = { id: string; week: number; year: number; source: string; text: string }
 type CareerEventChoice={id:string;label:string;detail:string;money:number;fans:number;popularity:number;energy:number;result:string;streamBoost?:number;boostWeeks?:number}
@@ -139,7 +139,8 @@ function App() {
       const tourBoost=showsThisWeek.length?1.18:1
       const setlistBoost=showsThisWeek.some(s=>s.setlist?.includes(t.id))?1.22:1
       const albumTourBoost=showsThisWeek.some(s=>s.associatedAlbum&&artist.releases.some(r=>r.id===s.associatedAlbum&&r.trackIds.includes(t.id)))?1.12:1
-      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*managerBoost*socialBoost*campaignBoost*careerBoost*tourBoost*setlistBoost*albumTourBoost)
+      const productionBoost=Math.max(.9,Math.min(1.2,t.productionQuality??1))
+      const base=Math.round((artist.fans*.55+artist.popularity*210)*popularityFactor*decay*(.72+seed*.58)*managerBoost*socialBoost*campaignBoost*careerBoost*tourBoost*setlistBoost*albumTourBoost*productionBoost)
       const spotify=Math.round(base*.64),apple=Math.round(base*.23),youtube=Math.round(base*.13)
       const radio=Math.round(base*(artist.popularity/100)*.08)
       return {...t,spotify:t.spotify+spotify,apple:t.apple+apple,youtube:t.youtube+youtube,radio:t.radio+radio,total:t.total+spotify+apple+youtube,rank:null as number|null}
