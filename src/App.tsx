@@ -127,7 +127,11 @@ function App() {
       const decay=Math.max(.16,1-weeksOld*.045)
       const seed=Math.abs(Math.sin((week+year+i*13)*91.7))
       const managerBoost=artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.streamBoost:1
-      const socialBoost=Math.min(2.5,(artist.socialPosts??[]).filter(p=>p.boostWeeks>0).reduce((v,p)=>v*p.boost,1))
+      const activeSocialPosts=(artist.socialPosts??[]).filter(p=>p.boostWeeks>0)
+      // Les plateformes ont des effets complémentaires : TikTok apporte la découverte,
+      // Instagram entretient la communauté et X amplifie surtout la conversation.
+      const socialLift=activeSocialPosts.reduce((sum,p)=>sum+Math.max(0,p.boost-1)*(p.platform==='TikTok'?1:p.platform==='Instagram'?.72:.38),0)
+      const socialBoost=Math.min(1.85,1+socialLift)
       const campaignBoost=Math.min(2,(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&(!c.releaseId||artist.releases.some(r=>r.id===c.releaseId&&r.trackIds.includes(t.id)))).reduce((v,c)=>v*c.multiplier,1))
       const careerBoost=Math.min(1.8,(artist.careerBoosts??[]).filter(b=>b.remainingWeeks>0).reduce((v,b)=>v*b.multiplier,1))
 
@@ -283,7 +287,9 @@ function App() {
     const settledContracts=contracts.map(c=>{const paid=recoupedByContract[c.id]??0;const balance=Math.max(0,(c.recoupableBalance??0)-paid);return {...c,recoupableBalance:balance,recoupedTotal:(c.recoupedTotal??0)+paid,recoupableTotal:c.recoupableTotal??((c.recoupableBalance??0)+(c.recoupedTotal??0))}})
     const ownLabelArtists=(artist.ownLabelArtists??[]).map((a,i)=>{const streams=a.remainingWeeks>0?Math.round((a.fans*.42+a.popularity*160)*(.8+Math.abs(Math.sin((week+year+i*7)*5.4))*.4)):0;const gross=streams*.0035;const artistShare=gross*a.artistRoyalty/100;const recouped=Math.min(a.recoupableBalance??a.advance,artistShare);const artistPaid=artistShare-recouped;const revenue=gross-artistPaid;return {...a,remainingWeeks:Math.max(0,a.remainingWeeks-1),streams:a.streams+streams,revenue:a.revenue+revenue,recoupableBalance:Math.max(0,(a.recoupableBalance??a.advance)-recouped),artistEarnings:(a.artistEarnings??0)+artistPaid,weeklyStreams:streams,weeklyRevenue:revenue,weeklyArtistEarnings:artistPaid}})
     const ownLabelIncome=ownLabelArtists.reduce((sum,a)=>sum+((a as typeof a & {weeklyRevenue?:number}).weeklyRevenue??0),0)
-    const newFans=Math.round(Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000))*(1+(artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.fanBonus:0)))
+    const socialDiscovery=(artist.socialPosts??[]).filter(p=>p.boostWeeks>0).reduce((sum,p)=>sum+(p.views+p.shares*5)*(p.platform==='TikTok'?.0012:p.platform==='Instagram'?.0007:.0003),0)
+    const socialFanGain=Math.min(Math.max(20,artist.fans*.025),Math.round(socialDiscovery))
+    const newFans=Math.round((Math.max(8,artist.fans*(.004+artist.popularity/10000)+(weeklyStreams/120000))+socialFanGain)*(1+(artist.managerContract&&artist.managerContract.remainingWeeks>0?artist.managerContract.fanBonus:0)))
     const pop=clamp(artist.popularity+(weeklyStreams>1000000?1.2:weeklyStreams>100000?.45:-.12)+(chart.some(c=>c.own&&c.rank<=10)?1.5:0)-breachPenalty,0,100)
     const weeklyPosts:FeedPost[]=[
       {id:id(),week,year,source:'Music News',text:`Bilan de la semaine : ${artist.name} cumule ${fmt(weeklyStreams)} nouvelles écoutes sur les plateformes.`},
