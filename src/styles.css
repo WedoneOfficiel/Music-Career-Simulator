@@ -2318,3 +2318,95 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
  .control-release-body{align-items:flex-start}.control-release-art{width:82px}.control-track-row>small{display:none}
  .control-metric>strong{font-size:16px}
 }
+
+
+/* Catalogue shelf + label navigation: the last two workspaces use the same command language. */
+.discography-page{display:grid;gap:16px}
+.discography-page .module-intro{margin-bottom:2px!important}
+.discography-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0 0 4px;border:1px solid #2b3040;border-radius:11px;background:#2b3040;overflow:hidden}
+.discography-summary>div{display:grid;gap:7px;padding:16px 18px;background:#11141c}
+.discography-summary small{color:#7e8799;font:700 8px monospace;letter-spacing:.12em}
+.discography-summary b{color:#fff;font:800 20px monospace;letter-spacing:-.05em}
+.discography-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.discography-tabs{display:flex;gap:5px;padding:4px;border:1px solid #2b3040;border-radius:9px;background:#0c0f16}
+.discography-tabs button,.discography-filters button{border:1px solid transparent;border-radius:7px;background:transparent;color:#939bac;padding:9px 12px;font-size:10px;font-weight:800}
+.discography-tabs button.active,.discography-filters button.active{background:#24283a;border-color:#454c60;color:var(--stage-lime)}
+.discography-search{display:flex;align-items:center;gap:9px;width:min(100%,320px);padding:0 12px;border:1px solid #303647;border-radius:8px;background:#0d1018;color:#81899a}
+.discography-search input{width:100%;height:38px;border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;color:#fff!important;font-size:10px}
+.discography-filters{display:flex;flex-wrap:wrap;gap:5px}
+.discography-filters button{padding:7px 12px;border:1px solid #2b3040;background:#11141c}
+.discography-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:13px}
+.discography-release{display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:0;padding:11px;border:1px solid #2d3342;border-radius:12px;background:linear-gradient(145deg,#171b26,#11141c);color:#f4f5f8;text-align:left;transition:transform .18s,border-color .18s,background .18s}
+.discography-release:hover{transform:translateY(-3px);border-color:#69734c;background:#1a1f28}
+.discography-release>.discography-art{width:100%;height:auto;aspect-ratio:1;border-radius:8px!important}
+.discography-release>span{display:grid;gap:6px;min-width:0}
+.discography-release>span small{color:#838c9e;font:700 8px monospace;letter-spacing:.06em}
+.discography-release>span b{color:#fff;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.discography-release>span em{font-style:normal;color:#b6bdca;font-size:9px}
+.discography-track-list{display:grid;border:1px solid #2c3240;border-radius:11px;background:#11141c;padding:0 16px}
+.discography-track-list article{border-color:#292f3d}
+.discography-track-list article>div b,.discography-track-list article>div strong{color:#f5f6fa}
+.discography-track-list article>strong,.discography-track-list article>span:last-child{color:#c5cad4;font:700 9px monospace}
+.discography-track-list .track-icon{background:#25283a;color:var(--stage-violet)}
+.discography-detail-backdrop{justify-content:flex-end!important;align-items:stretch!important;padding:0!important;background:#03040ad9!important;backdrop-filter:blur(9px)}
+.discography-detail{width:min(680px,100%)!important;height:100%!important;max-height:100%!important;overflow:auto!important;margin:0!important;padding:clamp(22px,4vw,42px)!important;border:0!important;border-left:1px solid #3a4050!important;border-radius:16px 0 0 16px!important;background:#11141d!important;box-shadow:-25px 0 90px #0008!important;color:#f4f5f8!important}
+.discography-detail h2,.discography-detail h3{color:#fff!important}
+.discography-detail p,.discography-detail small{color:#9ca4b3!important}
+.discography-detail-tracks>div{border-color:#2d3342!important}
+.discography-detail-tracks>div b,.discography-detail-tracks>div strong{color:#f4f5f8!important}
+.discography-rights{background:#1b202c!important;border:1px solid #343b4b!important;color:#f5f6fa!important}
+.discography-close{background:#202532!important;border:1px solid #343b4b!important;color:#fff!important}
+.discography-upload,.discography-remove-art{background:#1d2230!important;border:1px solid #3b4355!important;color:#dfe2ea!important}
+.discography-empty{padding:55px 20px;border:1px dashed #394052;border-radius:13px;background:#0e1118;color:#9299aa;text-align:center}
+.discography-empty h2{color:#fff}.discography-empty p{color:#9299aa}
+.label-studio .ls-header{align-items:center;padding:8px 0 22px;border-bottom:1px solid var(--stage-line)}
+.label-studio .ls-header h1{color:#fff!important;font:800 clamp(30px,4vw,45px) 'Manrope',sans-serif;letter-spacing:-.055em}
+.label-studio .ls-header p:not(.ls-kicker){color:#9aa2b2!important;font-size:12px}
+.label-studio .ls-kicker{color:var(--stage-lime)!important;font:700 8px monospace!important;letter-spacing:.14em}
+.label-studio .ls-leverage{background:#121620!important;border:1px solid #303647!important;border-radius:10px!important;color:#fff}
+.label-studio .ls-leverage>span,.label-studio .ls-leverage>small{color:#9299aa!important}
+.label-studio .ls-leverage>strong{color:var(--stage-lime)!important;font:800 27px monospace}
+.label-studio .ls-leverage>i{background:#303647!important}.label-studio .ls-leverage>i>b{background:var(--stage-lime)!important}
+.label-studio .ls-layout{display:block!important}
+.label-studio .ls-sidebar{position:static!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:7px!important;padding:8px!important;margin:0 0 19px!important;background:#0d1018!important;border:1px solid #2c3240!important;border-radius:10px!important}
+.label-studio .ls-tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;padding:11px 8px!important;border:1px solid transparent!important;border-radius:7px!important;background:transparent!important;color:#9ca4b3!important}
+.label-studio .ls-tab.active{background:#222638!important;border-color:#48516a!important;color:var(--stage-lime)!important}
+.label-studio .ls-tab>span{font-size:10px!important}.label-studio .ls-tab small{font-size:8px!important;color:#81899b!important}
+.label-studio .ls-side-note{grid-column:1/-1!important;margin:1px 3px 0!important;padding:9px 5px 2px!important;border-top:1px solid #2b3040!important;color:#8f98a9!important}
+.label-studio .ls-side-note p{color:#8f98a9!important}
+.label-studio .ls-section-heading h2,.label-studio .ls-negotiation-intro h2{color:#fff!important}
+.label-studio .ls-section-heading p,.label-studio .ls-negotiation-intro p{color:#9299aa!important}
+.label-studio .ls-filter-row button{background:#11141c!important;border-color:#303647!important;color:#aab1bf!important}
+.label-studio .ls-filter-row button.active{background:#252a39!important;border-color:#4b5634!important;color:var(--stage-lime)!important}
+.label-studio .ls-search{background:#0d1018!important;border-color:#343a4b!important;color:#fff!important}
+.label-studio .ls-inline-alert,.label-studio .ls-legal-note{background:#272318!important;border-color:#5b4e2e!important;color:#f2d99b!important}
+.label-studio .ls-label-card,.label-studio .ls-proposal,.label-studio .ls-response-panel,.label-studio .ls-contract-card,.label-studio .ls-master-card,.label-studio .ls-own-label{background:#141823!important;border-color:#303647!important;color:#e7e9ef!important}
+.label-studio .ls-label-copy h3,.label-studio .ls-proposal h3,.label-studio .ls-response-panel h3{color:#fff!important}
+.label-studio .ls-label-copy>p,.label-studio .ls-response-panel p,.label-studio .ls-contract-card small{color:#9aa2b2!important}
+.label-studio .ls-label-meta span,.label-studio .ls-label-numbers small{color:#8f98a9!important}
+.label-studio .ls-label-numbers>div{background:#0e1118!important;border-color:#303647!important}
+.label-studio .ls-label-numbers b{color:#fff!important}
+.label-studio .ls-label-copy>button,.label-studio .ls-wizard-footer>button:last-child,.label-studio .ls-offer-footer>button{background:var(--stage-lime)!important;color:#10120b!important;border:0!important}
+.label-studio .ls-wizard-steps button{background:#0d1018!important;border-color:#303647!important;color:#aab1bf!important}
+.label-studio .ls-wizard-steps button.active{background:#24283a!important;border-color:#5b4e85!important;color:#fff!important}
+.label-studio .ls-wizard-steps button.active b{background:var(--stage-violet)!important;color:#111!important}
+.label-studio .ls-field-grid input:not([type=checkbox]),.label-studio .ls-field-grid select,.label-studio .ls-proposal select{background:#0b0e15!important;border-color:#343a4b!important;color:#f4f5f8!important}
+.label-studio .ls-explain{background:#1c2230!important;border-color:#343b4b!important;color:#c8cfdb!important}
+.label-studio .ls-round{background:#222638!important;border-color:#454c60!important;color:var(--stage-lime)!important}
+.label-studio .ls-response-empty{color:#9aa2b2!important}
+.label-studio .ls-response-empty h3{color:#fff!important}
+.label-studio .ls-counter-summary{background:#0d1018!important;border-color:#303647!important}
+.label-studio .ls-counter-summary span{color:#a2a9b7!important}
+.label-studio .ls-counter-summary b{color:#fff!important}
+.label-studio .ls-week-note{background:#1b202c!important;border-color:#303647!important;color:#aab2c1!important}
+@media(max-width:760px){
+ .discography-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .discography-toolbar{align-items:stretch;flex-direction:column}.discography-search{width:100%}
+ .discography-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .discography-release{padding:8px}.discography-release>span b{font-size:11px}
+ .discography-detail{width:100%!important;border-radius:0!important}
+ .label-studio .ls-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .label-studio .ls-side-note{grid-column:1/-1!important}
+ .label-studio .ls-header{align-items:stretch;flex-direction:column}
+ .label-studio .ls-leverage{width:100%}
+}
