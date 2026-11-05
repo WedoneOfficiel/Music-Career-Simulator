@@ -335,27 +335,64 @@ function App() {
     {key:'BUSINESS',label:'Business',icon:Wallet,items:[{label:'Finances',short:'Finances'},{label:'Synchronisations',short:'Synchros'},{label:'Tournées',short:'Live'},{label:'Labels',short:'Contrats'},{label:'Merch',short:'Boutique'}]}
   ]
   const activeWorkspace=workspaces.find(w=>w.items.some(item=>item.label===tab))??workspaces[0]
-  if(!artist)return <main className="welcome-screen"><div className="welcome-glow"/><div className="welcome-content"><div className="brand-mark"><Music2 size={22}/></div><p className="eyebrow">VOTRE HISTOIRE COMMENCE ICI</p><h1>La musique.<br/><span>Votre carrière.</span></h1><p className="welcome-copy">Créez votre artiste, choisissez votre point de départ et prenez les commandes de votre ascension dans l’industrie musicale.</p><form className="creation-card" onSubmit={createCareer}><div className="card-heading"><Sparkles size={18}/><span>Créer une nouvelle carrière</span></div><label>Nom d’artiste<input name="name" placeholder="Ex. : Nova" maxLength={32} required/></label><div className="form-row"><label>Genre musical<select name="genre">{genres.map(g=><option key={g}>{g}</option>)}</select></label><label>Pays<select name="country">{['France','États-Unis','Royaume-Uni','Canada','Belgique','Corée du Sud','Autre'].map(x=><option key={x}>{x}</option>)}</select></label></div><label>Âge (facultatif)<input name="age" type="number" min="13" max="100" placeholder="Ex. : 24"/></label><label>Photo / portrait (URL facultative)<input name="image" type="url" placeholder="https://…"/></label><div className="start-options"><p className="eyebrow">CHOISISSEZ VOTRE POINT DE DÉPART — TRICHE AUTORISÉE</p><label>Argent de départ <strong id="money-value">250 000 €</strong><input name="money" type="range" min="0" max="100000000" step="50000" defaultValue="250000" onInput={e=>{const el=document.getElementById('money-value');if(el)el.textContent=money(Number(e.currentTarget.value))}}/></label><label>Fans au départ <strong id="fans-value">1 200</strong><input name="fans" type="range" min="0" max="100000000" step="100" defaultValue="1200" onInput={e=>{const el=document.getElementById('fans-value');if(el)el.textContent=fmt(Number(e.currentTarget.value))}}/></label><label>Popularité <strong id="pop-value">8 / 100</strong><input name="popularity" type="range" min="0" max="100" defaultValue="8" onInput={e=>{const el=document.getElementById('pop-value');if(el)el.textContent=e.currentTarget.value+' / 100'}}/></label></div><button className="primary-button" type="submit">Lancer ma carrière <ChevronRight size={18}/></button><p className="form-footnote">Sauvegarde automatique sur cet appareil · Vous pourrez ajuster les règles plus tard.</p></form><div className="welcome-footer"><span>UNIVERS MUSICAL SIMULÉ</span><span>VERSION 1.2.0</span></div></div></main>
+  if(!artist)return <main className="welcome-screen">
+    <div className="welcome-atmosphere"><i/><i/><i/></div>
+    <div className="welcome-layout">
+      <section className="welcome-story">
+        <div className="welcome-brand"><span className="welcome-brand-mark"><Music2 size={22}/></span><span>MCS <b>CAREER SIMULATOR</b></span></div>
+        <p className="eyebrow">THE MUSIC INDUSTRY IS YOURS</p>
+        <h1>Build a name.<br/><em>Make history.</em></h1>
+        <p className="welcome-copy">De la première maquette à la tournée mondiale, prenez chaque décision qui façonne une carrière musicale. Créez, négociez, publiez, performez.</p>
+        <div className="welcome-pillars">
+          <article><span>01</span><b>CREATE</b><small>Écrivez et produisez votre musique.</small></article>
+          <article><span>02</span><b>RELEASE</b><small>Construisez votre catalogue et vos ères.</small></article>
+          <article><span>03</span><b>TAKE OVER</b><small>Développez votre empire musical.</small></article>
+        </div>
+        <div className="welcome-foot"><span>CAREER MODE <i/> SANDBOX ENABLED</span><span>VERSION 2.0 · LOCAL SAVE</span></div>
+      </section>
+      <form className="creation-card launch-card" onSubmit={createCareer}>
+        <div className="launch-card-head"><div><p className="eyebrow">NEW GAME · 01</p><h2>Votre artiste.<br/>Votre départ.</h2></div><span className="launch-card-disc"><Disc3 size={31}/></span></div>
+        <label>Nom d’artiste<input name="name" placeholder="Ex. : Nova" maxLength={32} required/></label>
+        <div className="form-row"><label>Genre musical<select name="genre">{genres.map(g=><option key={g}>{g}</option>)}</select></label><label>Pays<select name="country">{['France','États-Unis','Royaume-Uni','Canada','Belgique','Corée du Sud','Autre'].map(x=><option key={x}>{x}</option>)}</select></label></div>
+        <div className="form-row"><label>Âge <span className="optional-label">OPTIONNEL</span><input name="age" type="number" min="13" max="100" placeholder="24"/></label><label>Portrait <span className="optional-label">URL</span><input name="image" type="url" placeholder="https://…"/></label></div>
+        <div className="launch-divider"><span>PERSONNALISER LE DÉPART</span><small>Mode bac à sable · tous les réglages restent modifiables</small></div>
+        <div className="start-options">
+          <label><span>Trésorerie initiale <strong id="money-value">250 000 €</strong></span><input name="money" type="range" min="0" max="100000000" step="50000" defaultValue="250000" onInput={e=>{const el=document.getElementById('money-value');if(el)el.textContent=money(Number(e.currentTarget.value))}}/></label>
+          <label><span>Communauté de départ <strong id="fans-value">1 200</strong></span><input name="fans" type="range" min="0" max="100000000" step="100" defaultValue="1200" onInput={e=>{const el=document.getElementById('fans-value');if(el)el.textContent=fmt(Number(e.currentTarget.value))}}/></label>
+          <label><span>Popularité <strong id="pop-value">8 / 100</strong></span><input name="popularity" type="range" min="0" max="100" defaultValue="8" onInput={e=>{const el=document.getElementById('pop-value');if(el)el.textContent=e.currentTarget.value+' / 100'}}/></label>
+        </div>
+        <button className="primary-button launch-submit" type="submit">Créer ma carrière <ChevronRight size={18}/></button>
+        <p className="form-footnote"><span className="launch-lock">●</span> Sauvegarde automatique sur cet appareil. Une copie de secours est conservée.</p>
+      </form>
+    </div>
+  </main>
 
   const recent=artist.posts.slice(0,8)
   const latestRelease=artist.releases[artist.releases.length-1]
   const total=artist.spotify+artist.apple+artist.youtube
+  const activeCampaigns=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0)
+  const topTracks=artist.tracks.filter(t=>t.released).slice().sort((a,b)=>b.total-a.total).slice(0,4)
+  const nextShow=artist.tour.filter(s=>s.year>artist.year||(s.year===artist.year&&s.week>artist.week)).sort((a,b)=>a.year-b.year||a.week-b.week)[0]
+
   return <div className="app-shell">
   <header className="new-app-header">
     <div className="new-header-top">
-      <button className="new-brand" onClick={()=>setTab('Vue d’ensemble')} aria-label="Retour à l’accueil"><span className="new-brand-mark"><Music2 size={21}/></span><span>STAGE<span className="brand-dot">.</span></span></button>
+      <button className="new-brand" onClick={()=>setTab('Vue d’ensemble')} aria-label="Retour au centre de contrôle"><span className="new-brand-mark"><Music2 size={21}/></span><span>MCS<span className="brand-dot">/</span><small>CAREER OS</small></span></button>
       <button className="new-artist-chip" onClick={()=>setTab('Identité')}>{artist.image?<img src={artist.image} alt=""/>:<span className="new-artist-avatar">{artist.name.slice(0,1).toUpperCase()}</span>}<span><b>{artist.name}</b><small>{artist.genre} · {artist.country}</small></span><ChevronRight size={15}/></button>
-      <div className="new-header-spacer"/>
-      <span className="new-season">{dateLabel}</span>
-      <button className="next-week new-next-week" onClick={nextWeek} disabled={!!artist.pendingEvent}><Play size={14} fill="currentColor"/> {artist.pendingEvent?'Répondre':'Semaine suivante'}</button>
+      <div className="header-vitals">
+        <div className="header-vital"><small>CAPITAL</small><b>{money(artist.money)}</b></div>
+        <div className="header-vital energy-vital"><small>ÉNERGIE <b>{artist.energy}/100</b></small><i><span style={{width:artist.energy+'%'}}/></i></div>
+        <div className="header-vital season-vital"><small>CALENDRIER</small><b>S{String(artist.week).padStart(2,'0')} · {artist.year}</b></div>
+      </div>
+      <button className="next-week new-next-week" onClick={nextWeek} disabled={!!artist.pendingEvent}><Play size={13} fill="currentColor"/> {artist.pendingEvent?'Événement':'Semaine suivante'}</button>
       <details className="new-settings"><summary aria-label="Options"><Settings2 size={18}/></summary><div className="new-settings-menu"><button onClick={restoreBackup}><RotateCcw size={15}/> Restaurer la sauvegarde</button><button onClick={reset}><Settings2 size={15}/> Nouvelle partie</button></div></details>
     </div>
     <nav className="stage-navigation" aria-label="Navigation principale">
       <div className="stage-primary-nav">
-        {workspaces.map(item=><button key={item.key} className={activeWorkspace.key===item.key?'stage-primary-link active':'stage-primary-link'} onClick={()=>setTab(item.items[0].label)}><item.icon size={17}/><span>{item.label}</span></button>)}
+        {workspaces.map((item,i)=><button key={item.key} data-index={String(i+1).padStart(2,'0')} className={activeWorkspace.key===item.key?'stage-primary-link active':'stage-primary-link'} onClick={()=>setTab(item.items[0].label)}><item.icon size={17}/><span>{item.label}</span></button>)}
       </div>
       <div className="stage-context-nav" aria-label={activeWorkspace.label}>
-        <span className="stage-context-label">{activeWorkspace.label.toUpperCase()} <i>/</i> ESPACE DE TRAVAIL</span>
+        <span className="stage-context-label"><i/> {activeWorkspace.label.toUpperCase()} <b>—</b> ESPACE DE TRAVAIL</span>
         {activeWorkspace.items.map(item=><button key={item.label} className={tab===item.label?'stage-context-link active':'stage-context-link'} onClick={()=>setTab(item.label)}>{item.short}</button>)}
       </div>
     </nav>
@@ -363,58 +400,61 @@ function App() {
   {tab==='Applications'&&<Ecosystem artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/> }
   {tab==='Labels'?<LabelStudio artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/>:tab==='Ma discographie'?<Discography artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)}/>:tab==='Synchronisations'?<SyncLicensing artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/>:<CareerModules tab={tab} artist={artist} update={patch=>setArtist(current=>current?{...current,...patch}:current)} notify={setNotice}/>}
   {tab==='Finances'&&<><PageHeading eyebrow="BUSINESS & COMPTABILITÉ" title="Finances" subtitle="Un relevé hebdomadaire des revenus, des parts du label et du remboursement de vos avances. Les données commencent à être archivées à partir de la prochaine semaine simulée."/><section className="stats-grid"><Stat icon={Wallet} label="Trésorerie actuelle" value={money(artist.money)} note="Solde disponible"/><Stat icon={Activity} label="Revenus nets archivés" value={money((artist.financeHistory??[]).reduce((sum,x)=>sum+x.net,0))} note="Historique conservé · 104 semaines max."/><Stat icon={Building2} label="Part du label archivée" value={money((artist.financeHistory??[]).reduce((sum,x)=>sum+x.labelShare,0))} note="Masters, édition, synchros, merch et concerts"/><Stat icon={RotateCcw} label="Avances remboursées" value={money((artist.financeHistory??[]).reduce((sum,x)=>sum+x.recouped,0))} note="Prélevées sur votre part artiste"/></section><section className="panel"><div className="panel-top"><div><p className="eyebrow">DERNIÈRE SEMAINE ENREGISTRÉE</p><h2>{artist.financeHistory?.length?('Semaine '+artist.financeHistory[artist.financeHistory.length-1].week+' · '+artist.financeHistory[artist.financeHistory.length-1].year):'Aucun relevé pour le moment'}</h2></div><Wallet className="muted-icon"/></div>{artist.financeHistory?.length?(()=>{const x=artist.financeHistory[artist.financeHistory.length-1];return <div className="finance-breakdown"><div className="stats-grid"><Stat icon={Headphones} label="Revenus streaming bruts" value={money(x.streamingGross)} note={fmt(x.spotifyStreams+x.appleStreams+x.youtubeStreams)+' écoutes · '+fmt(x.radioPlays)+' diffusions radio'}/><Stat icon={Music2} label="Droits d’édition · artiste" value={money(x.publishingRevenue)} note={money(x.publishingGross??x.publishingRevenue)+' de droits générés au total'}/><Stat icon={Shirt} label="Merchandising" value={money(x.merchGross-x.merchCosts)} note={money(x.merchGross)+' de ventes · '+money(x.merchCosts)+' de coûts'}/><Stat icon={Ticket} label="Concerts nets" value={money(x.tourGross-(x.tourCosts??0))} note={money(x.tourGross)+' brut · '+money(x.tourCosts??0)+' de production'}/></div><div className="finance-summary"><div><span>Votre part avant recoupement</span><strong>{money(x.artistShare)}</strong></div><div><span>Part du label</span><strong>{money(x.labelShare)}</strong></div><div><span>Dont droits d’édition</span><strong>{money(x.labelPublishingShare??0)}</strong></div><div><span>Synchronisations · brut</span><strong>{money(x.syncGross??0)}</strong></div><div><span>Synchronisations · part artiste</span><strong>{money(x.syncArtistShare??0)}</strong></div><div><span>Synchronisations · part label</span><strong>{money(x.syncLabelShare??0)}</strong></div><div><span>Dont commission merchandising</span><strong>{money(x.labelMerchShare??0)}</strong></div><div><span>Dont commission concerts</span><strong>{money(x.labelLiveShare??0)}</strong></div><div><span>Votre marge merchandising</span><strong>{money(x.artistMerchShare??(x.merchGross-x.merchCosts))}</strong></div><div><span>Votre part des concerts</span><strong>{money(x.artistLiveShare??(x.tourGross-(x.tourCosts??0)))}</strong></div><div><span>Frais de distribution</span><strong>{money(x.distributionFee)}</strong></div><div><span>Coûts de production live</span><strong>− {money(x.tourCosts??0)}</strong></div><div><span>Campagnes marketing</span><strong>− {money(x.marketingSpend??0)}</strong></div><div><span>Commission du manager</span><strong>− {money(x.managementFee??0)}</strong></div><div><span>Avance recoupée</span><strong>− {money(x.recouped)}</strong></div><div className="finance-net"><span>Versement net de la semaine</span><strong>{money(x.net)}</strong></div></div><div className="stream-bars">{[{name:'Spotify',value:x.spotifyRevenue},{name:'Apple Music',value:x.appleRevenue},{name:'YouTube',value:x.youtubeRevenue},{name:'Radio',value:x.radioRevenue}].map(p=><div className="stream-row" key={p.name}><span>{p.name}</span><div><i style={{width:`${x.streamingGross?Math.max(0,p.value/x.streamingGross*100):0}%`}}/></div><b>{money(p.value)}</b></div>)}</div>{x.contractRecoupments?.length?<div className="contract-week-recovery"><div className="contract-week-recovery-title"><b>Recoupement par contrat cette semaine</b><small>Prélevé uniquement sur les revenus de masters concernés</small></div>{x.contractRecoupments.map(item=><div className="contract-week-recovery-row" key={item.contractId}><span><b>{item.label}</b><small>Solde après prélèvement : {money(item.balanceAfter)}</small></span><strong>− {money(item.amount)}</strong></div>)}</div>:null}</div>})():<p className="empty-state">Terminez une semaine de carrière pour générer votre premier relevé financier. Vos anciennes semaines ne sont pas recalculées rétroactivement.</p>}</section><section className="panel contract-recovery-panel"><div className="panel-top"><div><p className="eyebrow">SUIVI DES AVANCES</p><h2>Recoupement par contrat</h2></div><span className="count-pill">{(artist.contracts??[]).length} contrat(s)</span></div>{(artist.contracts??[]).length?<div className="contract-recovery-list">{(artist.contracts??[]).slice().reverse().map(c=>{const balance=Math.max(0,c.recoupableBalance??0);const paid=Math.max(0,c.recoupedTotal??0);const total=Math.max(balance+paid,c.recoupableTotal??0);const progress=total>0?Math.min(100,paid/total*100):100;return <article className="contract-recovery-row" key={c.id}><div className="contract-recovery-head"><div><strong>{c.label}</strong><small>{c.dealType??'Contrat musical'} · {(c.status??'active')==='active'?'Actif':c.status==='terminated'?'Résilié':'Échu'}</small></div><b>{money(balance)} <small>restant</small></b></div><div className="contract-recovery-progress"><i><b style={{width:progress+'%'}}/></i><span>{progress.toFixed(0)} % remboursé</span></div><div className="contract-recovery-values"><span>Dette initiale suivie <b>{money(total)}</b></span><span>Déjà recoupé <b>{money(paid)}</b></span><span>Solde restant <b>{money(balance)}</b></span></div></article>})}</div>:<p className="empty-state">Aucun contrat signé. Les avances et budgets recoupables apparaîtront ici après une signature.</p>}<p className="panel-description">Le recoupement est suivi séparément pour chaque contrat et uniquement sur les revenus de masters attribués à ce contrat. Les droits d’édition, le merchandising et les concerts ne remboursent pas cette dette dans le modèle actuel.</p></section><section className="panel"><div className="panel-top"><div><p className="eyebrow">JOURNAL COMPTABLE</p><h2>Historique des 104 dernières semaines</h2></div><span className="count-pill">{artist.financeHistory?.length??0} relevés</span></div>{artist.financeHistory?.length?<div className="billboard-table-wrap"><table className="billboard-table"><thead><tr><th>Période</th><th>Streaming brut</th><th>Édition artiste</th><th>Édition label</th><th>Synchro artiste</th><th>Synchro label</th><th>Merch net</th><th>Concerts nets</th><th>Label total</th><th>Dont merch</th><th>Dont live</th><th>Recoupé</th><th>Net artiste</th></tr></thead><tbody>{[...(artist.financeHistory??[])].reverse().map((x,i)=><tr key={x.year+'-'+x.week+'-'+i}><td>S{x.week} · {x.year}</td><td>{money(x.streamingGross)}</td><td>{money(x.publishingRevenue)}</td><td>{money(x.labelPublishingShare??0)}</td><td>{money(x.syncArtistShare??0)}</td><td>{money(x.syncLabelShare??0)}</td><td>{money(x.merchGross-x.merchCosts)}</td><td>{money(x.tourGross-(x.tourCosts??0))}</td><td>{money(x.labelShare)}</td><td>{money(x.labelMerchShare??0)}</td><td>{money(x.labelLiveShare??0)}</td><td>{money(x.recouped)}</td><td><strong>{money(x.net)}</strong></td></tr>)}</tbody></table></div>:<p className="empty-state">Le journal se remplira automatiquement à la fin de chaque semaine.</p>}</section><p className="panel-description">Modèle économique fictif : les taux par plateforme et la part éditoriale estimée (16 % des revenus d’enregistrement) sont des hypothèses de simulation. Les droits d’édition sont ventilés entre l’artiste et l’éditeur selon la propriété déclarée. Les avances ne sont pas des revenus supplémentaires lorsqu’elles sont versées : elles sont récupérées progressivement sur les seules recettes de masters prévues au contrat.</p></>}
-  {tab==='Vue d’ensemble'&&<div className="dashboard-v3">
-    <section className="dashboard-hero">
-      <div className="dashboard-hero-copy">
-        <div className="dashboard-kicker"><span className="hero-live-dot"/> VOTRE CARRIÈRE <i/> {dateLabel.toUpperCase()}</div>
-        <p className="hero-greeting">C’EST VOTRE HISTOIRE</p>
-        <h1>{artist.name}<span className="hero-period">.</span></h1>
-        <p className="hero-description">{artist.genre} · {artist.country} <span>—</span> {artist.popularity>=75?'Une présence qui domine la scène.':artist.popularity>=35?'Votre nom commence à compter dans l’industrie.':'Chaque sortie est une occasion de vous faire remarquer.'}</p>
-        <div className="hero-actions">
-          <button className="hero-primary-action" onClick={()=>setTab('Studio & sorties')}><Mic2 size={16}/> Créer une chanson <ChevronRight size={16}/></button>
-          <button className="hero-secondary-action" onClick={()=>setTab('Classements')}>Voir les classements <ArrowUpRight size={15}/></button>
-        </div>
+  {tab==='Vue d’ensemble'&&<div className="control-room">
+    <section className="control-hero">
+      <div className="control-hero-copy">
+        <div className="control-kicker"><span className="hero-live-dot"/> CAREER CONTROL <i/> {dateLabel.toUpperCase()}</div>
+        <p className="control-greeting">THE INDUSTRY IS WATCHING</p>
+        <h1>{artist.name}<span>.</span></h1>
+        <p className="control-description">{artist.genre} artist · {artist.country} <b>—</b> {artist.popularity>=75?'Vous êtes désormais une force majeure du marché.':artist.popularity>=35?'Votre carrière entre dans une nouvelle dimension.':'Chaque décision peut changer la trajectoire.'}</p>
+        <div className="control-hero-actions"><button className="hero-primary-action" onClick={()=>setTab('Studio & sorties')}><Mic2 size={16}/> Ouvrir le studio <ChevronRight size={16}/></button><button className="hero-secondary-action" onClick={()=>setTab('Ma discographie')}>Explorer le catalogue <ArrowUpRight size={15}/></button></div>
       </div>
-      <div className="dashboard-hero-art" aria-hidden="true">
-        {artist.image?<img src={artist.image} alt=""/>:<div className="hero-monogram">{artist.name.slice(0,1).toUpperCase()}</div>}
-        <div className="hero-vinyl"><span/><i/></div>
-        <div className="hero-status-card"><small>STATUT DE CARRIÈRE</small><b>{artist.popularity>=75?'Star internationale':artist.popularity>=35?'Artiste confirmé':'Début de carrière'}</b><span><Star size={12} fill="currentColor"/> {artist.popularity.toFixed(1)} / 100</span></div>
-      </div>
-      <div className="hero-index">MCS <b>/{String(artist.week).padStart(2,'0')}</b></div>
+      <div className="control-portrait"><div className="control-portrait-halo"/>{artist.image?<img src={artist.image} alt={artist.name}/>:<div className="control-monogram">{artist.name.slice(0,1).toUpperCase()}</div>}<div className="control-portrait-tag"><small>ARTIST STATUS</small><b>{artist.popularity>=75?'GLOBAL ICON':artist.popularity>=35?'ESTABLISHED':'RISING'}</b><span><Star size={12} fill="currentColor"/> {artist.popularity.toFixed(1)} / 100</span></div></div>
+      <div className="control-index">MCS <b>{String(artist.week).padStart(2,'0')}</b><small>WEEK</small></div>
     </section>
-
-    <section className="dashboard-metrics" aria-label="Indicateurs de carrière">
-      <article className="metric-card metric-cash"><div className="metric-label"><Wallet size={15}/> TRÉSORERIE <span>01</span></div><strong>{money(artist.money)}</strong><small>Capital disponible</small><div className="metric-accent-line"/></article>
-      <article className="metric-card"><div className="metric-label"><Users size={15}/> COMMUNAUTÉ <span>02</span></div><strong>{fmt(artist.fans)}</strong><small>Fans dans le monde</small><div className="metric-mini-bars"><i/><i/><i/><i/><i/><i/><i/></div></article>
-      <article className="metric-card"><div className="metric-label"><Star size={15}/> POPULARITÉ <span>03</span></div><strong>{artist.popularity.toFixed(1)}<em>/100</em></strong><small>Votre popularité</small><div className="metric-progress"><i style={{width:artist.popularity+'%'}}/></div></article>
-      <article className="metric-card"><div className="metric-label"><Activity size={15}/> ÉCOUTES AU TOTAL <span>04</span></div><strong>{fmt(total)}</strong><small>Sur toutes les plateformes</small><div className="metric-accent-line"/></article>
+    <section className="control-metrics">
+      <article className="control-metric"><div><span>01 / FINANCES</span><Wallet size={16}/></div><strong>{money(artist.money)}</strong><small>Trésorerie disponible</small></article>
+      <article className="control-metric"><div><span>02 / AUDIENCE</span><Users size={16}/></div><strong>{fmt(artist.fans)}</strong><small>Fans dans le monde</small></article>
+      <article className="control-metric"><div><span>03 / INFLUENCE</span><Star size={16}/></div><strong>{artist.popularity.toFixed(1)}<em>/100</em></strong><small>Indice de popularité</small><i className="metric-meter"><b style={{width:artist.popularity+'%'}}/></i></article>
+      <article className="control-metric"><div><span>04 / CATALOGUE</span><Disc3 size={16}/></div><strong>{fmt(total)}</strong><small>Écoutes cumulées · {artist.tracks.filter(t=>t.released).length} titres publiés</small></article>
     </section>
-
-    {(artist.careerBoosts??[]).length>0&&<section className="career-momentum-strip"><div><Sparkles size={18}/><b>Votre carrière prend de l’élan</b></div>{artist.careerBoosts?.map(boost=><span key={boost.id}><strong>{boost.label}</strong><small>×{boost.multiplier.toFixed(2)} sur les streams · encore {boost.remainingWeeks} semaine(s)</small></span>)}</section>}
-
-    <section className="dashboard-platform-ribbon">
-      <div className="ribbon-heading"><span>VOS ÉCOUTES</span><b>PAR PLATEFORME</b></div>
-      {platforms.map((p,i)=><div className="ribbon-platform" key={p.key}><span className={'platform-logo '+p.cls}>{p.key==='spotify'?'●':p.key==='apple'?'♪':p.key==='youtube'?'▶':'◉'}</span><div><small>{p.name.toUpperCase()}</small><strong>{fmt(artist[p.key])}</strong></div><i>{String(i+1).padStart(2,'0')}</i></div>)}
-      <button onClick={()=>setTab('Plateformes')}>Voir le détail <ArrowUpRight size={14}/></button>
+    <div className="control-section-heading"><div><span>YOUR OPERATIONS</span><h2>Centre de commande</h2></div><small>UN SEUL ENDROIT POUR PILOTER VOTRE CARRIÈRE</small></div>
+    <section className="control-grid">
+      <article className="control-panel control-release">
+        <div className="control-panel-head"><div><span className="control-overline">01 / RELEASE RADAR</span><h3>{latestRelease?'Votre dernière sortie':'Le début de votre discographie'}</h3></div><Disc3 size={20}/></div>
+        {latestRelease?<div className="control-release-body"><div className="control-release-art">{latestRelease.coverArt?<img src={latestRelease.coverArt} alt=""/>:<div><Disc3 size={34}/><b>{latestRelease.title}</b></div>}</div><div className="control-release-info"><small>{latestRelease.format??latestRelease.type} · S{latestRelease.week} / {latestRelease.year}</small><h4>{latestRelease.title}</h4><p>{latestRelease.trackIds.length} titre(s) · {latestRelease.currentRank?'#'+latestRelease.currentRank+' dans les charts':'Pas encore classé'}</p><button className="control-text-link" onClick={()=>setTab('Ma discographie')}>Ouvrir la discographie <ArrowUpRight size={14}/></button></div></div>:<div className="control-empty-release"><span><Disc3 size={27}/></span><div><b>Aucun projet publié</b><p>Commencez par créer et enregistrer votre premier titre.</p><button className="control-text-link" onClick={()=>setTab('Studio & sorties')}>Lancer une session studio <ArrowUpRight size={14}/></button></div></div>}
+      </article>
+      <article className="control-panel control-pulse">
+        <div className="control-panel-head"><div><span className="control-overline">02 / WEEKLY PULSE</span><h3>Votre activité</h3></div><Activity size={20}/></div>
+        <div className="pulse-primary"><strong>{fmt(artist.lastWeekStreams??0)}</strong><span>écoutes générées la semaine précédente</span></div>
+        <div className="pulse-row"><span>Campagnes actives</span><b>{activeCampaigns.length}</b><button onClick={()=>setTab('Promotion')}>Gérer <ChevronRight size={13}/></button></div>
+        <div className="pulse-row"><span>Prochaine date live</span><b>{nextShow?'S'+nextShow.week+' · '+nextShow.city:'Aucune'}</b><button onClick={()=>setTab('Tournées')}>Voir <ChevronRight size={13}/></button></div>
+        <div className="pulse-row"><span>Énergie restante</span><b>{artist.energy} / 100</b><i className="pulse-energy"><b style={{width:artist.energy+'%'}}/></i></div>
+      </article>
+      <article className="control-panel control-catalogue">
+        <div className="control-panel-head"><div><span className="control-overline">03 / CATALOGUE PERFORMANCE</span><h3>Vos titres les plus écoutés</h3></div><button className="control-text-link" onClick={()=>setTab('Ma discographie')}>Tout voir <ArrowUpRight size={14}/></button></div>
+        {topTracks.length?<div className="control-track-list">{topTracks.map((track,i)=><div className="control-track-row" key={track.id}><span className="control-track-rank">{String(i+1).padStart(2,'0')}</span><span className="control-track-disc"><Music2 size={15}/></span><span className="control-track-name"><b>{track.title}</b><small>{track.productionStyle??'Production indépendante'} · {track.producers?.join(', ')||'Auto-produit'}</small></span><strong>{fmt(track.total)}</strong><small>streams</small></div>)}</div>:<div className="control-empty-note">Vos titres apparaîtront ici dès leur publication.</div>}
+      </article>
+      <article className="control-panel control-actions">
+        <div className="control-panel-head"><div><span className="control-overline">04 / QUICK ACCESS</span><h3>Vos prochains mouvements</h3></div><ArrowUpRight size={19}/></div>
+        <button onClick={()=>setTab('Studio & sorties')}><span className="quick-action-icon"><Mic2 size={17}/></span><span><b>Créer & enregistrer</b><small>Studio, équipe créative, production</small></span><ChevronRight size={15}/></button>
+        <button onClick={()=>setTab('Promotion')}><span className="quick-action-icon"><TrendingUp size={17}/></span><span><b>Préparer une campagne</b><small>Marketing et stratégie de lancement</small></span><ChevronRight size={15}/></button>
+        <button onClick={()=>setTab('Tournées')}><span className="quick-action-icon"><Ticket size={17}/></span><span><b>Planifier le live</b><small>Dates, salles et rentabilité</small></span><ChevronRight size={15}/></button>
+        <button onClick={()=>setTab('Labels')}><span className="quick-action-icon"><Building2 size={17}/></span><span><b>Négocier un contrat</b><small>Labels, droits et budgets</small></span><ChevronRight size={15}/></button>
+      </article>
+      <article className="control-panel control-activity">
+        <div className="control-panel-head"><div><span className="control-overline">05 / INDUSTRY FEED</span><h3>Les dernières nouvelles</h3></div><Newspaper size={19}/></div>
+        {recent.slice(0,5).map((post,i)=><div className="control-news-row" key={post.id}><span>{String(i+1).padStart(2,'0')}</span><div><small>{post.source} · S{post.week} / {post.year}</small><p>{post.text}</p></div></div>)}
+        {!recent.length&&<div className="control-empty-note">Les événements de votre carrière apparaîtront ici.</div>}
+      </article>
+      <article className="control-panel control-label">
+        <div className="control-panel-head"><div><span className="control-overline">06 / INDUSTRY STATUS</span><h3>Votre environnement</h3></div><Building2 size={19}/></div>
+        <div className="control-label-identity"><span><Building2 size={22}/></span><div><small>MAISON DE DISQUES</small><b>{artist.label}</b></div></div>
+        <div className="control-label-stats"><div><small>PART LABEL</small><b>{artist.labelShare}%</b></div><div><small>CONTRATS</small><b>{(artist.contracts??[]).filter(c=>(c.status??'active')==='active').length}</b></div><div><small>PROJETS</small><b>{artist.releases.length}</b></div></div>
+        <button className="control-label-link" onClick={()=>setTab('Labels')}>Gérer les contrats <ArrowUpRight size={14}/></button>
+      </article>
     </section>
-
-    <section className="dashboard-workspace">
-      <div className="dashboard-main-column">
-        <article className="dashboard-feature-panel">
-          <div className="feature-panel-top"><div><span className="section-index">VOTRE MUSIQUE</span><h2>{artist.releases.length?'Votre prochain mouvement':'Tout commence par un premier titre.'}</h2></div><span className="feature-record-icon"><Disc3 size={24}/></span></div>
-          {artist.releases.length?<div className="featured-release-row"><div className="featured-release-art">{latestRelease?.coverArt?<img src={latestRelease.coverArt} alt="Pochette de l’album"/>:<Disc3 size={34}/>}</div><div className="featured-release-copy"><small>DERNIÈRE SORTIE · {latestRelease?.type.toUpperCase()} · {latestRelease?.year}</small><h3>{latestRelease?.title}</h3><p>{latestRelease?.trackIds.length??0} titre(s) · {latestRelease?.currentRank?'#'+latestRelease.currentRank+' dans les charts':'Pas encore classé'}</p><button className="feature-inline-link" onClick={()=>setTab('Ma discographie')}>Voir mes albums <ChevronRight size={15}/></button></div></div>:<div className="release-empty-state"><div className="empty-record"><Disc3 size={30}/></div><div><b>Votre catalogue est encore vierge.</b><p>Créez votre premier single, construisez votre identité sonore et commencez à exister sur le marché.</p><button className="feature-inline-link" onClick={()=>setTab('Studio & sorties')}>Créer ma première chanson <ChevronRight size={15}/></button></div></div>}
-        </article>
-        <article className="dashboard-activity-panel">
-          <div className="section-heading-row"><div><span className="section-index">LES DERNIÈRES NOUVELLES</span><h2>Dans l’actualité</h2></div><span className="activity-count">{recent.length} ACTUALITÉS RÉCENTES</span></div>
-          {recent.slice(0,5).map((p,i)=><div className="dashboard-news-row" key={p.id}><span className="news-number">{String(i+1).padStart(2,'0')}</span><div><small>{p.source} <i/> S{p.week} · {p.year}</small><p>{p.text}</p></div><ChevronRight size={15}/></div>)}
-          {!recent.length&&<div className="dashboard-empty-note">Votre fil d’actualité se remplira au fil des décisions et des sorties.</div>}
-        </article>
-      </div>
-      <aside className="dashboard-side-column">
-        <article className="dashboard-label-card"><div className="section-heading-row"><div><span className="section-index">VOTRE LABEL</span><h2>Votre structure</h2></div><Building2 size={20}/></div><div className="label-card-monogram"><Building2 size={25}/></div><small>LABEL</small><h3>{artist.label}</h3><p>{artist.label==='Indépendant'?'Vous avancez sans maison de disques. Vous gardez le contrôle de vos masters et de vos décisions.':'Votre contrat encadre la distribution et le partage des revenus.'}</p><div className="label-card-facts"><span><small>PART DU LABEL</small><b>{artist.labelShare}%</b></span><span><small>PROJETS</small><b>{artist.releases.length}</b></span></div><button onClick={()=>setTab('Labels')}>Voir mon label <ArrowUpRight size={15}/></button></article>
-        <article className="dashboard-quicklinks"><span className="section-index">POUR ALLER PLUS LOIN</span><h2>Accès rapide</h2><button onClick={()=>setTab('Finances')}><span><Wallet size={16}/></span><b>Mes finances</b><ChevronRight size={15}/></button><button onClick={()=>setTab('Tournées')}><span><Ticket size={16}/></span><b>Préparer une tournée</b><ChevronRight size={15}/></button><button onClick={()=>setTab('Promotion')}><span><TrendingUp size={16}/></span><b>Faire connaître ma musique</b><ChevronRight size={15}/></button><button onClick={()=>setTab('Médias & presse')}><span><Newspaper size={16}/></span><b>Voir la presse</b><ChevronRight size={15}/></button></article>
-      </aside>
-    </section>
+    {(artist.careerBoosts??[]).length>0&&<section className="control-boost-strip"><Sparkles size={17}/><div><b>Momentum actif</b><span>{artist.careerBoosts.map(b=>b.label+' ×'+b.multiplier.toFixed(2)+' ('+b.remainingWeeks+' sem.)').join(' · ')}</span></div></section>}
   </div>}
   </div></main></div>
 }
