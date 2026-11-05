@@ -1,4 +1,4 @@
-import { Music2, Ticket } from 'lucide-react'
+import { ChevronRight, Music2, Ticket } from 'lucide-react'
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import type { Artist, LabelContract } from './App'
 import type { MarketCode, ChartKind, MarketChartEntry } from './careerData'
