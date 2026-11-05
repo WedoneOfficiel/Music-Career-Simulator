@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="en" class=" wlmdibag idc0_350"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=a079d4ba-06b8-4da3-b129-ca6f67d066bf
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Song - Professional Studio</title>
+    <link rel="stylesheet" href="2%20Create%20Song%20-%20Professional%20Studio_files/all.min_RNPL.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --bg-dark: #0F0F16; /* Deep studio black */
+            --bg-card: #181824;
+            --bg-light: #232334;
+            --text: #FFFFFF;
+            --text-muted: #94A3B8;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --danger: #EF4444;
+            --gold: #F59E0B;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        /* --- Song Type Picker --- */
+        .type-picker { display: flex; flex-direction: row; gap: 8px; margin-bottom: 24px; }
+        .type-card {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 6px; padding: 12px 8px; border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--bg-light);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .type-card:hover { border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.05); }
+        .type-card.selected { border-color: var(--primary); background: rgba(59,130,246,0.1); }
+        .type-card-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+        .type-card-icon svg { width: 22px; height: 22px; stroke: var(--text-muted); transition: stroke 0.2s; }
+        .type-card.selected .type-card-icon svg { stroke: var(--primary); }
+        .type-card-title { font-size: 12px; font-weight: 600; color: var(--text); text-align: center; white-space: nowrap; }
+        .type-card-desc { display: none; }
+        .type-card-check { display: none; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- Layout & Container --- */
+        .container {
+            width: 100%;
+            max-width: 700px; /* Wider for better theme grid */
+            background: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header --- */
+        .header {
+            padding: 25px;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .balance-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%; left: 0; width: 100%; height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%); z-index: 0;
+        }
+
+        .progress-fill {
+            position: absolute; top: 50%; left: 0; height: 2px;
+            background: var(--primary);
+            transform: translateY(-50%); z-index: 0; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-dot {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--bg-card); border: 2px solid rgba(255, 255, 255, 0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: var(--text-muted);
+            position: relative; z-index: 1; transition: all 0.3s ease;
+        }
+
+        .step-dot.active { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        .step-dot.completed { background: var(--primary); border-color: var(--primary); color: white; }
+
+        /* --- Content Areas --- */
+        .step-content {
+            flex: 1; padding: 25px; display: none; overflow-y: auto;
+            animation: fadeIn 0.4s ease;
+        }
+        .step-content.active { display: block; }
+        
+        /* Custom Scrollbar */
+        .step-content::-webkit-scrollbar { width: 6px; }
+        .step-content::-webkit-scrollbar-track { background: transparent; }
+        .step-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 22px; margin-bottom: 20px; letter-spacing: -0.5px;
+            color: white; display: flex; align-items: center; gap: 10px;
+        }
+        
+        h2 i { color: var(--primary); font-size: 18px; }
+
+        .form-group { margin-bottom: 24px; }
+        label { display: block; color: var(--text-muted); font-size: 13px; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input, select {
+            width: 100%; padding: 16px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px; color: white; font-size: 15px;
+            transition: 0.2s;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+
+        /* --- THEME SELECTOR STYLES (New) --- */
+        .theme-selector-trigger {
+            width: 100%; padding: 16px;
+            background: var(--bg-light); border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text-muted);
+            cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s;
+        }
+        .theme-selector-trigger:hover { border-color: rgba(255,255,255,0.3); }
+        .theme-selector-trigger.has-value { color: white; font-weight: 600; border-color: var(--primary); background: rgba(59,130,246,0.05); }
+
+        .theme-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-card); z-index: 50; display: none; flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        .theme-overlay.active { display: flex; }
+        
+        .theme-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); }
+        
+        .theme-tabs { display: flex; overflow-x: auto; padding: 10px 20px; background: rgba(0,0,0,0.2); gap: 10px; flex-shrink: 0; }
+        .theme-tab { 
+            padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; 
+            background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent;
+        }
+        .theme-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .theme-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 20px; overflow-y: auto; 
+        }
+
+        .theme-card {
+            background: var(--bg-light); border: 1px solid var(--border);
+            border-radius: 12px; padding: 15px 10px; text-align: center; cursor: pointer;
+            transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .theme-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .theme-card i { font-size: 20px; margin-bottom: 5px; }
+        .theme-card span { font-size: 12px; font-weight: 600; }
+        .theme-card.selected { background: var(--primary); border-color: var(--primary); }
+        
+        /* --- Team Lists --- */
+        .team-section { margin-bottom: 25px; }
+        .team-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        
+        .team-card {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            padding: 14px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8px; transition: 0.2s;
+        }
+        .team-card:hover { border-color: rgba(255,255,255,0.2); }
+        
+        .team-info h4 { font-size: 14px; font-weight: 600; color: white; margin-bottom: 3px;}
+        .team-info div { font-size: 11px; color: var(--text-muted); }
+        .credits-tag { font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 6px; color: #ddd;}
+
+        .add-btn-small {
+            background: var(--primary); color: white; border: none;
+            width: 28px; height: 28px; border-radius: 8px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .add-btn-small:hover { background: var(--primary-dark); }
+
+        .remove-btn { color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .remove-btn:hover { color: var(--danger); }
+
+        /* --- Catalog Modal --- */
+        .modal {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-card); z-index: 60;
+            display: none; flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        .modal.active { display: flex; }
+        
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .modal-header {
+            padding: 20px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+        .catalog-item {
+            background: var(--bg-light); border: 1px solid var(--border);
+            padding: 16px; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .catalog-item:hover { background: rgba(255,255,255,0.06); transform: translateX(5px); border-color: var(--primary); }
+        
+        .cost-badge { background: rgba(16,185,129,0.1); color: var(--success); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-right: 8px;}
+        .split-badge { background: rgba(245,158,11,0.1); color: var(--gold); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+
+        /* --- Royalties Bar --- */
+        .split-visualization {
+            display: flex; height: 36px; width: 100%;
+            border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+            background: #111; border: 1px solid var(--border);
+        }
+        .split-bar { height: 100%; transition: width 0.5s ease; position: relative; }
+        .split-bar:hover::after {
+            content: attr(title); position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+            background: black; padding: 4px 8px; font-size: 10px; border-radius: 4px; white-space: nowrap;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            padding: 20px; border-top: 1px solid var(--border);
+            display: flex; gap: 15px; flex-shrink: 0; background: var(--bg-card);
+        }
+        .btn {
+            flex: 1; padding: 16px; border-radius: 12px; border: none;
+            font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.2s;
+        }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--border); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* --- Toggle Switch --- */
+        .toggle-group { display: flex; gap: 5px; background: var(--bg-light); padding: 5px; border-radius: 10px; border: 1px solid var(--border); }
+        .toggle-opt { flex: 1; text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: 0.2s; font-weight: 500; }
+        .toggle-opt.active { background: var(--bg-card); color: white; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-opt.active.explicit { color: var(--danger); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* --- Custom Artist Form --- */
+        .custom-artist-form {
+            background: rgba(255,255,255,0.03); 
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .custom-row { display: flex; gap: 10px; margin-top: 10px; }
+
+    /* --- RECORDING GAME STYLES --- */
+.game-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 15, 22, 0.95); z-index: 99999;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+}
+.game-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+
+.game-stage {
+    width: 90%; max-width: 500px;
+    background: #1e1e2d; border: 2px solid var(--border);
+    border-radius: 20px; padding: 30px; text-align: center;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.game-header h2 { font-size: 24px; justify-content: center; margin-bottom: 5px; }
+.game-header p { color: var(--text-muted); font-size: 14px; margin-bottom: 30px; }
+
+/* The Oscillating Bar */
+.rhythm-container {
+    width: 100%; height: 60px;
+    background: #111; border-radius: 30px;
+    position: relative; overflow: hidden;
+    border: 2px solid #333;
+    margin-bottom: 30px;
+}
+
+.target-zone {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 20%; /* Dynamic width based on Studio */
+    background: rgba(16, 185, 129, 0.3);
+    border-left: 2px solid var(--success);
+    border-right: 2px solid var(--success);
+    z-index: 1;
+}
+
+.needle {
+    position: absolute; top: -5px; bottom: -5px; width: 4px;
+    background: #fff;
+    left: 0%; 
+    box-shadow: 0 0 10px white;
+    z-index: 2;
+    transition: left 0.05s linear; /* Smooth movement handled by JS */
+}
+
+.hit-btn {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--danger); border: 4px solid rgba(255,255,255,0.2);
+    color: white; font-size: 24px; cursor: pointer;
+    box-shadow: 0 5px 20px rgba(239, 68, 68, 0.4);
+    transition: 0.1s; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+}
+.hit-btn:active { transform: scale(0.95); background: #dc2626; }
+
+.score-board {
+    margin-top: 20px; font-size: 18px; font-weight: 700;
+    color: var(--primary);
+}
+
+.flash-msg {
+    position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 30px; font-weight: 800; opacity: 0; pointer-events: none; z-index: 10;
+}
+@keyframes floatUp { 0% { opacity:1; transform:translate(-50%, 0); } 100% { opacity:0; transform:translate(-50%, -50px); } }
+
+    /* Results Screen */
+.results-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none; align-items: center; justify-content: center;
+    z-index: 100000;
+    backdrop-filter: blur(15px);
+}
+.results-overlay.active { display: flex; animation: fadeIn 0.5s ease; }
+
+.results-card {
+    background: linear-gradient(135deg, #1e1e2d 0%, #2a2a3e 100%);
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 30px;
+    padding: 50px 40px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.results-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    animation: bounce 1s ease infinite;
+}
+
+.results-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 20px rgba(59, 130, 246, 0.3));
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.results-card h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.quality-display {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quality-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.quality-score {
+    font-size: 72px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    animation: countUp 1s ease;
+}
+
+@keyframes countUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.quality-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.quality-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981 0%, #3B82F6 50%, #8B5CF6 100%);
+    border-radius: 10px;
+    transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 0%;
+}
+
+.performance-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.results-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+}
+
+.results-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+}
+
+/* --- BUY STORE --- */
+.buy-store-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 10, 16, 0.97); z-index: 200000;
+    display: none; flex-direction: column; overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+.buy-store-overlay.active { display: flex; }
+.buy-store-header {
+    padding: 20px 25px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, rgba(245,158,11,0.08) 0%, transparent 100%);
+    flex-shrink: 0;
+}
+.buy-store-header h2 { margin: 0; font-size: 20px; color: var(--gold); }
+.buy-store-tabs {
+    display: flex; gap: 8px; padding: 12px 20px;
+    background: rgba(0,0,0,0.3); flex-shrink: 0; overflow-x: auto;
+}
+.buy-tab {
+    padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    border: 1px solid var(--border); background: var(--bg-light);
+    color: var(--text-muted); cursor: pointer; white-space: nowrap;
+}
+.buy-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+.buy-store-list { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+.buy-track-card {
+    background: var(--bg-light); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+    transition: border-color 0.2s;
+}
+.buy-track-card:hover { border-color: rgba(245,158,11,0.4); }
+.buy-track-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.buy-track-number { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.buy-track-type-badge {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-normal { background: rgba(59,130,246,0.15); color: var(--primary); }
+.badge-melo { background: rgba(139,92,246,0.15); color: var(--accent); }
+.badge-interlude { background: rgba(16,185,129,0.15); color: var(--success); }
+.buy-track-theme { font-size: 13px; color: var(--text-muted); }
+.buy-track-quality { display: flex; align-items: center; gap: 8px; }
+.buy-quality-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.buy-quality-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #10B981, #3B82F6, #8B5CF6); }
+.buy-quality-label { font-size: 12px; font-weight: 700; color: white; width: 30px; text-align: right; }
+.buy-track-bottom { display: flex; justify-content: space-between; align-items: center; }
+.buy-track-price { font-size: 17px; font-weight: 800; color: var(--gold); }
+.buy-btn {
+    background: var(--gold); color: #000; border: none; padding: 8px 18px;
+    border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s;
+}
+.buy-btn:hover { background: #d97706; }
+.buy-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; border: 1px solid var(--border); }
+.rename-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 300000;
+    display: none; align-items: center; justify-content: center;
+}
+.rename-modal.active { display: flex; }
+.rename-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 30px; width: 90%; max-width: 380px;
+}
+.rename-card h3 { margin: 0 0 8px; font-size: 18px; }
+.rename-card p { color: var(--text-muted); font-size: 13px; margin: 0 0 20px; }
+.rename-card input { margin-bottom: 16px; }
+    </style>
+<link rel="stylesheet" type="text/css" href="2%20Create%20Song%20-%20Professional%20Studio_files/content-shared_RNPL.css"></head>
+<body cz-shortcut-listen="true">
+
+    <button class="btn-secondary" style="position:fixed; top:20px; left:20px; width:auto; padding:10px 20px; z-index:100; border-radius:30px;" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <h3 style="margin:0; font-size: 18px; font-weight:700;">Studio Session</h3>
+                <div class="balance-badge" id="balance-display">$10 000</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-line"></div>
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                <div class="step-dot active" data-step="1">1</div>
+                <div class="step-dot" data-step="2">2</div>
+                <div class="step-dot" data-step="3">3</div>
+                <div class="step-dot" data-step="4">4</div>
+            </div>
+        </div>
+
+        <div class="step-content active" id="step-1">
+            <h2><i class="fas fa-lightbulb"></i> Concept &amp; Vibe</h2>
+
+            <div class="form-group" id="soundtrack-picker-wrap" style="display:none">
+                <label>Soundtrack Deal</label>
+                <select id="soundtrack-deal-select" onchange="applySoundtrackDeal()">
+                    <option value="" selected="selected">None (regular release)</option>
+                </select>
+                <div id="soundtrack-req-banner" style="display:none;margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);font-size:12px;color:#cbd5e1;line-height:1.5"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Song Type</label>
+                <div class="type-picker">
+                    <div class="type-card selected" id="type-normal" onclick="selectSongType('normal', this)">
+                        <div class="type-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        </div>
+                        <div class="type-card-title">Normal</div>
+                    </div>
+                    <div class="type-card" id="type-voice_memo" onclick="selectSongType('voice_memo', this)">
+                        <div class="type-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0"></path><line x1="12" y1="19" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg>
+                        </div>
+                        <div class="type-card-title">Voice Memo</div>
+                    </div>
+                    <div class="type-card" id="type-interlude" onclick="selectSongType('interlude', this)">
+                        <div class="type-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        </div>
+                        <div class="type-card-title">Interlude</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Song Name</label>
+                <input type="text" id="song-name" placeholder="e.g. Luther" value="Test">
+            </div>
+
+            <div class="form-group">
+                <label>Theme</label>
+                <div class="theme-selector-trigger" id="theme-trigger" onclick="openThemeSelector()">
+                    <span>Select a Theme...</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <input type="hidden" id="selected-theme-val">
+            </div>
+
+            <div class="form-group">
+                <label>Genre</label>
+                <select id="genre">
+                    <option selected="selected">Pop</option><option>Hip-Hop</option><option>R&amp;B</option><option>Trap</option>
+                    <option>Drill</option><option>Alternative Rock</option><option>Neo-Soul</option>
+                    <option>Afrobeats</option><option>Country</option><option>Electronic</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Content Rating</label>
+                <div class="toggle-group">
+                    <div class="toggle-opt active" onclick="setClean(true, this)">Clean (Radio)</div>
+                    <div class="toggle-opt" onclick="setClean(false, this)">Explicit (Parental Advisory)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-content" id="step-2">
+            <h2><i class="fas fa-pen-nib"></i> Creative Team</h2>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Hire professional songwriters and composers to boost lyrical depth and musicality.</p>
+
+            <div class="team-section">
+                <div class="team-header">
+                    <label style="margin:0">Songwriters</label>
+                    <button class="add-btn-small" onclick="openCatalog('writer')"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="team-list" id="list-writer">
+                <div class="team-card">
+                    <div class="team-info">
+                        <h4>Me (Solo) </h4>
+                        <div>0% Royalty • $0</div>
+                    </div>
+                    <div class="remove-btn" onclick="removePerson('writer', 0)"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            </div>
+
+            <div class="team-section">
+                <div class="team-header">
+                    <label style="margin:0">Composers (Melody/Music)</label>
+                    <button class="add-btn-small" onclick="openCatalog('composer')"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="team-list" id="list-composer">
+                <div class="team-card">
+                    <div class="team-info">
+                        <h4>Me </h4>
+                        <div>0% Royalty • $0</div>
+                    </div>
+                    <div class="remove-btn" onclick="removePerson('composer', 0)"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="step-content" id="step-3">
+            <h2><i class="fas fa-sliders-h"></i> Production</h2>
+
+            <div class="team-section">
+                <div class="team-header">
+                    <label style="margin:0">Producers</label>
+                    <button class="add-btn-small" onclick="openCatalog('producer')"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="team-list" id="list-producer">
+                <div class="team-card">
+                    <div class="team-info">
+                        <h4>Me (Bedroom) </h4>
+                        <div>0% Royalty • $0</div>
+                    </div>
+                    <div class="remove-btn" onclick="removePerson('producer', 0)"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            </div>
+
+            <div class="form-group">
+                <label>Recording Facility</label>
+               <select id="studio-select" onchange="updateFinanceUI()">
+    <option value="0">Bedroom Setup (Free)</option>
+    <option value="200">Local Studio Booth ($200)</option>
+    <option value="350">Home Vocal Pod ($350)</option>
+    <option value="500">Project Studio ($500)</option>
+    <option value="750">Indie Workspace ($750)</option>
+    <option value="1200">Creative Loft ($1,200)</option>
+    <option value="1500">Producer’s Basement Lab ($1,500)</option>
+    <option value="2000">Boutique Studio ($2,000)</option>
+    <option value="3000" selected="selected">Pro Studio ($3,000)</option>
+    <option value="4000">Hybrid Analog Room ($4,000)</option>
+    <option value="6000">Producer Suite ($6,000)</option>
+    <option value="8000">Acoustic-Treated Hall ($8,000)</option>
+    <option value="10000">High-End Room ($10,000)</option>
+    <option value="12000">Mastering Chamber ($12,000)</option>
+    <option value="15000">SSL Elite Facility ($15,000)</option>
+    <option value="18000">Dolby Atmos Studio ($18,000)</option>
+    <option value="20000">Icon Tier Studio ($20,000)</option>
+    <option value="25000">Executive Platinum Room ($25,000)</option>
+    <option value="30000">Grammy Suite ($30,000)</option>
+    <option value="50000">Industry Titan Megastudio ($50,000)</option>
+</select>
+
+            </div>
+
+            <div class="team-section" style="border-top:1px solid var(--border); padding-top:20px; margin-top:20px;">
+                <div class="team-header">
+                    <label style="margin:0">Sample Clearance</label>
+                    <button class="add-btn-small" onclick="openCatalog('sample')"><i class="fas fa-plus"></i></button>
+                </div>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px; line-height:1.4;">Clearing samples requires giving up a percentage of royalties to the original writers.</p>
+                <div class="team-list" id="list-sample"></div>
+            </div>
+        </div>
+
+        <div class="step-content" id="step-4">
+            <h2><i class="fas fa-file-contract"></i> Rights &amp; Features</h2>
+            
+            <div style="background:rgba(0,0,0,0.2); padding:20px; border-radius:16px; margin-bottom:25px; border:1px solid var(--border);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                    <span style="font-size:13px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Your Publishing Split</span>
+                    <span style="font-weight:800; font-size:20px; color:var(--primary)" id="user-split-display">100%</span>
+                </div>
+                <div class="split-visualization" id="split-bar"><div class="split-bar" style="width: 100%; background: var(--primary);" title="You: 100%"></div></div>
+                <div id="split-legend" style="font-size:12px; color:var(--text-muted); display:flex; flex-wrap:wrap; gap:15px;"><div style="display:flex; align-items:center; gap:5px;"><div style="width:8px; height:8px; border-radius:50%; background:var(--primary)"></div> You (100%)</div></div>
+            </div>
+
+            <div class="form-group">
+                <label>Featured Artists</label>
+                <div class="team-header" style="justify-content:flex-start; gap:10px;">
+                    <button class="add-btn-small" onclick="openCatalog('feature')"><i class="fas fa-plus"></i></button>
+                    <span style="font-size:12px; color:var(--text-muted)">Add Verse/Hook</span>
+                </div>
+                <div class="team-list" id="list-feature"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; padding:20px; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.2); border-radius:12px;">
+                <span style="font-weight:600;">Total Production Cost</span>
+                <span style="color:var(--success); font-weight:700; font-size:18px;" id="total-cost-display">$3 000</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="btn btn-secondary" id="prev-btn" onclick="changeStep(-1)" style="display:none">Back</button>
+            <button class="btn" onclick="openBuyStore()" style="background:var(--gold); color:#000; font-weight:700;">🛒 Buy Song</button>
+            <button class="btn btn-primary" id="next-btn" onclick="changeStep(1)">Next</button>
+            <button class="btn btn-success" id="create-btn" onclick="createSong()" style="display:none; background:var(--success);">Release Song</button>
+            
+        </div>
+
+        <div class="theme-overlay active" id="theme-overlay">
+            <div class="theme-header">
+                <h3 style="margin:0">Select Theme</h3>
+                <button style="background:none; border:none; color:white; font-size:24px; cursor:pointer;" onclick="closeThemeSelector()">×</button>
+            </div>
+            <div class="theme-tabs" id="theme-tabs">
+                <div class="theme-tab active" onclick="filterThemes('Mood')">Mood</div>
+                <div class="theme-tab" onclick="filterThemes('Love')">Love &amp; Relationships</div>
+                <div class="theme-tab" onclick="filterThemes('Mature')">Mature (18+)</div>
+                <div class="theme-tab" onclick="filterThemes('Life')">Life &amp; Struggle</div>
+                <div class="theme-tab" onclick="filterThemes('Party')">Party &amp; Fun</div>
+                <div class="theme-tab" onclick="filterThemes('Street')">Street Life</div>
+                <div class="theme-tab" onclick="filterThemes('Conscious')">Conscious</div>
+                <div class="theme-tab" onclick="filterThemes('Seasonal')">Seasonal</div>
+            </div>
+            <div class="theme-grid" id="theme-grid"><div class="theme-card "><i class="fas">🔥</i><span>Hype</span></div><div class="theme-card "><i class="fas">😎</i><span>Flexing</span></div><div class="theme-card "><i class="fas">🌑</i><span>Darkness</span></div><div class="theme-card "><i class="fas">✨</i><span>Hope</span></div><div class="theme-card "><i class="fas">🌪️</i><span>Chaos</span></div><div class="theme-card "><i class="fas">🧘</i><span>Peace</span></div><div class="theme-card "><i class="fas">🚀</i><span>Ambition</span></div><div class="theme-card "><i class="fas">🥺</i><span>Nostalgia</span></div><div class="theme-card "><i class="fas">⚡</i><span>Power</span></div></div>
+        </div>
+
+        <div class="modal" id="catalog-modal">
+    <div class="modal-header" style="flex-direction: column; align-items: stretch; gap: 10px;">
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+            <h3 id="catalog-title">Select Person</h3>
+            <button style="background:none; border:none; color:white; font-size:24px; cursor:pointer;" onclick="closeCatalog()">×</button>
+        </div>
+        
+        <div id="catalog-search-container" style="display:none;">
+            <div style="display:flex; gap:5px;">
+                <input type="text" id="sample-search-input" placeholder="Search for a song to sample..." style="padding:10px; font-size:14px; width:100%; border-radius:8px; border:1px solid var(--border); background:var(--bg-light); color:white;">
+                <button class="btn-primary" onclick="searchSamples()" style="width:auto; padding:0 15px; border-radius:8px;"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" id="catalog-list">
+    </div>
+            
+            
+</div>
+        <div class="game-overlay" id="game-modal">
+    <div class="game-stage">
+        <div class="game-header">
+            <h2><i class="fas fa-microphone-alt"></i> Vocal Booth</h2>
+            <p>Tap the RED button when the line is in the GREEN zone!</p>
+        </div>
+
+        <div class="rhythm-container">
+            <div class="target-zone" id="game-target"></div>
+            <div class="needle" id="game-needle"></div>
+        </div>
+        
+        <div class="flash-msg" id="flash-msg">PERFECT!</div>
+
+        <button class="hit-btn" onmousedown="hitNote()" ontouchstart="hitNote(); event.preventDefault();">
+            <i class="fas fa-record-vinyl"></i>
+        </button>
+
+        <div class="score-board">
+            Take: <span id="take-count">1</span>/5
+        </div>
+    </div>
+            <!-- RESULTS SCREEN -->
+<div class="results-overlay" id="results-modal">
+    <div class="results-card">
+        <div class="results-icon">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="25" cy="75" r="12" fill="url(#grad1)"></circle>
+        <circle cx="70" cy="65" r="15" fill="url(#grad1)"></circle>
+        <path d="M 37 75 L 37 20 L 85 10 L 85 65" stroke="url(#grad1)" stroke-width="4" fill="none" stroke-linecap="round"></path>
+        <path d="M 37 35 L 85 25" stroke="url(#grad1)" stroke-width="3" opacity="0.6"></path>
+        <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1"></stop>
+                <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
+        <h2>Recording Complete!</h2>
+        
+        <div class="quality-display">
+            <div class="quality-label">Song Quality</div>
+            <div class="quality-score" id="final-quality-score">85</div>
+            <div class="quality-bar">
+                <div class="quality-fill" id="quality-fill-bar"></div>
+            </div>
+        </div>
+        
+        <div class="performance-stats">
+            <div class="stat-item">
+                <span class="stat-label">Game Performance</span>
+                <span class="stat-value" id="game-performance">92%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Max Potential</span>
+                <span class="stat-value" id="max-potential">100</span>
+            </div>
+        </div>
+        
+        <button class="results-btn" onclick="goToMusic()">View in Library</button>
+    </div>
+</div>
+</div>
+
+
+
+    <!-- BUY STORE OVERLAY -->
+<div class="buy-store-overlay" id="buy-store-overlay">
+    <div class="buy-store-header">
+        <h2><i class="fas fa-store"></i> Track Market</h2>
+        <button style="background:none; border:none; color:white; font-size:24px; cursor:pointer;" onclick="closeBuyStore()">×</button>
+    </div>
+    <div class="buy-store-tabs" id="buy-tabs">
+        <div class="buy-tab active" onclick="filterBuyTracks('All', this)">All</div>
+        <div class="buy-tab" onclick="filterBuyTracks('Normal', this)">Normal</div>
+        <div class="buy-tab" onclick="filterBuyTracks('Memo', this)">Memo</div>
+        <div class="buy-tab" onclick="filterBuyTracks('Interlude', this)">Interlude</div>
+    </div>
+    <div class="buy-store-list" id="buy-store-list"></div>
+</div>
+
+<div class="rename-modal" id="rename-modal">
+    <div class="rename-card">
+        <h3>Name Your Track</h3>
+        <p>You can only edit the song name. Theme, type, and quality are fixed.</p>
+        <input type="text" id="rename-input" placeholder="Enter song name..." maxlength="60">
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-secondary" style="flex:1; padding:12px;" onclick="closeRenameModal()">Cancel</button>
+            <button class="btn" style="flex:1; padding:12px; background:var(--gold); color:#000; font-weight:700;" onclick="confirmBuySong()">Buy &amp; Save</button>
+        </div>
+    </div>
+</div>
+
+    <script>
+// ============================================================
+// SOUNDTRACKS CORE — shared across managers.html, make_song.html,
+// Ocreate_album.html, unreleased_music.html, music.html
+// Storage: localStorage 'soundtrackDeals' = array of deal objects
+// Deal object shape:
+// {
+//   id, studio, filmTitle, filmDesc, poster -> IndexedDB (key = deal id, removed when deal is dead),
+//   format: 'Song'|'EP'|'Album',
+//   requirements: { theme, genre, explicitAllowed },
+//   fee, offeredDate, deadlineDate (10+ weeks out),
+//   status: 'offered'|'active'|'submitted'|'accepted'|'declined'|'expired'|'cancelled',
+//   linkedItemId: null // set once user records the piece and tags it
+// }
+// ============================================================
+
+const SOUNDTRACK_STUDIOS = [
+  { name: 'Lumen Pictures', tier: 'Major', feeMult: 1.4 },
+  { name: 'Northgate Films', tier: 'Major', feeMult: 1.3 },
+  { name: 'Ravensworth Studios', tier: 'Indie', feeMult: 0.8 },
+  { name: 'Silvercoast Entertainment', tier: 'Indie', feeMult: 0.9 },
+  { name: 'Obsidian Motion Pictures', tier: 'Major', feeMult: 1.5 },
+  { name: 'Harlow Bay Productions', tier: 'Indie', feeMult: 0.85 },
+  { name: 'Meridian Studios', tier: 'Major', feeMult: 1.35 },
+  { name: 'Fernwood Films', tier: 'Indie', feeMult: 0.75 }
+];
+
+const SOUNDTRACK_FILM_GENRES = [
+  { genre: 'Action Thriller', themes: ['Power', 'Chaos', 'Survival', 'Betrayal'] },
+  { genre: 'Romantic Drama', themes: ['True Love', 'Heartbreak', 'Closure', 'Commitment'] },
+  { genre: 'Crime Saga', themes: ['The Block', 'Paper Chase', 'Locked Up', 'Grinding'] },
+  { genre: 'Coming of Age', themes: ['Journey', 'Friendship', 'Nostalgia', 'Hope'] },
+  { genre: 'Sci-Fi Epic', themes: ['Ambition', 'Chaos', 'Third Eye', 'Power'] },
+  { genre: 'Horror', themes: ['Darkness', 'Chaos', 'Secrets'] },
+  { genre: 'Sports Underdog', themes: ['Victory', 'Survival', 'Ambition', 'Faith'] },
+  { genre: 'Party Comedy', themes: ['Club Banger', 'House Party', 'Festival', 'Celebration'] }
+];
+
+const SOUNDTRACK_FILM_TITLE_PARTS = {
+  prefix: ['Midnight', 'Last', 'Silent', 'Broken', 'Golden', 'Crimson', 'Hollow', 'Neon', 'Forgotten', 'Wild'],
+  noun: ['Horizon', 'City', 'Reckoning', 'Echoes', 'Empire', 'Skyline', 'Shadows', 'Legacy', 'Harbor', 'Revolt']
+};
+
+function stGenId() {
+  return 'st_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+}
+
+function stGetDeals() {
+  try {
+    const raw = localStorage.getItem('soundtrackDeals');
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch (e) { return []; }
+}
+
+function stSaveDeals(deals) {
+  try { localStorage.setItem('soundtrackDeals', JSON.stringify(deals)); }
+  catch (e) { return false; }
+  stPrunePosters(); // drop posters of deals that are no longer live
+  return true;
+}
+
+function stGetCurrentDate() {
+  const stored = localStorage.getItem('currentDate');
+  return stored ? new Date(stored) : new Date();
+}
+
+function stRand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+// ---- Poster store (IndexedDB) -------------------------------------------
+// Posters used to be saved as base64 inside 'soundtrackDeals' (localStorage), which
+// ate the ~5 MB quota. They now live in IndexedDB as Blobs (key = deal id) and are
+// deleted as soon as a deal is no longer live (declined / expired / cancelled /
+// completed). Deal records stay in localStorage, without the image.
+const ST_POSTER_LIVE = ['offered', 'active', 'submitted', 'approved'];
+const _stPosterUrlCache = {};
+let _stPosterDbP = null;
+
+function stPosterDb() {
+  if (!_stPosterDbP) {
+    _stPosterDbP = new Promise((resolve, reject) => {
+      if (!window.indexedDB) { reject(new Error('IndexedDB unavailable')); return; }
+      const req = indexedDB.open('soundtrackPosters', 1);
+      req.onupgradeneeded = () => req.result.createObjectStore('posters');
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    _stPosterDbP.catch(() => { _stPosterDbP = null; });
+  }
+  return _stPosterDbP;
+}
+function stPosterReq(mode, fn) {
+  return stPosterDb().then(db => new Promise((resolve, reject) => {
+    const req = fn(db.transaction('posters', mode).objectStore('posters'));
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  }));
+}
+const stPosterPut    = (id, blob) => stPosterReq('readwrite', s => s.put(blob, id));
+const stPosterGet    = id => stPosterReq('readonly', s => s.get(id));
+const stPosterDelete = id => stPosterReq('readwrite', s => s.delete(id));
+const stPosterKeys   = () => stPosterReq('readonly', s => s.getAllKeys());
+
+// Delete every stored poster whose deal is not live any more (or no longer exists).
+async function stPrunePosters() {
+  try {
+    const keys = await stPosterKeys();
+    const live = new Set(stGetDeals().filter(d => ST_POSTER_LIVE.includes(d.status)).map(d => d.id));
+    for (const k of keys) {
+      if (live.has(k)) continue;
+      await stPosterDelete(k);
+      if (_stPosterUrlCache[k]) {
+        try { URL.revokeObjectURL(_stPosterUrlCache[k]); } catch (e) {}
+        delete _stPosterUrlCache[k];
+      }
+    }
+  } catch (e) { /* IndexedDB unavailable: nothing to prune */ }
+}
+
+function stDataUriToBlob(uri) {
+  const parts = uri.split(',');
+  const mime = (parts[0].match(/data:([^;]+)/) || [])[1] || 'image/png';
+  const bin = atob(parts[1] || '');
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+// One-time move of old base64 posters out of localStorage. Dead deals just lose theirs.
+async function stMigratePosters() {
+  const legacy = stGetDeals().filter(d => typeof d.poster === 'string' && d.poster.startsWith('data:'));
+  if (!legacy.length) return;
+  const stored = {};
+  for (const d of legacy) {
+    if (!ST_POSTER_LIVE.includes(d.status)) continue;
+    try { await stPosterPut(d.id, stDataUriToBlob(d.poster)); stored[d.id] = true; } catch (e) {}
+  }
+  const deals = stGetDeals(); // re-read: state may have changed during the awaits
+  let changed = false;
+  deals.forEach(d => {
+    if (typeof d.poster === 'string' && d.poster.startsWith('data:') &&
+        (stored[d.id] || !ST_POSTER_LIVE.includes(d.status))) { d.poster = null; changed = true; }
+  });
+  if (changed) stSaveDeals(deals);
+}
+
+// Poster for a deal: IndexedDB blob -> legacy inline poster -> generated placeholder.
+async function stPosterUrl(d) {
+  if (_stPosterUrlCache[d.id]) return _stPosterUrlCache[d.id];
+  let url = null;
+  try {
+    await stPosterReady;
+    const blob = await stPosterGet(d.id);
+    if (blob) url = URL.createObjectURL(blob);
+  } catch (e) {}
+  if (!url) url = d.poster || stGeneratePosterDataUriFallback(d.filmTitle, d.filmGenre || (d.requirements && d.requirements.genre) || 'Drama', d.studio);
+  _stPosterUrlCache[d.id] = url;
+  return url;
+}
+
+// Fill in every <img data-st-poster="DEAL_ID"> under root.
+function stHydratePosters(root) {
+  const imgs = (root || document).querySelectorAll('img[data-st-poster]');
+  if (!imgs.length) return;
+  const deals = stGetDeals();
+  imgs.forEach(async img => {
+    const d = deals.find(x => x.id === img.dataset.stPoster);
+    if (!d) return;
+    const url = await stPosterUrl(d);
+    if (img.isConnected) img.src = url;
+  });
+}
+
+// Real poster art from Pollinations.ai (no API key, plain image GET). Returns a Blob,
+// or null on failure (the UI then shows the generated placeholder).
+async function stFetchPosterBlob(filmTitle, genre, studioName) {
+  const prompt = `Movie poster for a ${genre} film titled "${filmTitle}" from ${studioName}. Cinematic, dramatic lighting, professional poster design, no text overlays needed.`;
+  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=600&height=900&nologo=true`;
+  try {
+    const resp = await fetch(url);
+    if (resp.ok) {
+      const blob = await resp.blob();
+      if (blob && blob.size && /^image\//.test(blob.type)) return blob;
+    } else {
+      console.warn('Pollinations API error', resp.status);
+    }
+  } catch (e) {
+    console.warn('Pollinations poster generation failed, using fallback poster', e);
+  }
+  return null;
+}
+
+function stGeneratePosterDataUriFallback(filmTitle, genre, studioName) {
+  const palettes = [
+    ['#0F0F23', '#3B82F6', '#8B5CF6'],
+    ['#1A1A2E', '#06B6D4', '#EF4444'],
+    ['#16213E', '#F59E0B', '#8B5CF6'],
+    ['#0F0F23', '#10B981', '#3B82F6']
+  ];
+  const [bg, c1, c2] = palettes[(filmTitle.length + genre.length) % palettes.length];
+  const seed = filmTitle.length + genre.length;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${bg}"/>
+        <stop offset="100%" stop-color="#000000"/>
+      </linearGradient>
+      <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${c1}" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="${c2}" stop-opacity="0.35"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="900" fill="url(#g)"/>
+    <rect width="600" height="900" fill="url(#g2)"/>
+    ${Array.from({length: 6}).map((_, i) => `<circle cx="${(seed*37 + i*97) % 600}" cy="${(seed*53 + i*131) % 900}" r="${20 + (i*seed)%60}" fill="${i%2?c1:c2}" opacity="0.12"/>`).join('')}
+    <text x="300" y="760" text-anchor="middle" font-family="Georgia,serif" font-size="40" font-weight="bold" fill="#FFFFFF" style="letter-spacing:2px">${stEsc(filmTitle.toUpperCase())}</text>
+    <text x="300" y="800" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#CBD5E1" style="letter-spacing:4px">A ${stEsc(genre.toUpperCase())} FILM</text>
+    <text x="300" y="850" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#94A3B8">${stEsc(studioName.toUpperCase())}</text>
+  </svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+// Migrate old posters + clear dead ones on every page load.
+const stPosterReady = stMigratePosters().catch(() => {}).then(() => stPrunePosters());
+
+function stEsc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function stFormatMoney(n) {
+  if (!n) return '$0';
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + (n/1000).toFixed(0) + 'K';
+  return '$' + Math.floor(n).toLocaleString();
+}
+
+// Generate a fresh film-studio offer
+async function stGenerateOffer() {
+  const studio = stRand(SOUNDTRACK_STUDIOS);
+  const genreDef = stRand(SOUNDTRACK_FILM_GENRES);
+  const theme = stRand(genreDef.themes);
+  const filmTitle = stRand(SOUNDTRACK_FILM_TITLE_PARTS.prefix) + ' ' + stRand(SOUNDTRACK_FILM_TITLE_PARTS.noun);
+  const format = stRand(['Song', 'Song', 'Song', 'EP', 'Album']); // songs most common
+  const explicitAllowed = Math.random() > 0.6;
+
+  const baseFeeByFormat = { Song: 15000, EP: 45000, Album: 120000 };
+  const fee = Math.round(baseFeeByFormat[format] * studio.feeMult * (0.85 + Math.random() * 0.3));
+
+  const now = stGetCurrentDate();
+  // deadline: 4 to 12 weeks out, format-dependent minimum
+  const minWeeks = format === 'Song' ? 4 : format === 'EP' ? 6 : 10;
+  const weeks = minWeeks + Math.floor(Math.random() * 5);
+  const deadline = new Date(now);
+  deadline.setDate(deadline.getDate() + weeks * 7);
+
+  const filmDesc = `A ${genreDef.genre.toLowerCase()} from ${studio.name} exploring themes of ${theme.toLowerCase()}. The studio is seeking a ${format.toLowerCase()} that captures the film's tone for its marketing campaign and soundtrack release.`;
+
+  return {
+    id: stGenId(),
+    studio: studio.name,
+    studioTier: studio.tier,
+    filmTitle,
+    filmGenre: genreDef.genre,
+    filmDesc,
+    poster: null, // image lives in IndexedDB
+    _posterBlob: await stFetchPosterBlob(filmTitle, genreDef.genre, studio.name), // transient, stripped before save
+    format,
+    requirements: { theme, genre: genreDef.genre, explicitAllowed },
+    fee,
+    offeredDate: now.toISOString(),
+    deadlineDate: deadline.toISOString(),
+    weeksGiven: weeks,
+    status: 'offered',
+    linkedItemId: null,
+    linkedItemType: null
+  };
+}
+
+// Chance-based offer refill — see managers.html for the canonical version/comment.
+// No guaranteed pool size; a week can produce zero, one, or (rarely) two offers.
+const SOUNDTRACK_MAX_OPEN_OFFERS = 2;
+const SOUNDTRACK_NEW_OFFER_CHANCE = 0.35;
+async function stRefreshOfferPool() {
+  const openCount = stGetDeals().filter(d => d.status === 'offered').length;
+  const freeSlots = SOUNDTRACK_MAX_OPEN_OFFERS - openCount;
+  const fresh = [];
+  for (let i = 0; i < freeSlots; i++) {
+    if (Math.random() < SOUNDTRACK_NEW_OFFER_CHANCE) fresh.push(await stGenerateOffer());
+  }
+  const deals = stGetDeals(); // re-read after the network awaits
+  const posters = [];
+  fresh.forEach(o => { posters.push([o.id, o._posterBlob]); delete o._posterBlob; deals.push(o); });
+  stSaveDeals(deals); // save the deal FIRST so the prune never sees its poster as orphaned
+  for (const [id, blob] of posters) {
+    if (blob) { try { await stPosterPut(id, blob); } catch (e) {} }
+  }
+  return deals;
+}
+
+
+// ------------------------------------------------------------------
+// DEAL LIFECYCLE
+//   offered -> (accept) -> active -> (submit) -> submitted -> (studio review, 1-3 wks)
+//     -> approved  [release window opens: releaseDeadlineDate]
+//     -> (you release the tagged item) -> completed  [fee paid here]
+//   Dead ends: declined | cancelled | expired
+//
+// Two deadlines per deal:
+//   deadlineDate         = SUBMISSION deadline (set when offered)
+//   releaseDeadlineDate  = RELEASE deadline    (set when the studio approves)
+// ------------------------------------------------------------------
+const ST_REVIEW_MIN_WEEKS = 1;
+const ST_REVIEW_MAX_WEEKS = 3;
+const ST_RELEASE_WINDOW_WEEKS = { Song: 4, EP: 5, Album: 6 };
+
+function stAcceptOffer(dealId) {
+  let deals = stGetDeals();
+  const d = deals.find(x => x.id === dealId);
+  if (!d || d.status !== 'offered') return false;
+  d.status = 'active';
+  d.acceptedDate = stGetCurrentDate().toISOString();
+  stSaveDeals(deals);
+  return true;
+}
+
+function stDeclineOffer(dealId) {
+  let deals = stGetDeals();
+  const d = deals.find(x => x.id === dealId);
+  if (!d) return false;
+  if (d.status === 'offered') { d.status = 'declined'; d.declineReason = 'You passed on this offer.'; }
+  else if (d.status === 'active') { d.status = 'cancelled'; d.cancelReason = 'user_declined'; }
+  stSaveDeals(deals);
+  return true;
+}
+
+// Deals the user can still tag NEW work to (used by make_song / create_album pickers).
+function stGetActiveDealsForFormat(format) {
+  return stGetDeals().filter(d => d.status === 'active' && d.format === format);
+}
+
+// ---- Item lookup helpers ------------------------------------------------
+// Songs and albums are stored in several places depending on where they are in
+// their life: unreleased -> scheduled -> released. A deal-tagged item carries
+// `soundtrackDealId` while unreleased/scheduled; once released we also stamp it
+// onto the released record so we can always find it again.
+function stReadArr(key) {
+  try { const a = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(a) ? a : []; }
+  catch (e) { return []; }
+}
+
+// Everything the user has made that is tagged to this deal and is still submit-able
+// (i.e. sitting in the unreleased vault, not yet scheduled or out).
+function stGetSubmittableItems(deal) {
+  if (!deal) return [];
+  if (deal.format === 'Song') {
+    return stReadArr('unreleasedSongs')
+      .filter(s => s && s.soundtrackDealId === deal.id)
+      .map(s => ({ kind: 'song', id: s.id, name: s.songName || s.name, quality: s.quality, theme: s.theme, isExplicit: !!s.isExplicit, raw: s }));
+  }
+  return stReadArr('unreleasedAlbums')
+    .filter(a => a && a.soundtrackDealId === deal.id)
+    .map(a => ({ kind: 'album', id: a.name || a.albumName, name: a.name || a.albumName, trackCount: (a.songs || []).length, raw: a }));
+}
+
+// The user submits ONE specific tagged item for a deal. Nothing else can be submitted.
+// The item is snapshotted onto the deal and locked in the vault until the studio answers.
+function stSubmitForReview(dealId, itemRef) {
+  let deals = stGetDeals();
+  const d = deals.find(x => x.id === dealId);
+  if (!d) return { ok: false, error: 'Deal not found.' };
+  if (d.status !== 'active') return { ok: false, error: 'This deal is not open for submissions.' };
+  if (stGetCurrentDate() > new Date(d.deadlineDate)) return { ok: false, error: 'The submission deadline has passed.' };
+
+  const candidates = stGetSubmittableItems(d);
+  const match = candidates.find(c => String(c.id) === String(itemRef));
+  if (!match) return { ok: false, error: 'That project is not tagged to this soundtrack.' };
+
+  d.status = 'submitted';
+  d.submittedItemId = match.id;
+  d.submittedItemType = match.kind;
+  d.submittedItemName = match.name;
+  d.linkedItemId = match.id;
+  d.linkedItemType = match.kind;
+  d.submittedDate = stGetCurrentDate().toISOString();
+  d.reviewWeeks = ST_REVIEW_MIN_WEEKS + Math.floor(Math.random() * (ST_REVIEW_MAX_WEEKS - ST_REVIEW_MIN_WEEKS + 1));
+  const reviewEnds = new Date(stGetCurrentDate());
+  reviewEnds.setDate(reviewEnds.getDate() + d.reviewWeeks * 7);
+  d.reviewEndsDate = reviewEnds.toISOString();
+  if (match.kind === 'song') {
+    d.submittedSnapshot = {
+      theme: match.theme || null,
+      isExplicit: !!match.isExplicit,
+      quality: match.quality != null ? match.quality : null
+    };
+  } else {
+    // Album/EP: look up each track's theme/explicit flag from the song vaults NOW,
+    // because the tracks get consumed/moved when the album is later released.
+    const pool = stReadArr('unreleasedSongs').concat(stReadArr('releasedSongs'));
+    const tracks = (match.raw.songs || []).map(sn => {
+      const nm = typeof sn === 'string' ? sn : (sn.songName || sn.name || '');
+      const hit = pool.find(x => (x.songName || x.name) === nm) || {};
+      return { name: nm, theme: hit.theme || null, isExplicit: !!hit.isExplicit, quality: typeof hit.quality === 'number' ? hit.quality : null };
+    });
+    const qs = tracks.map(t => t.quality).filter(q => q != null);
+    d.submittedSnapshot = {
+      tracks,
+      isExplicit: tracks.some(t => t.isExplicit),
+      quality: qs.length ? Math.round(qs.reduce((a, b) => a + b, 0) / qs.length) : null
+    };
+  }
+  stSaveDeals(deals);
+  return { ok: true, deal: d };
+}
+
+// Studio review. Runs on the weekly tick ONLY. A submission sits in "submitted"
+// until reviewEndsDate arrives, so the player has to advance weeks to hear back.
+function stResolveSubmissions() {
+  let deals = stGetDeals();
+  const now = stGetCurrentDate();
+  let changed = false;
+
+  deals.filter(d => d.status === 'submitted').forEach(d => {
+    // Older saves (pre-lifecycle) may lack reviewEndsDate — give them a review window now.
+    if (!d.reviewEndsDate) {
+      const ends = new Date(now);
+      ends.setDate(ends.getDate() + 7 * (1 + Math.floor(Math.random() * 2)));
+      d.reviewEndsDate = ends.toISOString();
+      changed = true;
+      return;
+    }
+    if (now < new Date(d.reviewEndsDate)) return;
+
+    const snap = d.submittedSnapshot || {};
+    const meets = stCheckRequirements(d, snap);
+    // Quality nudges the odds a little, but the brief matters most.
+    const q = typeof snap.quality === 'number' ? snap.quality : 70;
+    const qualityBonus = Math.max(-0.1, Math.min(0.1, (q - 70) / 300));
+    const passChance = Math.max(0.05, Math.min(0.95, (meets ? 0.85 : 0.15) + qualityBonus));
+    const passed = Math.random() < passChance;
+
+    d.resolvedDate = now.toISOString();
+    if (passed) {
+      d.status = 'approved';
+      d.approvedDate = now.toISOString();
+      const weeks = ST_RELEASE_WINDOW_WEEKS[d.format] || 4;
+      const relDeadline = new Date(now);
+      relDeadline.setDate(relDeadline.getDate() + weeks * 7);
+      d.releaseDeadlineDate = relDeadline.toISOString();
+      d.releaseWeeksGiven = weeks;
+    } else {
+      d.status = 'declined';
+      d.declineReason = meets ? 'The studio loved the effort but passed on the final cut.' : 'The submission did not meet the brief.';
+    }
+    changed = true;
+  });
+
+  if (changed) stSaveDeals(deals);
+  return deals;
+}
+
+// Is this unreleased/scheduled item the one an approved deal is waiting on?
+function stGetApprovedDealForItem(itemRef, itemType) {
+  return stGetDeals().find(d => d.status === 'approved' &&
+    d.submittedItemType === itemType && String(d.submittedItemId) === String(itemRef)) || null;
+}
+
+// Called at the moment the tagged item actually goes public. Only an APPROVED deal
+// can complete — a deal that is still under review or was never approved cannot be
+// completed by releasing. Pays the fee here.
+function stCompleteOnRelease(dealId, releasedItemId) {
+  let deals = stGetDeals();
+  const d = deals.find(x => x.id === dealId);
+  if (!d || d.status !== 'approved') return false;
+  if (d.releaseDeadlineDate && stGetCurrentDate() > new Date(d.releaseDeadlineDate)) return false;
+  d.status = 'completed';
+  d.completedDate = stGetCurrentDate().toISOString();
+  d.releasedItemId = releasedItemId || d.submittedItemId;
+  let money = parseFloat(localStorage.getItem('money')) || 0;
+  localStorage.setItem('money', (money + d.fee).toString());
+  d.payoutReceived = true;
+  stSaveDeals(deals);
+  return true;
+}
+
+// Is releasing this item allowed right now? Items tagged to a soundtrack deal can
+// only go out once that deal is approved (and inside its release window).
+// Returns { allowed, reason, deal }.
+function stCheckReleaseAllowed(item) {
+  if (!item || !item.soundtrackDealId) return { allowed: true };
+  const d = stGetDeals().find(x => x.id === item.soundtrackDealId);
+  if (!d) return { allowed: true };            // deal record gone — treat as a normal release
+  if (d.status === 'completed') return { allowed: true, deal: d };
+  if (d.status === 'approved') {
+    if (d.releaseDeadlineDate && stGetCurrentDate() > new Date(d.releaseDeadlineDate)) {
+      return { allowed: false, deal: d, reason: 'The release window for "' + d.filmTitle + '" has closed.' };
+    }
+    return { allowed: true, deal: d };
+  }
+  if (d.status === 'active') {
+    return { allowed: false, deal: d, reason: 'Submit this to ' + d.studio + ' first. It is tagged to "' + d.filmTitle + '" and cannot be released until the studio approves it.' };
+  }
+  if (d.status === 'submitted') {
+    return { allowed: false, deal: d, reason: '"' + d.filmTitle + '" is still under review. Advance a few weeks to hear back from ' + d.studio + '.' };
+  }
+  // declined / cancelled / expired — the tag is dead, let the user release it as a normal track.
+  return { allowed: true, deal: d, detachTag: true };
+}
+
+// Weekly upkeep: expire stale offers, cancel deals that blew a deadline, resolve reviews.
+// Only call this from the game's actual week-advance flow.
+async function stWeeklyTick() {
+  let deals = stGetDeals();
+  const now = stGetCurrentDate();
+  let changed = false;
+
+  deals.forEach(d => {
+    if (d.status === 'offered') {
+      const staleDate = new Date(d.offeredDate);
+      staleDate.setDate(staleDate.getDate() + 14);
+      if (now > staleDate) { d.status = 'expired'; changed = true; }
+    } else if (d.status === 'active') {
+      if (now > new Date(d.deadlineDate)) {
+        d.status = 'cancelled'; d.cancelReason = 'missed_deadline'; changed = true;
+      }
+    } else if (d.status === 'approved') {
+      if (d.releaseDeadlineDate && now > new Date(d.releaseDeadlineDate)) {
+        d.status = 'cancelled'; d.cancelReason = 'missed_release_deadline'; changed = true;
+      }
+    }
+  });
+
+  if (changed) stSaveDeals(deals);
+  stResolveSubmissions();
+  await stRefreshOfferPool();
+  return stGetDeals();
+}
+
+
+// Legacy lookup kept only so any external caller doesn't throw. The new flow does not
+// depend on it — requirements are judged from the snapshot taken at submit time.
+function stFindSubmittedItem(deal) {
+  return deal && deal.submittedSnapshot ? deal.submittedSnapshot : null;
+}
+
+// Judge a submission against the brief using the snapshot captured at submit time.
+function stCheckRequirements(deal, snap) {
+  if (!snap) return false;
+  const req = deal.requirements || {};
+  const explicitOk = req.explicitAllowed || !snap.isExplicit;
+  if (deal.format === 'Song') {
+    const themeOk = !req.theme || snap.theme === req.theme;
+    return themeOk && explicitOk;
+  }
+  // EP / Album: at least one track must hit the required theme, and no explicit
+  // tracks if the studio forbids them.
+  const tracks = snap.tracks || [];
+  const themeOk = !req.theme || tracks.some(t => t.theme === req.theme);
+  return themeOk && explicitOk;
+}
+
+        // --- UPDATED DATA ---
+        const themeData = {
+            'Mood': [
+                {icon: '🔥', name: 'Hype'}, {icon: '😎', name: 'Flexing'}, {icon: '🌑', name: 'Darkness'}, 
+                {icon: '✨', name: 'Hope'}, {icon: '🌪️', name: 'Chaos'}, {icon: '🧘', name: 'Peace'}, 
+                {icon: '🚀', name: 'Ambition'}, {icon: '🥺', name: 'Nostalgia'}, {icon: '⚡', name: 'Power'}
+            ],
+            'Love': [
+                {icon: '❤️', name: 'True Love'}, {icon: '💔', name: 'Heartbreak'}, {icon: '💍', name: 'Commitment'},
+                {icon: '😈', name: 'Toxic'}, {icon: '😒', name: 'Jealousy'}, {icon: '🚪', name: 'Closure'},
+                {icon: '👀', name: 'Crush'}, {icon: '🕺', name: 'Chemistry'}
+            ],
+            'Mature': [
+                {icon: '👄', name: 'Seduction'}, {icon: '🍷', name: 'Intoxicated'}, {icon: '💋', name: 'Affair'},
+                {icon: '💸', name: 'Hustle'}, {icon: '🚬', name: 'Addiction'}, {icon: '🔞', name: 'Desire'},
+                {icon: '🤫', name: 'Secrets'}, {icon: '💃', name: 'Nightlife'}
+            ],
+            'Life': [
+                {icon: '🛤️', name: 'Journey'}, {icon: '🦁', name: 'Survival'}, {icon: '🤥', name: 'Betrayal'},
+                {icon: '👑', name: 'Victory'}, {icon: '🙏', name: 'Faith'}, {icon: '🏠', name: 'Hometown'},
+                {icon: '👥', name: 'Friendship'}
+            ],
+            'Party': [
+                {icon: '🎉', name: 'Club Banger'}, {icon: '🥤', name: 'House Party'}, {icon: '🏎️', name: 'Fast Life'},
+                {icon: '👯', name: 'Girls Night'}, {icon: '🛥️', name: 'Yacht Vibes'}, {icon: '🎊', name: 'Festival'},
+                {icon: '🍾', name: 'Celebration'}
+            ],
+            'Street': [
+                {icon: '💰', name: 'Paper Chase'}, {icon: '🚔', name: 'Police Chase'}, {icon: '🐀', name: 'Snitches'},
+                {icon: '🔫', name: 'Beef'}, {icon: '🏢', name: 'The Block'}, {icon: '😤', name: 'Grinding'},
+                {icon: '⛓️', name: 'Locked Up'}
+            ],
+            'Conscious': [
+                {icon: '✊', name: 'Protest'}, {icon: '🌍', name: 'World Peace'}, {icon: '🧠', name: 'Mental Health'},
+                {icon: '⚖️', name: 'Justice'}, {icon: '👁️', name: 'Third Eye'}, {icon: '📚', name: 'Education'}
+            ],
+            'Seasonal': [
+                {icon: '🎄', name: 'Christmas'}, {icon: '🏖️', name: 'Summer'}, {icon: '🎃', name: 'Halloween'},
+                {icon: '❄️', name: 'Winter'}, {icon: '🎆', name: 'Party Anthem'}
+            ]
+        };
+
+        const catalogs = {
+    writer: [
+        { id: 'w1', name: 'Me (Solo)', cost: 0, split: 0, role: 'Writer' },
+        { id: 'w2', name: 'Aria Lockhart', cost: 500, split: 2, role: 'Novice' },
+        { id: 'w3', name: 'Sterling Vance', cost: 800, split: 3, role: 'Poet' },
+        { id: 'w4', name: 'Nova Rae', cost: 1200, split: 4, role: 'Lyricist' },
+        { id: 'w5', name: 'Keon Holloway', cost: 1500, split: 5, role: 'Streetwise' },
+        { id: 'w6', name: 'Tessa Monroe', cost: 2000, split: 5, role: 'Pop Writer' },
+        { id: 'w7', name: 'Jaxon Avery', cost: 2500, split: 6, role: 'Hook Specialist' },
+        { id: 'w8', name: 'Liora Vega', cost: 3000, split: 7, role: 'Melodist' },
+        { id: 'w9', name: 'Dante Mereaux', cost: 4000, split: 8, role: 'Ghostwriter' },
+        { id: 'w10', name: 'Selene Hart', cost: 5000, split: 10, role: 'Chart Climber' },
+        { id: 'w11', name: 'Orion Blake', cost: 7500, split: 10, role: 'Hit Maker' },
+        { id: 'w12', name: 'Kai Redwood', cost: 10000, split: 12, role: 'Versatile' },
+        { id: 'w13', name: 'Zara Leon', cost: 12500, split: 12, role: 'R&B Queen' },
+        { id: 'w14', name: 'Lennox Crane', cost: 15000, split: 15, role: 'Industry Vet' },
+        { id: 'w15', name: 'Mariah Solis', cost: 20000, split: 15, role: 'Award Winner' },
+        { id: 'w16', name: 'Phoenix Wilder', cost: 25000, split: 18, role: 'Top Tier' },
+        { id: 'w17', name: 'Eli Navarro', cost: 30000, split: 20, role: 'Golden Pen' },
+        { id: 'w18', name: 'Isla Sterling', cost: 40000, split: 20, role: 'Pop Icon' },
+        { id: 'w19', name: 'Rowan Vale', cost: 50000, split: 25, role: 'Legendary' },
+        { id: 'w20', name: 'Kairo Voss', cost: 75000, split: 30, role: 'Hall of Fame' },
+        { id: 'w21', name: 'Amara Devon', cost: 100000, split: 35, role: 'The GOAT' }
+    ],
+    composer: [
+        { id: 'c1', name: 'Me', cost: 0, split: 0, role: 'Composer' },
+        { id: 'c2', name: 'Thundercat-Style Bassist', cost: 1000, split: 2, role: 'Session Musician' },
+        { id: 'c3', name: 'Leo Karmichael', cost: 1500, split: 3, role: 'Pianist' },
+        { id: 'c4', name: 'Astra Keys', cost: 2000, split: 4, role: 'Synth Specialist' },
+        { id: 'c5', name: 'Dominic Harrow', cost: 2500, split: 4, role: 'Strings' },
+        { id: 'c6', name: 'Vento Armand', cost: 3000, split: 5, role: 'Woodwinds' },
+        { id: 'c7', name: 'Riven Locke', cost: 3500, split: 5, role: 'Guitarist' },
+        { id: 'c8', name: 'Mira Fontaine', cost: 4000, split: 6, role: 'Orchestrator' },
+        { id: 'c9', name: 'Jasper Wolffe', cost: 5000, split: 7, role: 'Drummer' },
+        { id: 'c10', name: 'Aurelia Synth', cost: 6000, split: 8, role: 'Electronic' },
+        { id: 'c11', name: 'Cassian Storm', cost: 7000, split: 9, role: 'Brass' },
+        { id: 'c12', name: 'Ember Notte', cost: 8000, split: 10, role: 'Vocal Arranger' },
+        { id: 'c13', name: 'Kairo Zenith', cost: 10000, split: 10, role: 'Multi-Instrument' },
+        { id: 'c14', name: 'Lyra Solstice', cost: 12000, split: 12, role: 'Cinematic' },
+        { id: 'c15', name: 'Juno Rivers', cost: 15000, split: 12, role: 'Jazz Pro' },
+        { id: 'c16', name: 'Flint Shado', cost: 18000, split: 15, role: 'Percussion God' },
+        { id: 'c17', name: 'Calla Monroe', cost: 22000, split: 15, role: 'Harpist' },
+        { id: 'c18', name: 'Orion West', cost: 30000, split: 18, role: 'Conductor' },
+        { id: 'c19', name: 'Kade Meridian', cost: 45000, split: 20, role: 'Score Composer' },
+        { id: 'c20', name: 'Soren Ledger', cost: 60000, split: 25, role: 'Virtuoso' }
+    ],
+    producer: [
+        { id: 'p1', name: 'Me (Bedroom)', cost: 0, split: 0, role: 'Producer' },
+        { id: 'p2', name: 'Metro-Style Trap Architect', cost: 5000, split: 5, role: 'Trap' },
+        { id: 'p3', name: 'Jack-Inspired Indie Maker', cost: 7000, split: 6, role: 'Indie' },
+        { id: 'p4', name: 'Tainy-Influenced Latin', cost: 9000, split: 7, role: 'Reggaeton' },
+        { id: 'p5', name: 'Hit-Boy-Type Versatile', cost: 12000, split: 8, role: 'Hip-Hop' },
+        { id: 'p6', name: 'Pharrell-Inspired Legend', cost: 100000, split: 20, role: 'Icon' },
+        { id: 'p7', name: 'Nova BeatSmith', cost: 2000, split: 3, role: 'Upcoming' },
+        { id: 'p8', name: 'ChromeDynasty', cost: 3500, split: 4, role: 'Electronic' },
+        { id: 'p9', name: 'Velvet808', cost: 4500, split: 5, role: 'Drill' },
+        { id: 'p10', name: 'GhostCircuit', cost: 6000, split: 6, role: 'Synthwave' },
+        { id: 'p11', name: 'NyxDrums', cost: 8000, split: 7, role: 'Afrobeats' },
+        { id: 'p12', name: 'HallowBeatz', cost: 10000, split: 8, role: 'Dark Trap' },
+        { id: 'p13', name: 'Kid Voltage', cost: 15000, split: 10, role: 'Pop' },
+        { id: 'p14', name: 'SolarTape', cost: 20000, split: 12, role: 'Lo-Fi' },
+        { id: 'p15', name: 'Eastside Echo', cost: 25000, split: 12, role: 'West Coast' },
+        { id: 'p16', name: 'LoFiEden', cost: 30000, split: 15, role: 'Chill' },
+        { id: 'p17', name: 'SynthMarq', cost: 40000, split: 15, role: 'Retro' },
+        { id: 'p18', name: 'WaveFinder', cost: 55000, split: 18, role: 'Future Bass' },
+        { id: 'p19', name: 'IvorySound', cost: 70000, split: 20, role: 'R&B' },
+        { id: 'p20', name: 'Bass Prophet', cost: 90000, split: 25, role: 'Dubstep' }
+    ],
+    // This will be populated dynamically by API, but we keep an empty array for structure
+    sample: [], 
+    feature: [
+        { id: 'f1', name: 'Drake', cost: 500000, split: 25, role: 'Icon' },
+        { id: 'f2', name: 'SZA', cost: 300000, split: 20, role: 'Superstar' },
+        { id: 'f3', name: 'Ariana Grande', cost: 450000, split: 22, role: 'Pop Star' },
+        { id: 'f4', name: 'J. Cole', cost: 250000, split: 20, role: 'Lyrical' },
+        { id: 'f5', name: 'Kendrick Lamar', cost: 400000, split: 25, role: 'Legend' },
+        { id: 'f6', name: 'Taylor Swift', cost: 600000, split: 30, role: 'Megastar' },
+        { id: 'f7', name: 'Billie Eilish', cost: 350000, split: 20, role: 'Alt Pop' },
+        { id: 'f8', name: 'Bruno Mars', cost: 400000, split: 22, role: 'Funk/Soul' },
+        { id: 'f9', name: 'The Weeknd', cost: 550000, split: 25, role: 'Pop/R&B' },
+        { id: 'f10', name: 'Rihanna', cost: 700000, split: 30, role: 'Mogul' },
+        { id: 'f11', name: 'Post Malone', cost: 300000, split: 18, role: 'Melodic' },
+        { id: 'f12', name: 'Doja Cat', cost: 280000, split: 18, role: 'Versatile' },
+        { id: 'f13', name: 'Travis Scott', cost: 350000, split: 20, role: 'Rage' },
+        { id: 'f14', name: 'Lizzo', cost: 200000, split: 15, role: 'Pop/Rap' },
+        { id: 'f15', name: 'Dua Lipa', cost: 320000, split: 18, role: 'Disco Pop' },
+        { id: 'f16', name: 'Justin Bieber', cost: 450000, split: 22, role: 'Pop' },
+        { id: 'f17', name: 'Beyoncé', cost: 1000000, split: 40, role: 'Queen' },
+        { id: 'f18', name: 'Kanye West', cost: 400000, split: 30, role: 'Visionary' },
+        { id: 'f19', name: 'Ed Sheeran', cost: 380000, split: 20, role: 'Acoustic' },
+        { id: 'f20', name: 'Cardi B', cost: 300000, split: 18, role: 'Rap' },
+        { id: 'f21', name: 'Harry Styles', cost: 400000, split: 20, role: 'Pop Rock' },
+        { id: 'f22', name: 'Bad Bunny', cost: 500000, split: 25, role: 'Latin Trap' },
+        { id: 'f23', name: 'Olivia Rodrigo', cost: 250000, split: 15, role: 'Pop Punk' },
+        { id: 'f24', name: 'Jay-Z', cost: 800000, split: 35, role: 'Boss' },
+        { id: 'f25', name: 'Megan Thee Stallion', cost: 220000, split: 15, role: 'Rap' },
+        { id: 'f26', name: 'Khalid', cost: 180000, split: 12, role: 'R&B' },
+        { id: 'f27', name: 'H.E.R.', cost: 150000, split: 12, role: 'Soul' },
+        { id: 'f28', name: 'Shawn Mendes', cost: 180000, split: 12, role: 'Pop' },
+        { id: 'f29', name: 'Lil Nas X', cost: 200000, split: 15, role: 'Pop Rap' },
+        { id: 'f30', name: 'Nicki Minaj', cost: 350000, split: 20, role: 'Rap Queen' },
+        { id: 'f31', name: 'Sam Smith', cost: 220000, split: 15, role: 'Ballad' },
+        { id: 'f32', name: 'Rosalia', cost: 200000, split: 15, role: 'Flamenco' },
+        { id: 'f33', name: 'J Balvin', cost: 250000, split: 18, role: 'Reggaeton' },
+        { id: 'f34', name: 'Frank Ocean', cost: 350000, split: 20, role: 'Enigma' },
+        { id: 'f35', name: 'Adele', cost: 600000, split: 25, role: 'Soul' },
+        { id: 'f36', name: 'Lorde', cost: 180000, split: 15, role: 'Alt' },
+        { id: 'f37', name: 'Tyler, The Creator', cost: 220000, split: 18, role: 'Creative' },
+        { id: 'f38', name: 'Calvin Harris', cost: 300000, split: 15, role: 'DJ' },
+        { id: 'f39', name: 'Sia', cost: 200000, split: 15, role: 'Songwriter' },
+        { id: 'f40', name: 'Imagine Dragons', cost: 250000, split: 15, role: 'Rock' },
+        { id: 'f41', name: 'Bruno Major', cost: 80000, split: 10, role: 'Indie Soul' },
+        { id: 'f42', name: 'Anderson .Paak', cost: 150000, split: 12, role: 'Funk' },
+        { id: 'f43', name: 'Mabel', cost: 100000, split: 10, role: 'R&B/Pop' },
+        { id: 'f44', name: 'A Boogie wit da Hoodie', cost: 120000, split: 12, role: 'Melodic Rap' },
+        { id: 'f45', name: 'Tate McRae', cost: 110000, split: 10, role: 'Pop' },
+        { id: 'f46', name: 'Saweetie', cost: 130000, split: 12, role: 'Rap' },
+        { id: 'f47', name: 'Halsey', cost: 240000, split: 15, role: 'Alt Pop' },
+        { id: 'f48', name: 'Shakira', cost: 400000, split: 20, role: 'Latin' },
+        { id: 'f49', name: '21 Savage', cost: 280000, split: 18, role: 'Trap' },
+        { id: 'f50', name: 'BTS', cost: 700000, split: 30, role: 'K-Pop' }
+    ]
+};
+
+
+        // --- State ---
+        let currentStep = 1;
+        let isExplicit = false;
+        let currentTheme = '';
+        let currentSongType = 'normal';
+
+        function selectSongType(type, el) {
+            currentSongType = type;
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        let selection = {
+            writer: [],
+            composer: [],
+            producer: [],
+            sample: [],
+            feature: []
+        };
+
+        // Initialize
+        let activeSoundtrackDeal = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBalance();
+            // Default "Me" selection
+            addPerson('writer', catalogs.writer[0]);
+            addPerson('composer', catalogs.composer[0]);
+            addPerson('producer', catalogs.producer[0]);
+            
+            // Init Themes
+            filterThemes('Mood');
+
+            initSoundtrackPicker();
+        });
+
+        // --- Soundtrack Deal Integration ---
+        function initSoundtrackPicker() {
+            // No stWeeklyTick() here — this screen only reads existing active deals.
+            // Offers/deals are only rolled forward on an actual game-week advance
+            // (music.html's updateDateByOneWeek), never just from opening this page.
+            const deals = stGetActiveDealsForFormat('Song');
+            const wrap = document.getElementById('soundtrack-picker-wrap');
+            const sel = document.getElementById('soundtrack-deal-select');
+            if (deals.length === 0) { wrap.style.display = 'none'; return; }
+            wrap.style.display = 'block';
+            sel.innerHTML = '<option value="">None (regular release)</option>' +
+                deals.map(d => `<option value="${d.id}">${d.filmTitle} — ${d.studio} (${stWeeksLeft(d.deadlineDate)}w left)</option>`).join('');
+            // Preselect if only one deal on offer
+            const urlDeal = new URLSearchParams(window.location.search).get('soundtrackDeal');
+            if (urlDeal && deals.some(d => d.id === urlDeal)) {
+                sel.value = urlDeal;
+                applySoundtrackDeal();
+            }
+        }
+        function stWeeksLeft(deadlineDate) {
+            const now = new Date(localStorage.getItem('currentDate') || Date.now());
+            return Math.max(0, Math.ceil((new Date(deadlineDate) - now) / (7*24*60*60*1000)));
+        }
+        function applySoundtrackDeal() {
+            const dealId = document.getElementById('soundtrack-deal-select').value;
+            const banner = document.getElementById('soundtrack-req-banner');
+            if (!dealId) {
+                activeSoundtrackDeal = null;
+                banner.style.display = 'none';
+                return;
+            }
+            const deal = stGetDeals().find(d => d.id === dealId);
+            if (!deal) { activeSoundtrackDeal = null; banner.style.display = 'none'; return; }
+            activeSoundtrackDeal = deal;
+
+            // Force theme
+            currentTheme = deal.requirements.theme;
+            const trigger = document.getElementById('theme-trigger');
+            trigger.innerHTML = `<span>${deal.requirements.theme}</span> <i class="fas fa-check-circle" style="color:var(--success)"></i>`;
+            trigger.classList.add('has-value');
+            document.getElementById('selected-theme-val').value = deal.requirements.theme;
+
+            // Force clean if explicit not allowed
+            if (!deal.requirements.explicitAllowed) {
+                isExplicit = false;
+                document.querySelectorAll('.toggle-opt').forEach((e,i) => {
+                    e.classList.toggle('active', i===0);
+                    e.classList.remove('explicit');
+                });
+            }
+
+            banner.style.display = 'block';
+            banner.innerHTML = `<strong>${deal.studio}</strong> requires theme <strong>"${deal.requirements.theme}"</strong>` +
+                (deal.requirements.explicitAllowed ? '' : ' and <strong>must stay clean</strong>') +
+                `. Breaking these rules risks the deal.`;
+        }
+
+        function updateBalance() {
+            const money = parseFloat(localStorage.getItem('money')) || 0;
+            document.getElementById('balance-display').innerText = `$${money.toLocaleString()}`;
+        }
+
+        function setClean(val, el) {
+            isExplicit = !val;
+            document.querySelectorAll('.toggle-opt').forEach(e => e.classList.remove('active', 'explicit'));
+            el.classList.add('active');
+            if(!val) el.classList.add('explicit');
+        }
+
+        // --- Theme Logic ---
+        function openThemeSelector() {
+            document.getElementById('theme-overlay').classList.add('active');
+        }
+        function closeThemeSelector() {
+            document.getElementById('theme-overlay').classList.remove('active');
+        }
+
+        function filterThemes(category) {
+            // Update Tabs
+            document.querySelectorAll('.theme-tab').forEach(t => {
+                t.classList.remove('active');
+                if(t.innerText.includes(category)) t.classList.add('active');
+            });
+
+            // Render Grid
+            const grid = document.getElementById('theme-grid');
+            grid.innerHTML = '';
+            themeData[category].forEach(theme => {
+                const div = document.createElement('div');
+                div.className = `theme-card ${currentTheme === theme.name ? 'selected' : ''}`;
+                div.innerHTML = `<i class="fas">${theme.icon}</i><span>${theme.name}</span>`;
+                div.onclick = () => selectTheme(theme.name, div);
+                grid.appendChild(div);
+            });
+        }
+
+        function selectTheme(name, el) {
+            if (activeSoundtrackDeal) {
+                alert(`This song is locked to the "${activeSoundtrackDeal.requirements.theme}" theme for your ${activeSoundtrackDeal.studio} deal. Clear the soundtrack deal above to pick a different theme.`);
+                closeThemeSelector();
+                return;
+            }
+            currentTheme = name;
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            
+            // Update Trigger UI
+            const trigger = document.getElementById('theme-trigger');
+            trigger.innerHTML = `<span>${name}</span> <i class="fas fa-check-circle" style="color:var(--success)"></i>`;
+            trigger.classList.add('has-value');
+            
+            document.getElementById('selected-theme-val').value = name;
+            setTimeout(closeThemeSelector, 200); // Small delay for effect
+        }
+
+        // --- Step Navigation ---
+        function changeStep(dir) {
+            if (currentStep === 1 && dir === 1) {
+                if (!document.getElementById('song-name').value.trim()) return alert("Please name your song.");
+                if (!currentTheme) return alert("Please select a theme.");
+            }
+
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            document.querySelector(`.step-dot[data-step="${currentStep}"]`).classList.remove('active');
+            if(dir===1) document.querySelector(`.step-dot[data-step="${currentStep}"]`).classList.add('completed');
+            
+            currentStep += dir;
+            
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            document.querySelector(`.step-dot[data-step="${currentStep}"]`).classList.add('active');
+
+            // Progress Bar
+            const percent = ((currentStep - 1) / 3) * 100;
+            document.getElementById('progress-fill').style.width = `${percent}%`;
+
+            // Buttons
+            document.getElementById('prev-btn').style.display = currentStep === 1 ? 'none' : 'block';
+            if (currentStep === 4) {
+                document.getElementById('next-btn').style.display = 'none';
+                document.getElementById('create-btn').style.display = 'block';
+                updateFinanceUI();
+            } else {
+                document.getElementById('next-btn').style.display = 'block';
+                document.getElementById('create-btn').style.display = 'none';
+            }
+        }
+
+        // --- Catalog Logic ---
+        function openCatalog(type) {
+            const modal = document.getElementById('catalog-modal');
+            const list = document.getElementById('catalog-list');
+            const searchContainer = document.getElementById('catalog-search-container');
+            
+            const titleMap = {
+                writer: 'Select Songwriter',
+                composer: 'Select Composer',
+                producer: 'Select Producer',
+                sample: 'Search Song to Sample',
+                feature: 'Select Artist'
+            };
+
+            document.getElementById('catalog-title').innerText = titleMap[type];
+            
+            // Reset List
+            list.innerHTML = '';
+
+            // --- Custom Feature Input (Added) ---
+            if(type === 'feature') {
+                const customForm = document.createElement('div');
+                customForm.className = 'custom-artist-form';
+                customForm.innerHTML = `
+                    <h4 style="color:white; margin-bottom:10px; font-size:14px;">Add Custom Artist</h4>
+                    <input type="text" id="cust-feat-name" placeholder="Artist Name" style="margin-bottom:8px;">
+                    <div class="custom-row">
+                        <input type="number" id="cust-feat-cost" placeholder="Cost ($)" style="width:50%">
+                        <input type="number" id="cust-feat-split" placeholder="Royalty %" style="width:50%">
+                    </div>
+                    <button class="btn-primary" style="margin-top:10px; width:100%; padding:10px;" onclick="addCustomFeature()">Add Custom Artist</button>
+                    <hr style="margin-top:20px; border:0; border-top:1px solid var(--border);">
+                `;
+                list.appendChild(customForm);
+            }
+
+            if(type === 'sample') {
+                // Show Search Bar for Samples
+                searchContainer.style.display = 'block';
+                list.innerHTML = '<div style="text-align:center; color:var(--text-muted); margin-top:20px;">Search for a real song above to see clearance costs.</div>';
+            } else {
+                // Hide Search Bar, Show Standard Lists
+                searchContainer.style.display = 'none';
+                
+                catalogs[type].forEach(item => {
+                    if (selection[type].find(s => s.id === item.id)) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'catalog-item';
+                    
+                    let subText = item.role || item.artist;
+                    if(item.credits) subText += ` • ${item.credits}`;
+
+                    div.innerHTML = `
+                        <div>
+                            <div style="font-weight:600; color:white;">${item.name}</div>
+                            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${subText}</div>
+                        </div>
+                        <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                            ${item.cost > 0 ? `<span class="cost-badge">$${item.cost.toLocaleString()}</span>` : '<span class="cost-badge" style="background:rgba(59,130,246,0.1); color:var(--primary)">Free</span>'}
+                            ${item.split > 0 ? `<span class="split-badge">${item.split}% Royalty</span>` : ''}
+                        </div>
+                    `;
+                    div.onclick = () => {
+                        addPerson(type, item);
+                        closeCatalog();
+                    };
+                    list.appendChild(div);
+                });
+            }
+            
+            modal.classList.add('active');
+        }
+
+        // --- NEW FUNCTION: Add Custom Artist ---
+        function addCustomFeature() {
+            const name = document.getElementById('cust-feat-name').value;
+            const cost = parseInt(document.getElementById('cust-feat-cost').value) || 0;
+            const split = parseInt(document.getElementById('cust-feat-split').value) || 0;
+
+            if(!name) return alert("Please enter an artist name.");
+            if(split > 100) return alert("Split cannot exceed 100%.");
+
+            const customItem = {
+                id: 'cust_' + Date.now(),
+                name: name,
+                cost: cost,
+                split: split,
+                role: 'Custom Feature'
+            };
+
+            addPerson('feature', customItem);
+            closeCatalog();
+        }
+
+        // --- REAL API SEARCH ---
+        async function searchSamples() {
+            const query = document.getElementById('sample-search-input').value;
+            const list = document.getElementById('catalog-list');
+            
+            if(!query) return;
+            
+            list.innerHTML = '<div style="text-align:center; padding:20px;">Searching Global Database... <i class="fas fa-spinner fa-spin"></i></div>';
+
+            try {
+                // Use iTunes Search API
+                const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=20`);
+                const data = await res.json();
+
+                list.innerHTML = '';
+                
+                if(data.resultCount === 0) {
+                    list.innerHTML = '<div style="text-align:center; color:var(--text-muted);">No songs found. Try another search.</div>';
+                    return;
+                }
+
+                data.results.forEach(track => {
+                    // Generate Game Logic for this real song
+                    // Randomize cost between $2k and $20k for gameplay variety
+                    const gameCost = Math.floor(Math.random() * (20000 - 2000 + 1) + 2000); 
+                    // Randomize Split between 10% and 50%
+                    const gameSplit = Math.floor(Math.random() * (50 - 10 + 1) + 10);
+
+                    // Create Item Object
+                    const item = {
+                        id: 's_' + track.trackId,
+                        name: track.trackName,
+                        artist: track.artistName,
+                        cost: gameCost,
+                        split: gameSplit,
+                        credits: `Artist: ${track.artistName}`,
+                        role: 'Sample'
+                    };
+
+                    // Check if already added
+                    if (selection.sample.find(s => s.id === item.id)) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'catalog-item';
+                    div.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${track.artworkUrl60}" style="border-radius:4px;">
+                            <div>
+                                <div style="font-weight:600; color:white;">${item.name}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${item.artist}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                            <span class="cost-badge">$${item.cost.toLocaleString()}</span>
+                            <span class="split-badge">${item.split}% Royalty</span>
+                        </div>
+                    `;
+                    div.onclick = () => {
+                        addPerson('sample', item);
+                        closeCatalog();
+                    };
+                    list.appendChild(div);
+                });
+
+            } catch (e) {
+                console.error(e);
+                list.innerHTML = '<div style="color:var(--danger); text-align:center;">Error connecting to music database. Check internet.</div>';
+            }
+        }
+
+        function closeCatalog() {
+            document.getElementById('catalog-modal').classList.remove('active');
+        }
+
+        function addPerson(type, item) {
+            if(selection[type].length >= 4) return alert("Max limit reached for this category.");
+            selection[type].push(item);
+            renderList(type);
+            updateFinanceUI();
+        }
+
+        function removePerson(type, index) {
+            selection[type].splice(index, 1);
+            renderList(type);
+            updateFinanceUI();
+        }
+
+        function renderList(type) {
+            const container = document.getElementById(`list-${type}`);
+            if(!container) return;
+            
+            container.innerHTML = selection[type].map((item, i) => `
+                <div class="team-card">
+                    <div class="team-info">
+                        <h4>${item.name} ${item.credits ? `<span class="credits-tag">Sample</span>` : ''}</h4>
+                        <div>${item.split}% Royalty • $${item.cost.toLocaleString()}</div>
+                    </div>
+                    <div class="remove-btn" onclick="removePerson('${type}', ${i})"><i class="fas fa-times"></i></div>
+                </div>
+            `).join('');
+        }
+
+        // --- Calculations ---
+        function updateFinanceUI() {
+            const studioCost = parseInt(document.getElementById('studio-select').value);
+            
+            let totalCost = studioCost;
+            let totalSplitTaken = 0;
+
+            // Sum costs and splits
+            ['writer', 'composer', 'producer', 'sample', 'feature'].forEach(cat => {
+                selection[cat].forEach(p => {
+                    totalCost += p.cost;
+                    totalSplitTaken += p.split;
+                });
+            });
+
+            // Calculate User Split
+            let userSplit = Math.max(0, 100 - totalSplitTaken);
+
+            // Update DOM
+            document.getElementById('total-cost-display').innerText = `$${totalCost.toLocaleString()}`;
+            document.getElementById('user-split-display').innerText = `${userSplit}%`;
+            
+            // Update Visual Bar
+            const barContainer = document.getElementById('split-bar');
+            barContainer.innerHTML = '';
+            
+            // User Segment
+            const userDiv = document.createElement('div');
+            userDiv.className = 'split-bar';
+            userDiv.style.width = `${userSplit}%`;
+            userDiv.style.background = 'var(--primary)';
+            userDiv.title = `You: ${userSplit}%`;
+            barContainer.appendChild(userDiv);
+
+            // Other Segments
+            const colors = { writer: '#F59E0B', producer: '#EF4444', sample: '#8B5CF6', feature: '#10B981', composer: '#6366F1' };
+            
+            let legendHtml = `<div style="display:flex; align-items:center; gap:5px;"><div style="width:8px; height:8px; border-radius:50%; background:var(--primary)"></div> You (${userSplit}%)</div>`;
+
+            ['writer', 'composer', 'producer', 'sample', 'feature'].forEach(cat => {
+                const catTotal = selection[cat].reduce((acc, i) => acc + i.split, 0);
+                if (catTotal > 0) {
+                    const div = document.createElement('div');
+                    div.className = 'split-bar';
+                    div.style.width = `${catTotal}%`;
+                    div.style.background = colors[cat];
+                    div.title = `${cat.charAt(0).toUpperCase()+cat.slice(1)}s: ${catTotal}%`;
+                    barContainer.appendChild(div);
+                    
+                    legendHtml += `<div style="display:flex; align-items:center; gap:5px;"><div style="width:8px; height:8px; border-radius:50%; background:${colors[cat]}"></div> ${cat.charAt(0).toUpperCase()+cat.slice(1)}s (${catTotal}%)</div>`;
+                }
+            });
+            document.getElementById('split-legend').innerHTML = legendHtml;
+        }
+
+       // --- GAME VARIABLES ---
+let gameActive = false;
+let needlePos = 0;
+let direction = 1; // 1 = right, -1 = left
+let gameSpeed = 1.5;
+let currentRound = 1;
+let totalRounds = 5;
+let accumulatedQuality = 0;
+let animationFrame;
+let maxSongPotential = 100;
+
+// 1. TRIGGER THE GAME INSTEAD OF INSTANT CREATION
+function createSong() {
+    const money = parseFloat(localStorage.getItem('money')) || 0;
+    const studioCost = parseInt(document.getElementById('studio-select').value);
+    
+    // Calculate Costs
+    let totalCost = studioCost;
+    ['writer', 'composer', 'producer', 'sample', 'feature'].forEach(cat => {
+        selection[cat].forEach(p => totalCost += p.cost);
+    });
+
+    if (money < totalCost) {
+        return alert(`Insufficient funds. You need $${totalCost.toLocaleString()}`);
+    }
+    
+    // Deduct money immediately so they can't back out for free
+    localStorage.setItem('money', money - totalCost);
+    updateBalance();
+
+    // CALCULATE TEAM POTENTIAL (This acts as the "Ceiling" or "Cap")
+    // Base 60 + bonuses. A bad team caps at 70, a great team allows 100.
+    let potential = 60; 
+    
+    // Studio Gear adds potential
+    if(studioCost >= 10000) potential += 20;
+    else if(studioCost >= 3000) potential += 10;
+
+    // Team adds potential (Simplified logic: more spending = higher potential)
+    const teamSpend = totalCost - studioCost;
+    potential += Math.min(20, Math.floor(teamSpend / 3000));
+    
+    maxSongPotential = Math.min(100, potential);
+
+    // SETUP GAME DIFFICULTY
+    // Expensive Studio = Wider Green Zone (Easier to hit)
+    const target = document.getElementById('game-target');
+    if(studioCost >= 5000) target.style.width = '30%'; // Easy
+    else if(studioCost >= 1000) target.style.width = '20%'; // Normal
+    else target.style.width = '10%'; // Hard (Bedroom studio)
+
+    // Expensive Producer = Slower Needle (Easier to time)
+    // We check if any producer cost > 5000
+    const hasProProducer = selection.producer.some(p => p.cost > 5000);
+    gameSpeed = hasProProducer ? 1.2 : 2.0; // Fast if cheap producer
+
+    // Reset Game State
+    currentRound = 1;
+    accumulatedQuality = 0;
+    document.getElementById('take-count').innerText = currentRound;
+    
+        // Show Modal & Start
+    const modal = document.getElementById('game-modal');
+    if (!modal) {
+        alert('Error: Game modal not found!');
+        return;
+    }
+    modal.classList.add('active');
+    gameActive = true;
+    gameLoop();
+}
+
+// 2. THE GAME LOOP (Animation)
+function gameLoop() {
+    if(!gameActive) return;
+
+    // Move Needle
+    needlePos += (gameSpeed * direction);
+
+    // Bounce off walls
+    if(needlePos >= 100 || needlePos <= 0) {
+        direction *= -1;
+    }
+
+    document.getElementById('game-needle').style.left = needlePos + '%';
+    animationFrame = requestAnimationFrame(gameLoop);
+}
+
+// 3. PLAYER HITS THE BUTTON
+let lastHitTime = 0;
+function hitNote() {
+    if(!gameActive) return;
+    
+    // Prevent double-firing (cooldown of 200ms)
+    const now = Date.now();
+    if(now - lastHitTime < 200) return;
+    lastHitTime = now;
+
+    // Get positions
+    const targetWidth = parseFloat(document.getElementById('game-target').style.width);
+    const targetStart = 50 - (targetWidth / 2);
+    const targetEnd = 50 + (targetWidth / 2);
+    
+    let roundScore = 0;
+    let msg = "MISS";
+    let color = "#EF4444";
+
+    // Hit Detection
+    if(needlePos >= targetStart && needlePos <= targetEnd) {
+        const distance = Math.abs(50 - needlePos);
+        if(distance < 2) {
+            roundScore = 100; 
+            msg = "PERFECT!"; 
+            color = "#10B981";
+        } else {
+            roundScore = 80; 
+            msg = "GOOD"; 
+            color = "#F59E0B";
+        }
+    } else {
+        roundScore = 10;
+    }
+
+    // Accumulate Score
+    accumulatedQuality += roundScore;
+
+    // Visual Feedback
+    showFlashMsg(msg, color);
+
+    // Next Round Logic
+    currentRound++;
+    if(currentRound > totalRounds) {
+        finishRecording();
+    } else {
+        document.getElementById('take-count').innerText = currentRound;
+        needlePos = Math.random() * 100;
+    }
+}
+// 4. HELPER: Flash Text Animation
+function showFlashMsg(text, color) {
+    const el = document.getElementById('flash-msg');
+    el.innerText = text;
+    el.style.color = color;
+    el.style.animation = 'none';
+    el.offsetHeight; /* trigger reflow */
+    el.style.animation = 'floatUp 0.8s ease forwards';
+}
+
+// 5. FINISH & SAVE
+function finishRecording() {
+    gameActive = false;
+    cancelAnimationFrame(animationFrame);
+    document.getElementById('game-modal').classList.remove('active');
+
+    // --- CALCULATE FINAL QUALITY ---
+    const averageGameScore = accumulatedQuality / totalRounds;
+    let finalQuality = Math.floor((averageGameScore / 100) * maxSongPotential);
+    
+    if(isExplicit) finalQuality += (Math.random() > 0.5 ? 2 : -2);
+    finalQuality = Math.max(0, Math.min(100, finalQuality));
+
+    // --- SAVE DATA ---
+    let finalSongName = document.getElementById('song-name').value;
+    if (selection.feature.length > 0) {
+        const featString = selection.feature.map(f => f.name).join(', ');
+        finalSongName += ` (feat. ${featString})`;
+    }
+    if (activeSoundtrackDeal) {
+        finalSongName += ` (from ${activeSoundtrackDeal.filmTitle})`;
+    }
+    
+    const creditNames = {
+        writers: selection.writer.map(p => p.name).join(', '),
+        producers: selection.producer.map(p => p.name).join(', '),
+        features: selection.feature.map(p => p.name).join(', ')
+    };
+
+    let totalCost = parseInt(document.getElementById('studio-select').value);
+    ['writer', 'composer', 'producer', 'sample', 'feature'].forEach(cat => {
+        selection[cat].forEach(p => totalCost += p.cost);
+    });
+
+    const _prevSongs = JSON.parse(localStorage.getItem('releasedSongs') || '[]');
+    const _sameThemeCount = currentTheme ? _prevSongs.filter(s => s.theme === currentTheme).length : 0;
+    const _sameGenreCount = document.getElementById('genre').value ? _prevSongs.filter(s => s.genre === document.getElementById('genre').value).length : 0;
+
+    const newSong = {
+        id: Date.now(),
+        songName: finalSongName,
+        isExplicit: isExplicit,
+        songType: currentSongType,
+        genre: document.getElementById('genre').value,
+        theme: currentTheme,
+        themeRepeatCount: _sameThemeCount,
+        genreRepeatCount: _sameGenreCount,
+        quality: finalQuality,
+        streams: 0,
+        releaseDate: null,
+        cost: totalCost,
+        credits: creditNames,
+        splits: {
+            user: parseInt(document.getElementById('user-split-display').innerText),
+            details: selection
+        },
+        soundtrackDealId: activeSoundtrackDeal ? activeSoundtrackDeal.id : null
+    };
+
+    const unreleased = JSON.parse(localStorage.getItem('unreleasedSongs') || '[]');
+    unreleased.push(newSong);
+    localStorage.setItem('unreleasedSongs', JSON.stringify(unreleased));
+    try{const _ex=JSON.parse(localStorage.getItem('explicitSongs')||'{}');if(newSong.isExplicit)_ex[newSong.songName]=true;else delete _ex[newSong.songName];localStorage.setItem('explicitSongs',JSON.stringify(_ex))}catch(e){}
+
+    if (activeSoundtrackDeal) {
+        const _live = stGetDeals().find(x => x.id === activeSoundtrackDeal.id);
+        if (!_live || _live.status !== 'active') newSong.soundtrackDealId = null;
+    }
+    if (activeSoundtrackDeal) {
+        // Mark the deal as "recorded" (still active until actually released/submitted)
+        let deals = stGetDeals();
+        const d = deals.find(x => x.id === activeSoundtrackDeal.id);
+        if (d) { d.recordedItemLocalId = newSong.id; stSaveDeals(deals); }
+    }
+
+    // --- SHOW BEAUTIFUL RESULTS SCREEN ---
+    if (newSong.soundtrackDealId) { try { alert('Saved to your vault, tagged to "' + activeSoundtrackDeal.filmTitle + '". Now go to Managers > Soundtracks and SUBMIT it to the studio. It cannot be released until approved.'); } catch(e){} }
+    document.getElementById('final-quality-score').innerText = finalQuality;
+    document.getElementById('game-performance').innerText = Math.floor(averageGameScore) + '%';
+    document.getElementById('max-potential').innerText = maxSongPotential;
+    
+    // Show results modal
+    document.getElementById('results-modal').classList.add('active');
+    
+    // Animate the quality bar
+    setTimeout(() => {
+        document.getElementById('quality-fill-bar').style.width = finalQuality + '%';
+    }, 300);
+}
+
+// Navigate to music library
+function goToMusic() {
+    window.location.href = 'unreleased music.html';
+}
+
+// ============================================================
+// BUY SONG SYSTEM
+// ============================================================
+const BUY_SONG_TYPES = ['Normal', 'Memo', 'Interlude'];
+const BUY_THEMES_ALL = [
+    {icon:'🔥',name:'Hype'},{icon:'😎',name:'Flexing'},{icon:'🌑',name:'Darkness'},
+    {icon:'✨',name:'Hope'},{icon:'🌪️',name:'Chaos'},{icon:'🧘',name:'Peace'},
+    {icon:'🚀',name:'Ambition'},{icon:'🥺',name:'Nostalgia'},{icon:'⚡',name:'Power'},
+    {icon:'❤️',name:'True Love'},{icon:'💔',name:'Heartbreak'},{icon:'💍',name:'Commitment'},
+    {icon:'😈',name:'Toxic'},{icon:'😒',name:'Jealousy'},{icon:'🚪',name:'Closure'},
+    {icon:'👀',name:'Crush'},{icon:'🕺',name:'Chemistry'},{icon:'👄',name:'Seduction'},
+    {icon:'🍷',name:'Intoxicated'},{icon:'💋',name:'Affair'},{icon:'💸',name:'Hustle'},
+    {icon:'🚬',name:'Addiction'},{icon:'💣',name:'Streets'},{icon:'🌃',name:'Night Life'},
+    {icon:'🏆',name:'Victory'},{icon:'👑',name:'Legacy'},{icon:'🌊',name:'Reflection'},
+    {icon:'🎭',name:'Identity'},{icon:'🕊️',name:'Freedom'},{icon:'🌹',name:'Romance'},
+    {icon:'🌅',name:'New Beginnings'},{icon:'❄️',name:'Cold'},{icon:'🎪',name:'Party'},
+    {icon:'💀',name:'Death'},{icon:'🌍',name:'Culture'}
+];
+
+let marketTracks = [];
+let buyFilterType = 'All';
+let pendingBuyTrack = null;
+
+function generateMarketTracks() {
+    const count = 40 + Math.floor(Math.random() * 20);
+    const tracks = [];
+    for (let i = 0; i < count; i++) {
+        const type = BUY_SONG_TYPES[Math.floor(Math.random() * BUY_SONG_TYPES.length)];
+        const theme = BUY_THEMES_ALL[Math.floor(Math.random() * BUY_THEMES_ALL.length)];
+        const quality = Math.max(10, Math.min(100, Math.floor(20 + Math.random() * 50 + Math.random() * 30)));
+        const price = Math.round((Math.pow(quality / 100, 2.5) * 499500 + 500) / 100) * 100;
+        tracks.push({ id: 'bt_' + Date.now() + '_' + i, type, theme, quality, price });
+    }
+    tracks.sort((a, b) => a.price - b.price);
+    tracks.forEach((t, idx) => t.trackNum = idx + 1);
+    return tracks;
+}
+
+function openBuyStore() {
+    const currentWeek = parseInt(localStorage.getItem('week') || '1');
+    const savedWeek = parseInt(localStorage.getItem('marketWeek') || '0');
+    if (!marketTracks.length || currentWeek !== savedWeek) {
+        marketTracks = generateMarketTracks();
+        localStorage.setItem('marketWeek', currentWeek);
+    }
+    renderBuyTracks();
+    document.getElementById('buy-store-overlay').classList.add('active');
+}
+
+function closeBuyStore() {
+    document.getElementById('buy-store-overlay').classList.remove('active');
+}
+
+function filterBuyTracks(type, el) {
+    buyFilterType = type;
+    document.querySelectorAll('.buy-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderBuyTracks();
+}
+
+function renderBuyTracks() {
+    const money = parseInt(localStorage.getItem('money') || '0');
+    const filtered = buyFilterType === 'All' ? marketTracks : marketTracks.filter(t => t.type === buyFilterType);
+    const list = document.getElementById('buy-store-list');
+    list.innerHTML = filtered.map(t => `
+        <div class="buy-track-card">
+            <div class="buy-track-top">
+                <span class="buy-track-number">Track ${t.trackNum}</span>
+                <span class="buy-track-type-badge badge-${t.type.toLowerCase()}">${t.type}</span>
+            </div>
+            <div class="buy-track-theme">${t.theme.icon} ${t.theme.name}</div>
+            <div class="buy-track-quality">
+                <div class="buy-quality-bar"><div class="buy-quality-fill" style="width:${t.quality}%"></div></div>
+                <span class="buy-quality-label">${t.quality}</span>
+            </div>
+            <div class="buy-track-bottom">
+                <span class="buy-track-price">$${t.price.toLocaleString()}</span>
+                <button class="buy-btn" ${money < t.price ? 'disabled' : ''} onclick="initiateBuy('${t.id}')">
+                    ${money < t.price ? "Can't Afford" : 'Buy'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function initiateBuy(id) {
+    pendingBuyTrack = marketTracks.find(t => t.id === id);
+    if (!pendingBuyTrack) return;
+    document.getElementById('rename-input').value = '';
+    document.getElementById('rename-modal').classList.add('active');
+}
+
+function closeRenameModal() {
+    document.getElementById('rename-modal').classList.remove('active');
+    pendingBuyTrack = null;
+}
+
+function confirmBuySong() {
+    if (!pendingBuyTrack) return;
+    const name = document.getElementById('rename-input').value.trim();
+    if (!name) return alert('Enter a song name first.');
+    const money = parseInt(localStorage.getItem('money') || '0');
+    if (money < pendingBuyTrack.price) return alert('Not enough money!');
+    localStorage.setItem('money', money - pendingBuyTrack.price);
+    updateBalance();
+    const newSong = {
+        id: Date.now(),
+        songName: name,
+        isExplicit: false,
+        songType: pendingBuyTrack.type.toLowerCase(),
+        genre: 'Pop',
+        theme: pendingBuyTrack.theme.name,
+        quality: pendingBuyTrack.quality,
+        streams: 0,
+        releaseDate: null,
+        cost: pendingBuyTrack.price,
+        boughtFromMarket: true,
+        credits: { writers: 'Ghostwriter', producers: 'Unknown', features: '' },
+        splits: { user: 100, details: {} }
+    };
+    const unreleased = JSON.parse(localStorage.getItem('unreleasedSongs') || '[]');
+    unreleased.push(newSong);
+    localStorage.setItem('unreleasedSongs', JSON.stringify(unreleased));
+    marketTracks = marketTracks.filter(t => t.id !== pendingBuyTrack.id);
+    pendingBuyTrack = null;
+    closeRenameModal();
+    renderBuyTracks();
+    alert(`"${newSong.songName}" added to your library!`);
+}
+    </script>
+
+
+</div></body></html>
