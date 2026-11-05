@@ -475,7 +475,7 @@ function App() {
       </article>
     </section>
     {(artist.careerBoosts??[]).length>0&&<section className="mx-boost"><Sparkles size={17}/><div><b>Momentum actif</b><span>{(artist.careerBoosts??[]).map(b=>b.label+' ×'+b.multiplier.toFixed(2)+' ('+b.remainingWeeks+' sem.)').join(' · ')}</span></div></section>}
-  </div>}</main>
+  </div>}</div></main>
   <nav className="mcs-dock" aria-label="Navigation principale" style={{'--lens-x':(26+Math.max(0,workspaces.findIndex(w=>w.key===activeWorkspace.key))*43)+'px'} as React.CSSProperties}>
     <span className="mcs-nav-lens" aria-hidden="true"/>
     {workspaces.map(item=><button key={item.key} title={item.label} aria-label={item.label} className={activeWorkspace.key===item.key?'mcs-dock-item active':'mcs-dock-item'} onClick={()=>setTab(item.items[0].label)} aria-current={activeWorkspace.key===item.key?'page':undefined}>
