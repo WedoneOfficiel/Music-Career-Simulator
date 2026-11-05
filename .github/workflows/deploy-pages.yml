@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -45,3 +45,10 @@ jobs:
       - name: Publier sur GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Vérifier le site publié
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          test -n "$PAGE_URL"
+          curl --fail --silent --show-error --location --retry 8 --retry-delay 5 "$PAGE_URL" -o /tmp/published.html
+          grep -q 'assets/' /tmp/published.html
