@@ -3139,3 +3139,33 @@ td{border-color:rgba(125,151,223,.14)!important}
 .mx-ecosystem-summary .ecosystem-info-card p,.mx-ecosystem-summary .ecosystem-info-card small{color:#94a7c8}
 @media(max-width:900px){.mx-library-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.mx-sync-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.mx-library-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}.mx-library-grid{grid-template-columns:1fr!important}.mx-library-toolbar{align-items:stretch;flex-direction:column}.mx-library-toolbar .discography-search{min-width:0}.mx-sync-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.mx-business-tabs .ls-tab{flex:1 1 42%}.mx-business-hero{align-items:stretch!important;flex-direction:column}.mx-ecosystem-hero{align-items:start!important;flex-direction:column}}
+
+/* Finance workspace — analytical layer */
+.mx-finance-evolution{overflow:hidden;border:1px solid rgba(112,153,255,.2)!important;border-radius:16px!important;background:radial-gradient(ellipse at 88% 0%,rgba(91,115,226,.12),transparent 38%),linear-gradient(150deg,rgba(27,37,69,.94),rgba(14,21,42,.98))!important}
+.mx-finance-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:4px 0 20px}
+.mx-finance-highlights>div{display:grid;gap:6px;min-width:0;padding:13px 15px;border:1px solid rgba(130,157,208,.14);border-radius:11px;background:rgba(5,11,27,.35)}
+.mx-finance-highlights small{color:#8298bb;font-size:8px;font-weight:800;letter-spacing:.1em}
+.mx-finance-highlights strong{color:#f4f7ff;font-size:clamp(15px,2vw,22px);font-weight:800;letter-spacing:-.04em;overflow-wrap:anywhere}
+.mx-finance-highlights strong.positive{color:#79dfbd}.mx-finance-highlights strong.negative{color:#ff9caa}
+.mx-finance-highlights span{color:#8195b6;font-size:9px}
+.mx-finance-chart{height:150px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:end;gap:8px;padding:12px 8px 0;border-bottom:1px solid rgba(130,157,208,.2);background:repeating-linear-gradient(to bottom,transparent 0,transparent 36px,rgba(130,157,208,.09) 37px)}
+.mx-finance-week{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:7px;min-width:0}
+.mx-finance-bar-zone{height:calc(100% - 18px);width:100%;display:flex;align-items:end;justify-content:center}
+.mx-finance-bar{display:block;width:min(25px,75%);min-height:5px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#75dfc4,#4d8de8);box-shadow:0 0 15px rgba(89,167,220,.12)}
+.mx-finance-bar.negative{background:linear-gradient(180deg,#ffad9b,#ce647c)}
+.mx-finance-week small{color:#7f93b4;font-size:8px}
+.mx-finance-empty{padding:30px 10px;text-align:center;color:#8499ba;font-size:11px}
+.mx-finance-mix{margin-top:20px;padding-top:15px;border-top:1px solid rgba(130,157,208,.13)}
+.mx-finance-mix-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px;color:#eaf1ff;font-size:11px}
+.mx-finance-mix-head span{color:#8fa9d0;font-weight:750}
+.mx-finance-mix-track{display:flex;overflow:hidden;height:10px;border-radius:20px;background:rgba(255,255,255,.06)}
+.mx-finance-mix-track i{display:block;min-width:0}
+.mx-finance-mix-track .mix-streaming,.mx-finance-mix-legend .mix-streaming{background:#6b9af1}
+.mx-finance-mix-track .mix-sync,.mx-finance-mix-legend .mix-sync{background:#a58be9}
+.mx-finance-mix-track .mix-live,.mx-finance-mix-legend .mix-live{background:#6bd6bc}
+.mx-finance-mix-track .mix-merch,.mx-finance-mix-legend .mix-merch{background:#e5b66e}
+.mx-finance-mix-legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.mx-finance-mix-legend span{display:grid;grid-template-columns:8px 1fr;align-items:center;gap:5px;color:#899dbd;font-size:9px}
+.mx-finance-mix-legend span>b{grid-column:2;color:#eaf1ff;font-size:10px;overflow-wrap:anywhere}
+.mx-finance-mix-legend span>i{width:7px;height:7px;border-radius:50%}
+@media(max-width:650px){.mx-finance-highlights{grid-template-columns:1fr}.mx-finance-chart{gap:3px;height:125px;padding-inline:2px}.mx-finance-mix-legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
