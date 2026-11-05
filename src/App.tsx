@@ -7,7 +7,7 @@ import SyncLicensing from './SyncLicensing'
 import { buildMarketCharts, getRivalMarketEvent, type MarketCharts } from './careerData'
 import {
   BarChart3, ChevronRight, Disc3, RotateCcw,
-  Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
+  Headphones, Home, Mic2, Music2, Settings2, Sparkles,
   Users, Wallet, Play, Building2,
   TrendingUp, Ticket, Shirt, Newspaper, ArrowUpRight, Activity,
   CalendarDays, Zap, Globe2, Megaphone
