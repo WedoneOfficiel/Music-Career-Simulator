@@ -275,7 +275,7 @@ function App() {
       return [contractId,Math.min(contract?.recoupableBalance??0,eligible)]
     })) as Record<string,number>
     const recouped=Object.values(recoupedByContract).reduce((sum,value)=>sum+value,0)
-    const marketingSpend=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&c.paymentMode==='weekly').reduce((sum,c)=>{const due=Math.min(c.weeklyCost??0,Math.max(0,(c.budget??0)-(c.spent??0)));const labelRatio=(c.budget??0)>0?Math.min(1,(c.labelFundedBudget??0)/c.budget):0;return sum+due*(1-labelRatio)},0)
+    const marketingSpend=(artist.campaigns??[]).filter(c=>c.remainingWeeks>0&&c.paymentMode==='weekly').reduce((sum,c)=>{const due=Math.min(c.weeklyCost??0,Math.max(0,(c.budget??0)-(c.spent??0)));const labelRatio=(c.budget??0)>0?Math.min(1,(c.labelFundedBudget??0)/(c.budget??0)):0;return sum+due*(1-labelRatio)},0)
     const artistTotalShare=artistGrossShare+publishingRevenue+syncArtistMaster+syncArtistPublishing
     const cashNet=artistTotalShare-recouped
     const managementFee=artist.managerContract&&artist.managerContract.remainingWeeks>0?Math.round(Math.max(0,cashNet)*artist.managerContract.commission/100):0
