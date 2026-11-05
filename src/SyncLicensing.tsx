@@ -44,9 +44,9 @@ export default function SyncLicensing({artist,update,notify}:Props){
  const pending=deals.filter(d=>d.status==='pending')
  const paid=deals.filter(d=>d.status==='paid')
  const totalPaid=paid.reduce((sum,d)=>sum+d.fee,0)
- return <div className="sync-licensing">
-  <header className="module-intro"><p className="eyebrow">EXPLOITATION DU CATALOGUE · LICENCES</p><h1>Synchronisations</h1><p>Placez vos enregistrements dans des films, séries, publicités et jeux vidéo. Chaque accord rémunère séparément les droits sur le master et les droits d’édition.</p></header>
-  <section className="stats-grid">
+ return <div className="sync-licensing mx-sync-page">
+  <header className="module-intro mx-sync-hero"><p className="eyebrow">EXPLOITATION DU CATALOGUE · LICENCES</p><h1>Synchronisations</h1><p>Placez vos enregistrements dans des films, séries, publicités et jeux vidéo. Chaque accord rémunère séparément les droits sur le master et les droits d’édition.</p></header>
+  <section className="stats-grid mx-sync-stats">
    <div className="stat-card"><div className="stat-top"><span>Accords signés</span><div className="stat-icon"><Clapperboard size={17}/></div></div><strong>{deals.length}</strong><small>Contrats de synchronisation</small></div>
    <div className="stat-card"><div className="stat-top"><span>Paiements reçus</span><div className="stat-icon"><CheckCircle2 size={17}/></div></div><strong>{euro(totalPaid)}</strong><small>Montant brut des accords réglés</small></div>
    <div className="stat-card"><div className="stat-top"><span>En attente</span><div className="stat-icon"><Clock3 size={17}/></div></div><strong>{pending.length}</strong><small>Paiement à la prochaine échéance</small></div>
