@@ -6,7 +6,7 @@ import Discography from './Discography'
 import SyncLicensing from './SyncLicensing'
 import { buildMarketCharts, getRivalMarketEvent, type MarketCharts } from './careerData'
 import {
-  BarChart3, ChevronRight, Disc3, RotateCcw, Clapperboard,
+  BarChart3, ChevronRight, Disc3, RotateCcw,
   Headphones, Home, Mic2, Music2, Settings2, Sparkles, Star,
   Users, Wallet, Play, Building2,
   TrendingUp, Ticket, Shirt, Newspaper, ArrowUpRight, Activity
