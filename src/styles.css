@@ -3169,3 +3169,39 @@ td{border-color:rgba(125,151,223,.14)!important}
 .mx-finance-mix-legend span>b{grid-column:2;color:#eaf1ff;font-size:10px;overflow-wrap:anywhere}
 .mx-finance-mix-legend span>i{width:7px;height:7px;border-radius:50%}
 @media(max-width:650px){.mx-finance-highlights{grid-template-columns:1fr}.mx-finance-chart{gap:3px;height:125px;padding-inline:2px}.mx-finance-mix-legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Tour management overview */
+.mx-tour-overview{display:grid;gap:16px;margin:0 0 16px;padding:20px;border:1px solid rgba(112,153,255,.2);border-radius:16px;background:radial-gradient(ellipse at 88% 0%,rgba(104,105,230,.15),transparent 42%),linear-gradient(145deg,rgba(27,37,69,.94),rgba(14,21,42,.98));color:#eff4ff}
+.mx-tour-overview-head{display:flex;align-items:start;justify-content:space-between;gap:15px}
+.mx-tour-overview-head h2{margin:5px 0;color:#fff;font-size:22px;letter-spacing:-.045em}
+.mx-tour-overview-head p{margin:0;color:#91a5c5;font-size:11px}
+.mx-tour-status{display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(111,220,190,.2);border-radius:20px;background:rgba(67,178,148,.08);color:#92e3c9;font-size:8px;font-weight:800;letter-spacing:.08em;white-space:nowrap}
+.mx-tour-status i{width:6px;height:6px;border-radius:50%;background:#75dfbd;box-shadow:0 0 10px #75dfbd}
+.mx-tour-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.mx-tour-kpis article{display:grid;gap:6px;min-width:0;padding:13px;border:1px solid rgba(130,157,208,.14);border-radius:11px;background:rgba(5,11,27,.34)}
+.mx-tour-kpis small{color:#8499bb;font-size:8px;font-weight:800;letter-spacing:.08em}
+.mx-tour-kpis strong{color:#f5f7ff;font-size:clamp(16px,2vw,23px);letter-spacing:-.045em;overflow-wrap:anywhere}
+.mx-tour-kpis strong.positive{color:#7de0bd}.mx-tour-kpis strong.negative{color:#ff9dab}
+.mx-tour-kpis span{color:#8298b9;font-size:9px}
+.mx-tour-lower{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:10px}
+.mx-tour-next,.mx-tour-roster{padding:14px;border:1px solid rgba(130,157,208,.14);border-radius:11px;background:rgba(5,11,27,.3)}
+.mx-tour-next{display:flex;flex-direction:column;align-items:start;gap:8px}
+.mx-tour-next-city{display:flex;align-items:center;gap:10px;margin:4px 0}
+.mx-tour-next-city>svg{color:#91b8ff}
+.mx-tour-next-city div{display:grid;gap:2px}
+.mx-tour-next-city b{color:#fff;font-size:16px}
+.mx-tour-next-city small,.mx-tour-next>span:last-child{color:#899fbe;font-size:9px}
+.mx-tour-next>strong{color:#dce8ff;font-size:11px}
+.mx-tour-no-next{margin:8px 0 0;color:#8ea2c2;font-size:10px;line-height:1.5}
+.mx-tour-roster{display:grid;gap:9px}
+.mx-tour-roster-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:8px;border-top:1px solid rgba(130,157,208,.12)}
+.mx-tour-roster-row>span{display:grid;gap:3px;min-width:0}
+.mx-tour-roster-row b{overflow:hidden;color:#eaf1ff;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.mx-tour-roster-row small{color:#8398b8;font-size:8px}
+.mx-tour-roster-row>strong{color:#83dfc0;font-size:10px;white-space:nowrap}
+.mx-tour-empty{display:flex;align-items:center;gap:12px;padding:15px;border:1px dashed rgba(130,157,208,.22);border-radius:11px;color:#8eaff0}
+.mx-tour-empty span{display:grid;gap:4px}
+.mx-tour-empty b{color:#eaf1ff;font-size:11px}
+.mx-tour-empty small{color:#899fbe;font-size:9px}
+@media(max-width:760px){.mx-tour-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.mx-tour-lower{grid-template-columns:1fr}}
+@media(max-width:480px){.mx-tour-overview{padding:14px}.mx-tour-overview-head{flex-direction:column}.mx-tour-kpis article{padding:10px}.mx-tour-kpis strong{font-size:16px}}
