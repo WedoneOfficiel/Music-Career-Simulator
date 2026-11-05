@@ -1,0 +1,2771 @@
+<!DOCTYPE html>
+<html lang="en" class=" fvctrqxb idc0_350"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=a079d4ba-06b8-4da3-b129-ca6f67d066bf
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TOUR TYCOON ULTIMATE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-body: #050505;
+            --bg-surface: #121212;
+            --bg-element: #1E1E1E;
+            --primary: #8b5cf6;
+            --accent: #ec4899;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --border: #27272a;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+    /* ULTRA-COMPACT TYPOGRAPHY FOR STAGE DESIGN */
+#page-5 h2 { 
+    font-size: 16px !important; 
+    letter-spacing: -0.5px; 
+    margin: 0; 
+}
+
+#page-5 .label { 
+    font-size: 10px !important; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    color: var(--text-sub);
+}
+
+.stage-compact-dash {
+    padding: 6px !important;
+    gap: 8px !important;
+}
+
+.slider-row {
+    font-size: 9px !important;
+}
+
+.slider-row span {
+    font-size: 9px !important;
+    width: 22px !important;
+}
+
+.hype-val {
+    font-size: 11px !important;
+    margin: 0 !important;
+}
+
+.stage-elem-btn {
+    padding: 4px 6px !important;
+    font-size: 9px !important; /* Tiny, high-density font */
+    height: 32px;
+}
+
+.stage-elem-btn .elem-icon {
+    font-size: 11px !important;
+}
+
+
+        /* ICONS */
+        .icon { width: 20px; height: 20px; fill: currentColor; }
+        .icon-lg { width: 32px; height: 32px; fill: currentColor; }
+
+        /* HEADER */
+        .header {
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border);
+        }
+        .header h1 { font-size: 16px; font-weight: 800; letter-spacing: 1px; }
+        .btn-icon { background: var(--bg-element); border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        /* DASHBOARD */
+        #dashboard-view { padding: 20px; animation: fadeIn 0.5s; }
+        .section-label { font-size: 11px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+
+        .active-tour-card {
+            background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius);
+            margin-bottom: 20px; overflow: hidden;
+        }
+        .tour-hero { height: 120px; background-size: cover; background-position: center; position: relative; }
+        .tour-hero::after { content:''; position:absolute; inset:0; background: linear-gradient(to top, var(--bg-surface), transparent); }
+        .tour-status { position: absolute; top:10px; right:10px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); padding:4px 8px; border-radius:4px; font-size:10px; font-weight:800; border:1px solid rgba(255,255,255,0.2); }
+        
+        .tour-info { padding: 20px; position: relative; margin-top: -40px; }
+        .tour-title { font-size: 22px; font-weight: 900; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        
+        .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .stat-item { background: var(--bg-element); padding: 10px; border-radius: 8px; text-align: center; }
+        .stat-val { font-size: 14px; font-weight: 700; display: block; }
+        .stat-lbl { font-size: 9px; color: var(--text-sub); text-transform: uppercase; }
+
+        .fab {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; padding: 16px 24px; border-radius: 50px;
+            font-weight: 700; border: none; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 100;
+        }
+
+        /* WIZARD CONTAINER */
+        .wizard-container { display: none; padding: 20px; padding-bottom: 100px; animation: slideUp 0.3s; }
+        .wizard-container.active { display: block; }
+        
+        .step-bar { display: flex; gap: 4px; margin-bottom: 30px; }
+        .step-seg { height: 4px; flex: 1; background: var(--bg-element); border-radius: 2px; }
+        .step-seg.active { background: var(--primary); }
+
+        .form-group { margin-bottom: 30px; }
+        .label { display: block; margin-bottom: 12px; font-weight: 600; font-size: 13px; color: var(--text-sub); text-transform: uppercase; }
+        .input { width: 100%; background: var(--bg-element); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: white; font-size: 16px; outline: none; }
+        
+        .upload-zone {
+            height: 180px; border: 2px dashed var(--border); border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-size: cover; background-position: center; cursor: pointer;
+            transition: 0.2s;
+        }
+        .upload-zone:hover { border-color: var(--primary); }
+        
+        /* LOGISTICS GRID */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .select-card {
+            background: var(--bg-surface); border: 1px solid var(--border); padding: 15px; border-radius: 12px;
+            cursor: pointer; transition: 0.2s; position: relative;
+        }
+        .select-card.selected { border-color: var(--primary); background: rgba(139, 92, 246, 0.1); }
+        .card-head { font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+        .card-sub { font-size: 11px; color: var(--text-sub); }
+        .card-cost { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 700; color: var(--success); }
+
+        /* CONTINENT SELECTOR */
+        .continent-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .continent-option {
+            background: var(--bg-element); padding: 12px; border-radius: 10px; border: 1px solid var(--border);
+            text-align: center; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-sub);
+        }
+        .continent-option.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* ROUTE BUILDER */
+        .venue-tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
+        .v-tab { background: var(--bg-element); border: none; padding: 8px 16px; border-radius: 20px; color: var(--text-sub); white-space: nowrap; font-weight: 600; cursor: pointer; }
+        .v-tab.active { background: var(--primary); color: white; }
+        
+        .venue-list { height: 350px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .venue-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-surface); padding: 15px; border-radius: 10px; border: 1px solid var(--border);
+        }
+        .add-btn { width: 32px; height: 32px; background: var(--bg-element); border: 1px solid var(--border); color: var(--success); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;}
+        .venue-tag { font-size: 10px; padding: 2px 6px; background: #333; border-radius: 4px; margin-left: 6px; color: #ccc; }
+
+        /* PRICING INPUTS */
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .price-input-group label { display: block; font-size: 10px; color: var(--text-sub); margin-bottom: 5px; text-transform: uppercase; }
+        .price-input-group input { width: 100%; background: var(--bg-element); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: white; text-align: center; font-weight: 700; }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-body);
+            border-top: 1px solid var(--border); padding: 20px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 90;
+        }
+        .total-display small { display: block; color: var(--text-sub); font-size: 10px; }
+        .total-display span { font-size: 18px; font-weight: 800; color: var(--text-main); }
+        
+        .nav-btn { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .nav-btn.secondary { background: var(--bg-element); color: var(--text-main); }
+
+        /* TOAST */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #111; border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; z-index: 9999; animation: slideDown 0.3s; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        @keyframes slideDown { from{transform:translate(-50%, -20px); opacity:0} to{transform:translate(-50%,0); opacity:1}}
+        @keyframes slideUp { from{transform:translateY(20px); opacity:0} to{transform:translateY(0); opacity:1}}
+        @keyframes fadeIn { from{opacity:0} to{opacity:1}}
+        
+        .svg-defs { display: none; }
+        /* STAGE DESIGNER - ENHANCED */
+        .stage-canvas { 
+            background: radial-gradient(circle at 50% 70%, #151525 0%, #050508 80%); 
+            border-radius: 14px; 
+            overflow: hidden; 
+            margin-bottom: 12px; 
+            border: 2px solid #2a2a3f; 
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 10px 25px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .stage-tier-badge { 
+            display: inline-block; 
+            padding: 6px 14px; 
+            border-radius: 8px; 
+            font-size: 11px; 
+            font-weight: 900; 
+            letter-spacing: 1px; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* HYPE METER */
+        .hype-meter-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        .hype-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            color: var(--text-sub);
+        }
+        .hype-track {
+            height: 8px;
+            background: var(--bg-element);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #222;
+        }
+        .hype-fill {
+            height: 100%;
+            width: 15%;
+            background: linear-gradient(90deg, var(--warning), var(--accent), var(--primary));
+            border-radius: 4px;
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .stage-elem-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .stage-elem-btn {
+            background: var(--bg-element); 
+            border: 1px solid var(--border); 
+            color: var(--text-sub);
+            padding: 10px 14px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: 700;
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            transition: all 0.2s ease;
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .stage-elem-btn.active { 
+            border-color: var(--primary); 
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.1)); 
+            color: white; 
+            box-shadow: 0 0 10px rgba(139,92,246,0.3);
+            transform: translateY(-1px);
+        }
+        .stage-elem-btn.locked { opacity: 0.25; cursor: not-allowed; transform: none; box-shadow: none; }
+        .stage-elem-btn .elem-icon { font-size: 16px; display: flex; align-items: center; }
+        .stage-elem-btn .tier-dot { width: 8px; height: 8px; border-radius: 50%; margin-left: 4px; flex-shrink: 0; }
+        .tier-basic  { background: #10b981; box-shadow: 0 0 5px #10b981; }
+        .tier-arena  { background: #3b82f6; box-shadow: 0 0 5px #3b82f6; }
+        .tier-mega   { background: #ec4899; box-shadow: 0 0 5px #ec4899; }
+
+        /* SEAT MAP */
+        /* AFTER */
+.seat-map-wrap {
+    background: var(--bg-surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    width: 100%;
+    display: block;
+    padding: 8px;
+    overflow: hidden;
+}
+.seat-map-wrap svg {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+}
+        .view-toggle { display:flex; background:var(--bg-element); border-radius:8px; padding:3px; gap:2px; margin-bottom:14px; }
+        .view-btn { flex:1; padding:9px; border:none; border-radius:6px; font-size:11px; font-weight:700; background:transparent; color:var(--text-sub); cursor:pointer; transition:0.18s; letter-spacing:0.5px; }
+        .view-btn.active { background:var(--primary); color:white; }
+        .seat-legend { display:flex; gap:14px; justify-content:center; padding:10px 0 6px; flex-wrap:wrap; }
+        .seat-leg { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text-sub); font-weight:600; }
+        .seat-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+        #previewVenueInfo { font-size:12px; color:var(--text-sub); margin-bottom:14px; }
+
+        /* VENUE LIST MODAL */
+        .vlist-modal { position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:200; display:none; overflow-y:auto; animation:fadeIn 0.25s; }
+        .vlist-modal.active { display:block; }
+        .vlist-content { max-width:480px; margin:0 auto; padding:20px; padding-bottom:100px; }
+        .venue-modal-row {
+            background:var(--bg-surface); border:1px solid var(--border); border-radius:12px;
+            padding:14px; margin-bottom:10px; cursor:pointer; transition:0.18s;
+        }
+        .venue-modal-row:hover { border-color:var(--primary); }
+        .venue-modal-row .vm-name { font-weight:700; margin-bottom:3px; }
+        .venue-modal-row .vm-meta { font-size:11px; color:var(--text-sub); }
+        .vm-status { display:inline-block; font-size:9px; font-weight:800; padding:2px 7px; border-radius:4px; margin-left:6px; letter-spacing:0.5px; }
+        .vm-done     { background:rgba(16,185,129,0.2); color:#10b981; }
+        .vm-live     { background:rgba(239,68,68,0.2); color:#ef4444; }
+        .vm-upcoming { background:rgba(161,161,170,0.15); color:#71717a; }
+
+        .vm-seatmap-section { margin-top:16px; }
+        .vm-stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px; }
+        .vm-stat { background:var(--bg-element); border-radius:8px; padding:10px; text-align:center; }
+        .vm-stat-val { font-size:14px; font-weight:800; display:block; }
+        .vm-stat-lbl { font-size:9px; color:var(--text-sub); text-transform:uppercase; }
+        .back-to-list { background:var(--bg-element); border:1px solid var(--border); color:var(--text-main); padding:8px 16px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; margin-bottom:14px; }
+
+    /* TOUR HISTORY MODAL */
+.history-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 200;
+    display: none;
+    overflow-y: auto;
+    animation: fadeIn 0.3s;
+}
+.history-modal.active { display: block; }
+
+.history-modal-content {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.modal-header {
+    position: sticky;
+    top: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 20px 0;
+    margin-bottom: 20px;
+    z-index: 201;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-modal {
+    background: var(--bg-element);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.rating-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--warning), var(--accent));
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.venue-breakdown {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.venue-breakdown-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.venue-name {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.venue-gross {
+    color: var(--success);
+    font-weight: 800;
+}
+
+.venue-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.venue-stat {
+    background: var(--bg-element);
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.venue-stat-val {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.venue-stat-lbl {
+    font-size: 9px;
+    color: var(--text-sub);
+}
+    </style>
+<link rel="stylesheet" type="text/css" href="4%20TOUR%20TYCOON%20ULTIMATE_files/content-shared_W4sM.css"></head>
+<body cz-shortcut-listen="true">
+
+    <svg class="svg-defs">
+        <defs>
+            <symbol id="icon-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></symbol>
+            <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></symbol>
+        </defs>
+    </svg>
+
+    <div class="header">
+        <button class="btn-icon" onclick="window.location.href='music.html'"><svg class="icon"><use href="#icon-back"></use></svg></button>
+        <h1>TOUR COMMAND</h1>
+        <div style="width:40px"></div>
+    </div>
+
+    <div id="dashboard-view" style="display: none;">
+        <div class="section-label">Active Tours</div>
+        <div id="active-list"><div style="text-align:center; padding:30px; border:1px dashed var(--border); border-radius:12px; color:var(--text-sub)">No active tours</div></div>
+        <div class="section-label" style="margin-top:30px;">Tour History</div>
+        <div id="history-list"><div style="text-align:center; padding:30px; color:var(--text-sub)">No completed tours yet</div></div>
+        <button class="fab" id="newTourFab" onclick="guardStartWizard()" style="opacity: 1; filter: none; cursor: pointer;">
+            <svg class="icon-lg"><use href="#icon-plus"></use></svg>
+            <span>NEW TOUR</span>
+        </button>
+    </div>
+
+    <div id="wizard-view" class="wizard-container active">
+        <div class="step-bar">
+            <div class="step-seg active"></div>
+            <div class="step-seg active"></div>
+            <div class="step-seg active"></div>
+            <div class="step-seg active"></div>
+            <div class="step-seg"></div>
+            <div class="step-seg"></div>
+        </div>
+
+        <div id="page-1" class="w-page" style="display: none;">
+            <h2 style="font-size:24px; margin-bottom:20px;">Concept &amp; Scope</h2>
+            <div class="form-group">
+                <label class="label">Tour Name</label>
+                <input type="text" id="tourName" class="input" placeholder="e.g. World Domination Tour" value="btybtyb">
+            </div>
+            
+            <div class="form-group">
+                <label class="label">Target Continents</label>
+                <div class="continent-grid">
+                    <div class="continent-option" onclick="toggleContinent(this, 'North America')">North America</div>
+                    <div class="continent-option active" onclick="toggleContinent(this, 'South America')">South America</div>
+                    <div class="continent-option active" onclick="toggleContinent(this, 'Europe')">Europe</div>
+                    <div class="continent-option active" onclick="toggleContinent(this, 'Africa')">Africa</div>
+                    <div class="continent-option" onclick="toggleContinent(this, 'Asia')">Asia</div>
+                    <div class="continent-option active" onclick="toggleContinent(this, 'Australia')">Australia</div>
+                </div>
+                <div style="margin-top:8px; font-size:11px; color:var(--text-sub)">
+                    *More continents = Higher Transport Costs &amp; Difficulty
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Visuals (Upload)</label>
+                <div class="upload-zone" id="coverPreview" onclick="document.getElementById('fileUpload').click()">
+                    <span style="color:var(--text-sub)">Tap to Upload Art</span>
+                    <input type="file" id="fileUpload" hidden="" accept="image/*" onchange="handleUpload(this)">
+                </div>
+            </div>
+        </div>
+
+        <div id="page-2" class="w-page" style="display: none;">
+            <h2 style="font-size:24px; margin-bottom:20px;">Logistics &amp; Ops</h2>
+            
+            <div class="form-group">
+                <label class="label">Stage Production</label>
+                <div class="grid-2">
+                    <div class="select-card selected" onclick="selectLogistics('prod', 'basic', 5000)" id="prod-basic">
+                        <div class="card-head">Basic</div><div class="card-sub">DJ Setup</div><div class="card-cost">$5k</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('prod', 'arena', 150000)" id="prod-arena">
+                        <div class="card-head">Arena Rig</div><div class="card-sub">Lights/LED</div><div class="card-cost">$150k</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('prod', 'mega', 1000000)" id="prod-mega">
+                        <div class="card-head">Mega Stage</div><div class="card-sub">Custom Build</div><div class="card-cost">$1M</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Transport Tier</label>
+                <div class="grid-2">
+                    <div class="select-card selected" onclick="selectLogistics('trans', 'van', 2000)" id="trans-van">
+                        <div class="card-head">Van/Truck</div><div class="card-sub">Basic</div><div class="card-cost">$2k/Wk/Cont</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('trans', 'bus', 15000)" id="trans-bus">
+                        <div class="card-head">Tour Bus</div><div class="card-sub">Standard</div><div class="card-cost">$15k/Wk/Cont</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('trans', 'jet', 150000)" id="trans-jet">
+                        <div class="card-head">Private Jet</div><div class="card-sub">Luxury</div><div class="card-cost">$150k/Wk/Cont</div>
+                    </div>
+                </div>
+                <div style="font-size:11px; color:var(--text-sub); margin-top:5px;">Transport costs multiply by number of active continents.</div>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Styling &amp; Glam</label>
+                <div class="grid-2">
+                    <div class="select-card selected" onclick="selectLogistics('style', 'diy', 1000)" id="style-diy">
+                        <div class="card-head">DIY</div><div class="card-sub">Self-made</div><div class="card-cost">$1k</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('style', 'pro', 20000)" id="style-pro">
+                        <div class="card-head">Glam Squad</div><div class="card-sub">Pro Team</div><div class="card-cost">$20k</div>
+                    </div>
+                    <div class="select-card" onclick="selectLogistics('style', 'couture', 200000)" id="style-couture">
+                        <div class="card-head">Couture</div><div class="card-sub">Designer</div><div class="card-cost">$200k</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Crew Size</label>
+                <select id="crewSize" class="input" onchange="updateTotal()">
+                    <option value="5" selected="selected">Skeleton Crew (5) - $5k/wk</option>
+                    <option value="20">Standard Team (20) - $20k/wk</option>
+                    <option value="100">Massive Army (100) - $100k/wk</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="page-3" class="w-page" style="display: none;">
+            <h2 style="font-size:24px; margin-bottom:10px;">Route Builder</h2>
+            <div class="venue-tabs">
+                <button class="v-tab" onclick="filterVenues('stadiums')">Stadiums</button>
+                <button class="v-tab" onclick="filterVenues('arenas')">Arenas</button>
+                <button class="v-tab active" onclick="filterVenues('theaters')">Theaters</button>
+                <button class="v-tab" onclick="filterVenues('clubs')">Clubs</button>
+            </div>
+            
+            <div class="venue-list" id="venueContainer"><div style="font-size:11px; font-weight:800; color:var(--primary); margin:10px 0 5px 0; padding-left:5px;">EUROPE</div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Royal Albert <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">UK • 5 200</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Royal Albert', 'UK', 5200)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Olympia <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">France • 2 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Olympia', 'France', 2000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Paradiso <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Netherlands • 1 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Paradiso', 'Netherlands', 1500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Bataclan <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">France • 1 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Bataclan', 'France', 1500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Cirque Royal <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Belgium • 2 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Cirque Royal', 'Belgium', 2000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Tempodrom <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Germany • 3 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Tempodrom', 'Germany', 3500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Teatro Real <span class="venue-tag">Europe</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Spain • 1 700</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Europe', 'theaters', 'Teatro Real', 'Spain', 1700)">+</button>
+                        </div><div style="font-size:11px; font-weight:800; color:var(--primary); margin:10px 0 5px 0; padding-left:5px;">AUSTRALIA</div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Sydney Opera <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Sydney • 5 700</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'Sydney Opera', 'Sydney', 5700)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Palais Theatre <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Melbourne • 2 800</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'Palais Theatre', 'Melbourne', 2800)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">State Theatre <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Sydney • 2 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'State Theatre', 'Sydney', 2000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">QPAC <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Brisbane • 2 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'QPAC', 'Brisbane', 2000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">The Civic <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">NZ • 2 300</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'The Civic', 'NZ', 2300)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Princess Theatre <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Melbourne • 1 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'Princess Theatre', 'Melbourne', 1500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Her Majesty's <span class="venue-tag">Australia</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Adelaide • 1 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Australia', 'theaters', 'Her Majesty's', 'Adelaide', 1000)">+</button>
+                        </div><div style="font-size:11px; font-weight:800; color:var(--primary); margin:10px 0 5px 0; padding-left:5px;">AFRICA</div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Joburg Theatre <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">South Africa • 1 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'Joburg Theatre', 'South Africa', 1000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Artscape <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">South Africa • 1 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'Artscape', 'South Africa', 1500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">National Theatre <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Nigeria • 3 000</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'National Theatre', 'Nigeria', 3000)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Cairo Opera <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Egypt • 1 200</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'Cairo Opera', 'Egypt', 1200)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Market Theatre <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">South Africa • 450</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'Market Theatre', 'South Africa', 450)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">State Theatre <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">South Africa • 1 300</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'State Theatre', 'South Africa', 1300)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Le Grand Théâtre <span class="venue-tag">Africa</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Senegal • 1 800</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('Africa', 'theaters', 'Le Grand Théâtre', 'Senegal', 1800)">+</button>
+                        </div><div style="font-size:11px; font-weight:800; color:var(--primary); margin:10px 0 5px 0; padding-left:5px;">SOUTH AMERICA</div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Teatro Colón <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Argentina • 2 400</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Teatro Colón', 'Argentina', 2400)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Municipal <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Brazil • 2 200</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Municipal', 'Brazil', 2200)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Teatro Solis <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Uruguay • 1 200</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Teatro Solis', 'Uruguay', 1200)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Gran Rex <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Argentina • 3 200</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Gran Rex', 'Argentina', 3200)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Teatro Mayor <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Colombia • 1 300</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Teatro Mayor', 'Colombia', 1300)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Municipal <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Chile • 1 500</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Municipal', 'Chile', 1500)">+</button>
+                        </div>
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">Amazonas <span class="venue-tag">South America</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">Brazil • 700</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('South America', 'theaters', 'Amazonas', 'Brazil', 700)">+</button>
+                        </div></div>
+            
+            <div style="background:var(--bg-element); padding:15px; border-radius:12px; margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+                    <span>Schedule</span>
+                    <span id="stopCount">10 Stops</span>
+                </div>
+                <div id="routeChips" style="display:flex; flex-wrap:wrap; gap:5px;">
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    1. Wembley <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(0)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    2. Royal Albert <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(1)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    3. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(2)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    4. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(3)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    5. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(4)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    6. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(5)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    7. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(6)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    8. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(7)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    9. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(8)">×</span>
+                </div>
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    10. Municipal <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(9)">×</span>
+                </div></div>
+            </div>
+        </div>
+
+        <div id="page-4" class="w-page" style="display: block;">
+            <h2 style="font-size:24px; margin-bottom:20px;">Strategy &amp; Pricing</h2>
+            
+            <div class="form-group">
+                <label class="label">Ticket Strategy</label>
+                <div class="pricing-grid">
+                    <div class="price-input-group">
+                        <label>Discount</label>
+                        <input type="number" id="priceDiscount" value="40" onchange="updateTotal()">
+                    </div>
+                    <div class="price-input-group">
+                        <label>General</label>
+                        <input type="number" id="priceGen" value="80" onchange="updateTotal()">
+                    </div>
+                    <div class="price-input-group">
+                        <label>VIP</label>
+                        <input type="number" id="priceVIP" value="200" onchange="updateTotal()">
+                    </div>
+                </div>
+                <div style="font-size:11px; color:var(--text-sub); margin-top:8px;">
+                    Allocations: 20% Discount / 60% General / 20% VIP
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="label">Marketing Budget ($)</label>
+                <input type="number" id="marketingBudget" class="input" value="10000" onchange="updateTotal()">
+            </div>
+
+            <div class="form-group">
+                <label class="label">Setlist</label>
+                <div id="setlistDisplay" style="background:var(--bg-element); padding:15px; border-radius:12px; max-height:150px; overflow-y:auto;"><div style="padding:20px; text-align:center; color:#888; font-size:13px;">No songs found.</div></div>
+                <div style="text-align:right; font-size:11px; margin-top:5px; color:var(--primary)">Selected: <span id="songCount">0</span></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-item"><span class="stat-lbl">Upfront</span><span class="stat-val" id="dispUpfront">$3 031 000</span></div>
+                <div class="stat-item"><span class="stat-lbl">Weekly Burn</span><span class="stat-val" id="dispBurn">$13 000</span></div>
+                <div class="stat-item"><span class="stat-lbl">Max Potential</span><span class="stat-val" style="color:var(--success)" id="dispRev">$10 291 200</span></div>
+            </div>
+        </div>
+
+
+        <!-- PAGE 5: STAGE DESIGN -->
+        <div id="page-5" class="w-page" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2 style="font-size:24px; font-weight:900;">Stage Design</h2>
+                <div id="stageTierBadge"></div>
+            </div>
+            
+            <div class="stage-canvas">
+                <svg id="stagePreviewSVG" viewBox="0 0 460 250" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"></svg>
+            </div>
+
+            <div class="hype-meter-box">
+                <div class="hype-header">
+                    <span>VISUAL HYPE RATING</span>
+                    <span id="visualHypeVal" style="color:var(--success); font-weight:900;">1.0x LVL</span>
+                </div>
+                <div class="hype-track">
+                    <div id="hypeBarFill" class="hype-fill"></div>
+                </div>
+            </div>
+
+            <div id="stageSlidersZone"></div>
+
+            <label class="label" style="margin-top:10px;">Rigging &amp; FX Palette</label>
+            <div style="font-size:11px; color:var(--text-sub); margin-bottom:10px;">Tap to install production assets. Higher tiers unlock insane visual power.</div>
+            <div class="stage-elem-grid" id="elemPalette"></div>
+        </div>
+
+        <!-- PAGE 6: VENUE PREVIEW -->
+        <div id="page-6" class="w-page" style="display:none;">
+            <h2 style="font-size:24px; margin-bottom:6px;">Venue Preview</h2>
+            <div id="previewVenueInfo"></div>
+            <div class="view-toggle">
+                <button class="view-btn active" id="vbtn-arranged" onclick="switchMapView('arranged')">Arranged</button>
+                <button class="view-btn" id="vbtn-optimal" onclick="switchMapView('optimal')">Optimal</button>
+            </div>
+            <div style="width:100%;margin-bottom:12px;">
+    <div class="seat-map-wrap" id="seatMapContainer"></div>
+</div>
+            <div class="seat-legend">
+                <div class="seat-leg"><div class="seat-dot" style="background:#4f46e5;box-shadow:0 0 5px #4f46e5aa;"></div>Discount</div>
+                <div class="seat-leg"><div class="seat-dot" style="background:#7c3aed;box-shadow:0 0 5px #7c3aedaa;"></div>General</div>
+                <div class="seat-leg"><div class="seat-dot" style="background:#d97706;box-shadow:0 0 5px #d97706aa;"></div>VIP</div>
+                <div class="seat-leg"><div class="seat-dot" style="background:#3f3f46;"></div>Sold Out</div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="total-display"><small>INVESTMENT</small><span id="navTotal">$3 031 000</span></div>
+            <div style="display:flex; gap:10px;">
+                <button class="nav-btn secondary" id="backBtn" onclick="prevStep()" style="display: block;">Back</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextStep()" style="background: var(--primary);">Next</button>
+            </div>
+        </div>
+        
+
+    </div>
+        <!-- TOUR HISTORY MODAL -->
+<div id="historyModal" class="history-modal">
+    <div class="history-modal-content">
+        <div class="modal-header">
+            <h2 id="modalTourName">Tour Details</h2>
+            <div class="close-modal" onclick="closeHistoryModal()">✕</div>
+        </div>
+        
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+    <!-- VENUE LIST MODAL -->
+    <div id="venueListModal" class="vlist-modal">
+        <div class="vlist-content">
+            <div class="modal-header">
+                <h2 id="vlModalTitle">Venues</h2>
+                <div class="close-modal" onclick="closeVenueModal()">✕</div>
+            </div>
+            <div id="vlModalBody"></div>
+        </div>
+    </div>
+
+    <script>
+    function checkTourBlock() {
+    const hiatus = JSON.parse(localStorage.getItem('hiatusData') || 'null');
+    if (hiatus && hiatus.active) {
+        const currentDate = new Date(localStorage.getItem('currentDate'));
+        const endDate = new Date(hiatus.endDate);
+        if (currentDate < endDate) {
+            return { blocked: true, reason: "You're on hiatus. Touring is paused until you return." };
+        }
+    }
+    const tours = JSON.parse(localStorage.getItem('tycoon_tours') || '[]');
+    if (tours.some(t => t.status !== 'completed')) {
+        return { blocked: true, reason: "You're already on tour. Finish your current run first." };
+    }
+    const lastCompleted = localStorage.getItem('lastTourCompletedDate');
+    if (lastCompleted) {
+        const weeksLeft = 48 - Math.floor(
+            (new Date(localStorage.getItem('currentDate')) - new Date(lastCompleted))
+            / (7 * 24 * 60 * 60 * 1000)
+        );
+        if (weeksLeft > 0) {
+            return { blocked: true, reason: `Your team needs ${weeksLeft} more week${weeksLeft !== 1 ? 's' : ''} to recover before the next tour.` };
+        }
+    }
+    return { blocked: false };
+}
+
+function updateTourFab() {
+    const fab = document.getElementById('newTourFab');
+    if (!fab) return;
+    const { blocked } = checkTourBlock();
+    fab.style.opacity = blocked ? '0.4' : '1';
+    fab.style.filter = blocked ? 'grayscale(1)' : 'none';
+    fab.style.cursor = blocked ? 'not-allowed' : 'pointer';
+}
+
+function guardStartWizard() {
+    const { blocked, reason } = checkTourBlock();
+    if (blocked) return showToast(reason, 'error');
+    startWizard();
+}
+        // --- EXPANDED VENUE DATABASE ---
+        const VENUES_DB = {
+            "North America": {
+                "stadiums": [
+                    {n:"MetLife Stadium", l:"USA", c:82500}, {n:"Rose Bowl", l:"USA", c:88000}, {n:"SoFi Stadium", l:"USA", c:70000}, {n:"AT&T Stadium", l:"USA", c:80000}, {n:"Azteca", l:"Mexico", c:87000}, {n:"Rogers Centre", l:"Canada", c:53000}, {n:"Mercedes-Benz", l:"USA", c:71000}
+                ],
+                "arenas": [
+                    {n:"MSG", l:"NYC", c:20000}, {n:"Crypto.com", l:"LA", c:20000}, {n:"Scotiabank", l:"Toronto", c:19800}, {n:"United Center", l:"Chicago", c:23500}, {n:"T-Mobile", l:"Vegas", c:20000}, {n:"Bell Centre", l:"Montreal", c:21000}, {n:"Kaseya Center", l:"Miami", c:19600}
+                ],
+                "theaters": [
+                    {n:"Radio City", l:"NYC", c:6000}, {n:"Fox Theatre", l:"Atlanta", c:4600}, {n:"The Wiltern", l:"LA", c:1850}, {n:"Apollo", l:"NYC", c:1500}, {n:"Ryman", l:"Nashville", c:2300}, {n:"Massey Hall", l:"Toronto", c:2700}, {n:"Chicago Theatre", l:"USA", c:3600}
+                ],
+                "clubs": [
+                    {n:"Echostage", l:"DC", c:3000}, {n:"Avant Gardner", l:"NYC", c:6000}, {n:"Space", l:"Miami", c:2500}, {n:"Stereo", l:"Montreal", c:1000}, {n:"Exchange", l:"LA", c:1500}, {n:"Rebel", l:"Toronto", c:2500}, {n:"9:30 Club", l:"DC", c:1200}
+                ]
+            },
+            "Europe": {
+                "stadiums": [
+                    {n:"Wembley", l:"UK", c:90000}, {n:"Camp Nou", l:"Spain", c:99000}, {n:"Stade de France", l:"France", c:80000}, {n:"San Siro", l:"Italy", c:75000}, {n:"Allianz Arena", l:"Germany", c:75000}, {n:"Johan Cruijff", l:"Netherlands", c:55000}, {n:"Bernabéu", l:"Spain", c:81000}
+                ],
+                "arenas": [
+                    {n:"O2 Arena", l:"UK", c:20000}, {n:"Accor Arena", l:"France", c:20000}, {n:"Lanxess", l:"Germany", c:20000}, {n:"Ziggo Dome", l:"Netherlands", c:17000}, {n:"WiZink", l:"Spain", c:17000}, {n:"Altice", l:"Portugal", c:20000}, {n:"Avicii Arena", l:"Sweden", c:16000}
+                ],
+                "theaters": [
+                    {n:"Royal Albert", l:"UK", c:5200}, {n:"Olympia", l:"France", c:2000}, {n:"Paradiso", l:"Netherlands", c:1500}, {n:"Bataclan", l:"France", c:1500}, {n:"Cirque Royal", l:"Belgium", c:2000}, {n:"Tempodrom", l:"Germany", c:3500}, {n:"Teatro Real", l:"Spain", c:1700}
+                ],
+                "clubs": [
+                    {n:"Berghain", l:"Germany", c:1500}, {n:"Fabric", l:"UK", c:1600}, {n:"Hï Ibiza", l:"Spain", c:5000}, {n:"Printworks", l:"UK", c:6000}, {n:"Bootshaus", l:"Germany", c:2000}, {n:"Rex Club", l:"France", c:800}, {n:"Ministry of Sound", l:"UK", c:1500}
+                ]
+            },
+            "Africa": {
+                "stadiums": [
+                    {n:"FNB Stadium", l:"South Africa", c:94700}, {n:"Cairo Intl", l:"Egypt", c:75000}, {n:"Borg El Arab", l:"Egypt", c:86000}, {n:"Stade 5 Juillet", l:"Algeria", c:64000}, {n:"Ellis Park", l:"South Africa", c:62000}, {n:"Abuja Stadium", l:"Nigeria", c:60000}, {n:"Olembe", l:"Cameroon", c:60000}
+                ],
+                "arenas": [
+                    {n:"SunBet Arena", l:"South Africa", c:10000}, {n:"Dakar Arena", l:"Senegal", c:15000}, {n:"Kigali Arena", l:"Rwanda", c:10000}, {n:"Cairo Stadium Hall", l:"Egypt", c:20000}, {n:"Ticketpro Dome", l:"South Africa", c:20000}, {n:"Grand Arena", l:"South Africa", c:7000}, {n:"Salle Omnisport", l:"Tunisia", c:12000}
+                ],
+                "theaters": [
+                    {n:"Joburg Theatre", l:"South Africa", c:1000}, {n:"Artscape", l:"South Africa", c:1500}, {n:"National Theatre", l:"Nigeria", c:3000}, {n:"Cairo Opera", l:"Egypt", c:1200}, {n:"Market Theatre", l:"South Africa", c:450}, {n:"State Theatre", l:"South Africa", c:1300}, {n:"Le Grand Théâtre", l:"Senegal", c:1800}
+                ],
+                "clubs": [
+                    {n:"Taboo", l:"South Africa", c:1000}, {n:"Club 57", l:"Nigeria", c:800}, {n:"Madison", l:"South Africa", c:1200}, {n:"Calypso", l:"Tunisia", c:1500}, {n:"Duplex", l:"Senegal", c:600}, {n:"Konka", l:"South Africa", c:2000}, {n:"Quilox", l:"Nigeria", c:1000}
+                ]
+            },
+            "Asia": {
+                "stadiums": [
+                    {n:"Nissan Stadium", l:"Japan", c:72000}, {n:"Seoul Olympic", l:"Korea", c:69000}, {n:"Bukit Jalil", l:"Malaysia", c:87000}, {n:"Gelora Bung Karno", l:"Indonesia", c:77000}, {n:"Rajamangala", l:"Thailand", c:51000}, {n:"Beijing National", l:"China", c:80000}, {n:"DY Patil", l:"India", c:55000}
+                ],
+                "arenas": [
+                    {n:"Tokyo Dome", l:"Japan", c:55000}, {n:"Gocheok Dome", l:"Korea", c:16000}, {n:"Philippine Arena", l:"Philippines", c:55000}, {n:"Axiata Arena", l:"Malaysia", c:16000}, {n:"Impact Arena", l:"Thailand", c:11000}, {n:"Taipei Arena", l:"Taiwan", c:15000}, {n:"Saitama Super", l:"Japan", c:36000}
+                ],
+                "theaters": [
+                    {n:"Tokyo Intl Forum", l:"Japan", c:5000}, {n:"Esplanade", l:"Singapore", c:2000}, {n:"Suntory Hall", l:"Japan", c:2000}, {n:"Sejong Center", l:"Korea", c:3000}, {n:"Cultural Centre", l:"Hong Kong", c:2000}, {n:"Opera House", l:"Vietnam", c:500}, {n:"NCPA", l:"India", c:1100}
+                ],
+                "clubs": [
+                    {n:"Zouk", l:"Singapore", c:2500}, {n:"Womb", l:"Japan", c:1000}, {n:"Octagon", l:"Korea", c:3000}, {n:"Cé La Vi", l:"Singapore", c:800}, {n:"Dragon-i", l:"Hong Kong", c:600}, {n:"Colosseum", l:"Indonesia", c:2000}, {n:"Illuzion", l:"Thailand", c:4000}
+                ]
+            },
+            "South America": {
+                "stadiums": [
+                    {n:"Maracanã", l:"Brazil", c:78000}, {n:"Monumental", l:"Argentina", c:84000}, {n:"Estadio Nacional", l:"Chile", c:48000}, {n:"Centenario", l:"Uruguay", c:60000}, {n:"Morumbi", l:"Brazil", c:66000}, {n:"Estadio Unico", l:"Argentina", c:53000}, {n:"Allianz Parque", l:"Brazil", c:43000}
+                ],
+                "arenas": [
+                    {n:"Movistar Arena", l:"Argentina", c:15000}, {n:"Jeunesse Arena", l:"Brazil", c:18000}, {n:"Movistar Arena", l:"Chile", c:16000}, {n:"Antel Arena", l:"Uruguay", c:11000}, {n:"Jockey Club", l:"Peru", c:18000}, {n:"Coliseo Live", l:"Colombia", c:22000}, {n:"Ginásio Ibirapuera", l:"Brazil", c:11000}
+                ],
+                "theaters": [
+                    {n:"Teatro Colón", l:"Argentina", c:2400}, {n:"Municipal", l:"Brazil", c:2200}, {n:"Teatro Solis", l:"Uruguay", c:1200}, {n:"Gran Rex", l:"Argentina", c:3200}, {n:"Teatro Mayor", l:"Colombia", c:1300}, {n:"Municipal", l:"Chile", c:1500}, {n:"Amazonas", l:"Brazil", c:700}
+                ],
+                "clubs": [
+                    {n:"Warung", l:"Brazil", c:2500}, {n:"Crobar", l:"Argentina", c:1500}, {n:"D-Edge", l:"Brazil", c:800}, {n:"Baum", l:"Colombia", c:1000}, {n:"Laroc", l:"Brazil", c:5000}, {n:"La Feria", l:"Chile", c:600}, {n:"Lost Beach", l:"Ecuador", c:1500}
+                ]
+            },
+            "Australia": {
+                "stadiums": [
+                    {n:"MCG", l:"Melbourne", c:100000}, {n:"Accor Stadium", l:"Sydney", c:83000}, {n:"Optus Stadium", l:"Perth", c:60000}, {n:"Adelaide Oval", l:"Adelaide", c:53000}, {n:"Marvel Stadium", l:"Melbourne", c:56000}, {n:"Suncorp", l:"Brisbane", c:52000}, {n:"Eden Park", l:"NZ", c:50000}
+                ],
+                "arenas": [
+                    {n:"Rod Laver", l:"Melbourne", c:14000}, {n:"Qudos Bank", l:"Sydney", c:21000}, {n:"RAC Arena", l:"Perth", c:15000}, {n:"Brisbane Ent", l:"Brisbane", c:13000}, {n:"Spark Arena", l:"NZ", c:12000}, {n:"Adelaide Ent", l:"Adelaide", c:11000}, {n:"ICC Sydney", l:"Sydney", c:9000}
+                ],
+                "theaters": [
+                    {n:"Sydney Opera", l:"Sydney", c:5700}, {n:"Palais Theatre", l:"Melbourne", c:2800}, {n:"State Theatre", l:"Sydney", c:2000}, {n:"QPAC", l:"Brisbane", c:2000}, {n:"The Civic", l:"NZ", c:2300}, {n:"Princess Theatre", l:"Melbourne", c:1500}, {n:"Her Majesty's", l:"Adelaide", c:1000}
+                ],
+                "clubs": [
+                    {n:"Ivy", l:"Sydney", c:1200}, {n:"Revolver", l:"Melbourne", c:800}, {n:"Home", l:"Sydney", c:2000}, {n:"Metropolis", l:"Perth", c:1500}, {n:"Family", l:"Brisbane", c:1500}, {n:"170 Russell", l:"Melbourne", c:1000}, {n:"Studio", l:"NZ", c:800}
+                ]
+            }
+        };
+
+        let currentStep = 1;
+        let draftTour = {
+            name: "", 
+            banner: null,
+            continents: [], // Array of strings
+            prod: { id: 'basic', cost: 5000, hype: 1 },
+            trans: { id: 'van', cost: 2000 },
+            style: { id: 'diy', cost: 1000 },
+            route: [], 
+            setlist: [], 
+            totalCost: 0
+        };
+
+        window.onload = () => {
+            renderDashboard();
+            
+            // Auto-select origin continent if available
+            try {
+                const ad = JSON.parse(localStorage.getItem('artistDetails') || '{}');
+                if (ad.origin) {
+                    const cont = ad.origin; 
+                    // Match simple origin to our continent keys if needed
+                    // For now, assuming user selects them manually to be safe, or we can auto-tick
+                }
+            } catch(e) {}
+            
+            // Defaults
+            selectLogistics('prod', 'basic', 5000);
+            selectLogistics('trans', 'van', 2000);
+            selectLogistics('style', 'diy', 1000);
+            populateSetlist();
+        };
+
+        function toggleContinent(el, name) {
+            el.classList.toggle('active');
+            if(draftTour.continents.includes(name)) {
+                draftTour.continents = draftTour.continents.filter(c => c !== name);
+            } else {
+                draftTour.continents.push(name);
+            }
+            // Clear route if continents change to avoid ghost venues
+            draftTour.route = []; 
+            document.getElementById('stopCount').innerText = "0 Stops";
+            document.getElementById('routeChips').innerHTML = "";
+            document.getElementById('venueContainer').innerHTML = "<div style='padding:20px; text-align:center; color:#666'>Select a venue type above to refresh list</div>";
+        }
+
+        function startWizard() {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('wizard-view').classList.add('active');
+            showStep(1);
+        }
+
+        function showStep(s) {
+            document.querySelectorAll('.w-page').forEach(e => e.style.display = 'none');
+            document.getElementById(`page-${s}`).style.display = 'block';
+            document.querySelectorAll('.step-seg').forEach((e, i) => e.classList.toggle('active', i < s));
+            const next = document.getElementById('nextBtn');
+            const back = document.getElementById('backBtn');
+            back.style.display = s === 1 ? 'none' : 'block';
+            if (s === 6) {
+                next.innerText = "LAUNCH TOUR";
+                next.style.background = "var(--success)";
+                next.onclick = launchTour;
+            } else {
+                next.innerText = "Next";
+                next.style.background = "var(--primary)";
+                next.onclick = nextStep;
+            }
+            if (s === 5) initStagePage();
+            if (s === 6) initVenuePreview();
+            updateTotal();
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                if (!document.getElementById('tourName').value) return showToast("Enter a name!", "error");
+                if (draftTour.continents.length === 0) return showToast("Select at least 1 continent!", "error");
+            }
+            if (currentStep === 3 && draftTour.route.length === 0) return showToast("Add at least 1 venue!", "error");
+            if (currentStep < 6) { currentStep++; showStep(currentStep); }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) { currentStep--; showStep(currentStep); } else { location.reload(); }
+        }
+
+        function selectLogistics(cat, id, cost, hype = 1) {
+            document.querySelectorAll(`[id^="${cat}-"]`).forEach(el => el.classList.remove('selected'));
+            const btn = document.getElementById(`${cat}-${id}`);
+            if(btn) btn.classList.add('selected');
+            
+            if (cat === 'prod') draftTour.prod = { id, cost, hype };
+            if (cat === 'trans') draftTour.trans = { id, cost };
+            if (cat === 'style') draftTour.style = { id, cost };
+            updateTotal();
+        }
+
+        function filterVenues(type) {
+            document.querySelectorAll('.v-tab').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const container = document.getElementById('venueContainer');
+            container.innerHTML = "";
+
+            if (draftTour.continents.length === 0) {
+                container.innerHTML = "<div style='padding:20px; text-align:center;'>Please go back and select a continent.</div>";
+                return;
+            }
+
+            let html = "";
+            let globalIdx = 0;
+
+            draftTour.continents.forEach(cont => {
+                if (VENUES_DB[cont] && VENUES_DB[cont][type]) {
+                    html += `<div style="font-size:11px; font-weight:800; color:var(--primary); margin:10px 0 5px 0; padding-left:5px;">${cont.toUpperCase()}</div>`;
+                    
+                    VENUES_DB[cont][type].forEach((v) => {
+                        // Creating a unique ID based on name + location to avoid index confusion across continents
+                        const uniqueId = `${cont}|${type}|${v.n}`;
+                        
+                        html += `
+                        <div class="venue-row">
+                            <div>
+                                <div style="font-weight:700">${v.n} <span class="venue-tag">${cont}</span></div>
+                                <div style="font-size:11px; color:var(--text-sub)">${v.l} • ${v.c.toLocaleString()}</div>
+                            </div>
+                            <button class="add-btn" onclick="addVenue('${cont}', '${type}', '${v.n}', '${v.l}', ${v.c})">+</button>
+                        </div>`;
+                    });
+                }
+            });
+            
+            container.innerHTML = html || "<div style='text-align:center; padding:20px;'>No venues found for selected regions.</div>";
+        }
+
+        function addVenue(cont, type, name, loc, cap) {
+            // Base costs by type
+            let baseCost = 0;
+            if (type === 'stadiums') baseCost = 2500000;
+            else if (type === 'arenas') baseCost = 300000;
+            else if (type === 'theaters') baseCost = 50000;
+            else baseCost = 10000;
+
+            draftTour.route.push({ 
+                name: name, 
+                location: loc, 
+                capacity: cap, 
+                continent: cont,
+                type: type,
+                cost: baseCost 
+            });
+            renderRouteChips();
+            updateTotal();
+        }
+
+        function removeVenue(i) {
+            draftTour.route.splice(i, 1);
+            renderRouteChips();
+            updateTotal();
+        }
+
+        function renderRouteChips() {
+            document.getElementById('stopCount').innerText = `${draftTour.route.length} Stops`;
+            document.getElementById('routeChips').innerHTML = draftTour.route.map((v, i) => `
+                <div style="background:var(--bg-body); border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:5px;">
+                    ${i+1}. ${v.name} <span style="color:var(--danger); cursor:pointer; font-weight:bold" onclick="removeVenue(${i})">×</span>
+                </div>`).join('');
+        }
+const tourBannerDB = (function() {
+    const DB_NAME = 'MusicGameDB', STORE = 'photos';
+    function open() {
+        return new Promise((res, rej) => {
+            const r = indexedDB.open(DB_NAME, 1);
+            r.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
+            r.onsuccess = e => res(e.target.result);
+            r.onerror = e => rej(e.target.error);
+        });
+    }
+    return {
+        save(key, dataUrl) {
+            return open().then(db => new Promise((res, rej) => {
+                const r = db.transaction(STORE,'readwrite').objectStore(STORE).put(dataUrl, key);
+                r.onsuccess = () => res();
+                r.onerror = e => rej(e.target.error);
+            }));
+        },
+        load(key) {
+            return open().then(db => new Promise((res, rej) => {
+                const r = db.transaction(STORE,'readonly').objectStore(STORE).get(key);
+                r.onsuccess = e => res(e.target.result || null);
+                r.onerror = e => rej(e.target.error);
+            }));
+        }
+    };
+})();
+        function handleUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const dataUrl = e.target.result;
+                    const bannerKey = 'tour_banner_draft';
+                    tourBannerDB.save(bannerKey, dataUrl).catch(() => {});
+                    draftTour.bannerKey = bannerKey; // store key reference
+                    draftTour.banner = null; 
+                    document.getElementById('coverPreview').style.backgroundImage = `url(${dataUrl})`;
+                    document.getElementById('coverPreview').innerHTML = '';
+                    
+                    // Extract color palette for Stage LED Lights
+                    const img = new Image();
+                    img.onload = () => {
+                        const cvs = document.createElement('canvas');
+                        cvs.width = 64; cvs.height = 64;
+                        const ctx = cvs.getContext('2d');
+                        ctx.drawImage(img, 0, 0, 64, 64);
+                        const data = ctx.getImageData(0,0,64,64).data;
+                        let r1=0,g1=0,b1=0, r2=0,g2=0,b2=0, c1=0, c2=0;
+                        for(let i=0; i<data.length; i+=16) {
+                            const r=data[i], g=data[i+1], b=data[i+2];
+                            if(r+g+b > 380) { r1+=r; g1+=g; b1+=b; c1++; } 
+                            else { r2+=r; g2+=g; b2+=b; c2++; } 
+                        }
+                        const toColor = (r,g,b,c,m) => c ? `rgb(${~~Math.min(255,(r/c)*m)},${~~Math.min(255,(g/c)*m)},${~~Math.min(255,(b/c)*m)})` : null;
+                        draftTour.palette = [
+                            toColor(r1,g1,b1,c1,1) || '#ec4899', 
+                            toColor(r2,g2,b2,c2,1.5) || '#06b6d4', 
+                            toColor(r1,g1,b1,c1,1.2) || '#8b5cf6',
+                            toColor(r2,g2,b2,c2,2) || '#10b981',
+                            toColor(r1,g1,b1,c1,0.8) || '#f59e0b'
+                        ];
+                        if(currentStep === 5) renderStagePreview();
+                    };
+                    img.src = dataUrl;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function populateSetlist() {
+            const rawData = localStorage.getItem('releasedSongs');
+            const songs = rawData ? JSON.parse(rawData) : [];
+            const div = document.getElementById('setlistDisplay');
+            if (!div) return;
+
+            if (songs.length === 0) {
+                div.innerHTML = "<div style='padding:20px; text-align:center; color:#888; font-size:13px;'>No songs found.</div>";
+                return;
+            }
+
+            div.innerHTML = songs.map((s) => {
+                let title = s.songName || s.name || s.title || "Unknown";
+                return `
+                <label style="display:flex; align-items:center; padding:12px; border-bottom:1px solid #333; cursor:pointer;">
+                    <input type="checkbox" value="${title}" onchange="toggleSong(this)" style="margin-right:12px; width:20px; height:20px; accent-color:var(--primary);">
+                    <span style="font-size:14px; color:white; font-weight:500;">${title}</span>
+                </label>`;
+            }).join('');
+        }
+
+        function toggleSong(cb) {
+            if (cb.checked) draftTour.setlist.push(cb.value);
+            else draftTour.setlist = draftTour.setlist.filter(x => x !== cb.value);
+            document.getElementById('songCount').innerText = draftTour.setlist.length;
+        }
+
+        function updateTotal() {
+            // One-time costs
+            const prod = draftTour.prod.cost;
+            const style = draftTour.style.cost;
+            const marketing = parseInt(document.getElementById('marketingBudget').value) || 0;
+            
+            // Per venue costs
+            let venueCosts = draftTour.route.reduce((a, b) => a + b.cost, 0);
+            
+            // Weekly costs: Crew + (Transport * Continent Count)
+            const continentCount = Math.max(1, draftTour.continents.length);
+            const crew = parseInt(document.getElementById('crewSize').value) * 1000;
+            const trans = draftTour.trans.cost * continentCount; // Multiplier applied
+            const weeklyBurn = crew + trans;
+            
+            // Duration (1 week per 2 stops)
+            const weeks = Math.ceil(draftTour.route.length / 2) || 1;
+            
+            const totalUpfront = prod + style + marketing + venueCosts + (weeklyBurn * weeks);
+            
+            // Potential Revenue
+            const cap = draftTour.route.reduce((a, b) => a + b.capacity, 0);
+            const pDisc = parseInt(document.getElementById('priceDiscount').value) || 0;
+            const pGen = parseInt(document.getElementById('priceGen').value) || 0;
+            const pVIP = parseInt(document.getElementById('priceVIP').value) || 0;
+            
+            // Weighted Average: 20% Disc, 60% Gen, 20% VIP
+            const avgPrice = (pDisc * 0.2) + (pGen * 0.6) + (pVIP * 0.2);
+            const maxRev = cap * avgPrice;
+
+            document.getElementById('navTotal').innerText = '$' + totalUpfront.toLocaleString();
+            document.getElementById('dispUpfront').innerText = '$' + totalUpfront.toLocaleString();
+            document.getElementById('dispBurn').innerText = '$' + weeklyBurn.toLocaleString();
+            document.getElementById('dispRev').innerText = '$' + Math.floor(maxRev).toLocaleString();
+            
+            draftTour.totalCost = totalUpfront;
+            draftTour.weeklyBurn = weeklyBurn;
+        }
+
+        function showToast(msg, type='info') {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.style.borderLeft = `4px solid ${type === 'error' ? 'var(--danger)' : 'var(--success)'}`;
+            t.innerHTML = `<span>${msg}</span>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+function showSectionPrice(tier, name) {
+    const prices = {
+        vip:  parseInt(document.getElementById('priceVIP')?.value)      || 200,
+        gen:  parseInt(document.getElementById('priceGen')?.value)       || 80,
+        disc: parseInt(document.getElementById('priceDiscount')?.value)  || 40
+    };
+    const labels = { vip:'VIP', gen:'General', disc:'Discount' };
+    const colors  = { vip:'#d97706', gen:'#7c3aed', disc:'#4f46e5' };
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.style.borderLeft = `4px solid ${colors[tier]}`;
+    t.innerHTML = `<span style="font-weight:700;color:${colors[tier]}">${labels[tier]}</span>&nbsp;<span>${name}</span>&nbsp;·&nbsp;<span style="font-weight:800">$${prices[tier]}</span>`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+}
+        function launchTour() {
+            const money = parseFloat(localStorage.getItem('money') || 0);
+            if (money < draftTour.totalCost) return showToast("Insufficient Funds!", "error");
+
+            localStorage.setItem('money', money - draftTour.totalCost);
+
+            // Calculate Hype Multiplier
+            let hypeScore = draftTour.prod.hype;
+            if(draftTour.style.cost > 50000) hypeScore += 0.2;
+            const marketing = parseInt(document.getElementById('marketingBudget').value) || 0;
+            if(marketing > 100000) hypeScore += 0.3;
+
+            // Get Prices
+            const prices = {
+                discount: parseInt(document.getElementById('priceDiscount').value) || 0,
+                general: parseInt(document.getElementById('priceGen').value) || 0,
+                vip: parseInt(document.getElementById('priceVIP').value) || 0
+            };
+
+            const tourId = Date.now();
+            // Move draft banner to permanent key for this tour
+            if (draftTour.bannerKey) {
+                tourBannerDB.load('tour_banner_draft').then(img => {
+                    if (img) tourBannerDB.save('tour_banner_' + tourId, img).catch(() => {});
+                });
+            }
+            const newTour = {
+                id: tourId,
+                name: document.getElementById('tourName').value,
+                banner: null,
+                bannerKey: draftTour.bannerKey ? 'tour_banner_' + tourId : null,
+                route: (() => {
+    const last = draftTour.route.length - 1;
+    const raw = draftTour.route.map((v, i) => {
+        const pos = (i === 0 || i === last) ? 0.15 : 0;
+        return 0.7 + Math.random() * 0.6 + pos;
+    });
+    const avg = raw.reduce((a, b) => a + b, 0) / raw.length;
+    return draftTour.route.map((v, i) => ({
+        ...v,
+        demandFactor: raw[i] / avg,
+        ticketsSold: 0,
+        fillRate: 0
+    }));
+})(),
+                setlist: draftTour.setlist,
+                status: 'selling',
+                weeksUntilStart: 4,
+                ticketsSold: 0,
+                revenue: 0,
+                currentStop: 0,
+                
+                // New logic fields
+                prices: prices,
+                continents: draftTour.continents,
+                weeklyBurn: draftTour.weeklyBurn,
+                
+                totalCapacity: draftTour.route.reduce((a, b) => a + b.capacity, 0),
+                totalCost: draftTour.totalCost,
+                hypeMultiplier: hypeScore
+            };
+
+            const list = JSON.parse(localStorage.getItem('tycoon_tours') || '[]');
+            list.push(newTour);
+            localStorage.setItem('tycoon_tours', JSON.stringify(list));
+
+            showToast("Tour Launched!", "success");
+            setTimeout(() => location.reload(), 2000);
+        }
+
+        function renderDashboard() {
+            let tours = JSON.parse(localStorage.getItem('tycoon_tours') || '[]');
+            const activeDiv = document.getElementById('active-list');
+            const histDiv = document.getElementById('history-list');
+            const active = tours.filter(t => t.status !== 'completed');
+            const history = tours.filter(t => t.status === 'completed');
+
+            if (active.length === 0) {
+                activeDiv.innerHTML = `<div style="text-align:center; padding:30px; border:1px dashed var(--border); border-radius:12px; color:var(--text-sub)">No active tours</div>`;
+            } else {
+                activeDiv.innerHTML = active.map(t => {
+                    // Banner loaded async below — placeholder for now
+                    const bg = `background:linear-gradient(45deg, #333, #111)`;
+                    const pct = t.totalCapacity > 0 ? Math.round((t.ticketsSold / t.totalCapacity) * 100) : 0;
+                    const status = t.status === 'selling' ? `PRE-SALE: ${t.weeksUntilStart} WKS` : `LIVE: STOP ${t.currentStop + 1}/${t.route.length}`;
+                    
+                    // Display Price Range
+                    let priceDisplay = `$${t.price}`; // Old format fallback
+                    if(t.prices) {
+                        priceDisplay = `$${t.prices.discount} - $${t.prices.vip}`;
+                    }
+
+                    return `
+                    <div class="active-tour-card">
+                        <div class="tour-hero" style="${bg}; background-size:cover;">
+                            <div class="tour-status">${status}</div>
+                        </div>
+                        <div class="tour-info">
+                            <div class="tour-title">${t.name}</div>
+                            <div style="font-size:12px; color:var(--text-sub)">${t.route.length} Venues • ${priceDisplay}</div>
+                            <div style="margin-top:15px; background:#333; height:6px; border-radius:3px; overflow:hidden">
+                                <div style="width:${pct}%; height:100%; background:var(--primary)"></div>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:10px; margin-top:5px; color:#aaa">
+                                <span>${t.ticketsSold.toLocaleString()} sold</span>
+                                <span>${pct}%</span>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-item"><span class="stat-val">$${t.revenue.toLocaleString()}</span><span class="stat-lbl">Revenue</span></div>
+                                <div class="stat-item"><span class="stat-val">$${t.totalCost.toLocaleString()}</span><span class="stat-lbl">Cost</span></div>
+                                <div class="stat-item"><span class="stat-val" style="color:${t.revenue > t.totalCost ? 'var(--success)':'#fff'}">$${(t.revenue - t.totalCost).toLocaleString()}</span><span class="stat-lbl">Profit</span></div>
+                            </div>
+                            <button onclick="openVenueModal(${t.id})" style="width:100%;margin-top:12px;padding:10px;background:var(--bg-element);border:1px solid var(--border);border-radius:8px;color:var(--text-main);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.5px;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">🗺 VIEW VENUES &amp; SEAT MAPS</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            // After HTML is in the DOM, load IndexedDB banners and apply them
+                activeDiv.querySelectorAll('.tour-hero[data-banner-key]').forEach(hero => {
+                    const key = hero.getAttribute('data-banner-key');
+                    if (key) {
+                        tourBannerDB.load(key).then(img => {
+                            if (img) hero.style.backgroundImage = `url(${img})`;
+                        }).catch(() => {});
+                    }
+                });
+            }
+
+            if (history.length === 0) {
+                histDiv.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-sub)">No completed tours yet</div>`;
+            } else {
+                histDiv.innerHTML = history.map(t => `
+    <div onclick="openHistoryModal(${t.id})" style="background:var(--bg-surface); padding:15px; border-radius:12px; border:1px solid var(--border); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:0.2s" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">   
+                <div>
+                            <div style="font-weight:700">${t.name}</div>
+                            <div style="font-size:11px; color:var(--text-sub)">Completed • ${t.route.length} stops</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="color:${t.revenue > t.totalCost ? 'var(--success)' : 'var(--danger)'}; font-weight:700">$${(t.revenue - t.totalCost).toLocaleString()}</div>
+                            <div style="font-size:10px; color:var(--text-sub)">Profit</div>
+                        </div>
+                    </div>`).join('');
+            }
+            updateTourFab();
+        }
+    
+    function calculateTourRating(tour) {
+    // Rating based on profit margin, capacity filled, and tour size
+    const profitMargin = ((tour.revenue - tour.totalCost) / tour.totalCost) * 100;
+    const fillRate = (tour.ticketsSold / tour.totalCapacity) * 100;
+    
+    let rating = 5; // Base rating
+    
+    // Profit contribution (0-3 points)
+    if (profitMargin > 100) rating += 3;
+    else if (profitMargin > 50) rating += 2;
+    else if (profitMargin > 0) rating += 1;
+    else if (profitMargin > -25) rating += 0;
+    else rating -= 1;
+    
+    // Fill rate contribution (0-2 points)
+    if (fillRate > 90) rating += 2;
+    else if (fillRate > 70) rating += 1;
+    else if (fillRate < 40) rating -= 1;
+    
+    return Math.max(1, Math.min(10, rating));
+}
+
+function openHistoryModal(tourId) {
+    const tours = JSON.parse(localStorage.getItem('tycoon_tours') || '[]');
+    const tour = tours.find(t => t.id === tourId);
+    if (!tour) return;
+    
+    const rating = calculateTourRating(tour);
+    const profit = tour.revenue - tour.totalCost;
+    const profitColor = profit >= 0 ? 'var(--success)' : 'var(--danger)';
+    
+    // Calculate per-show stats
+    let showsHTML = tour.route.map((venue, idx) => {
+        const showCapacity = venue.capacity;
+const showFillRate = venue.fillRate || (tour.ticketsSold / tour.totalCapacity);
+const showSold = venue.ticketsSold || Math.floor(showCapacity * showFillRate);
+        
+        // Calculate weighted average ticket price
+        let avgPrice = 0;
+        if (tour.prices) {
+            avgPrice = (tour.prices.discount * 0.2) + (tour.prices.general * 0.6) + (tour.prices.vip * 0.2);
+        } else {
+            avgPrice = tour.price || 0;
+        }
+        
+        const showGross = Math.floor(showSold * avgPrice);
+        
+        return `
+            <div class="venue-breakdown">
+                <div class="venue-breakdown-header">
+                    <div>
+                        <div class="venue-name">${venue.name}</div>
+                        <div style="font-size:11px; color:var(--text-sub)">${venue.location}</div>
+                    </div>
+                    <div class="venue-gross">$${showGross.toLocaleString()}</div>
+                </div>
+                <div class="venue-stats">
+                    <div class="venue-stat">
+                        <div class="venue-stat-val">${showSold.toLocaleString()}</div>
+                        <div class="venue-stat-lbl">SOLD</div>
+                    </div>
+                    <div class="venue-stat">
+                        <div class="venue-stat-val">${showCapacity.toLocaleString()}</div>
+                        <div class="venue-stat-lbl">CAPACITY</div>
+                    </div>
+                    <div class="venue-stat">
+                        <div class="venue-stat-val">${Math.round((showSold/showCapacity)*100)}%</div>
+                        <div class="venue-stat-lbl">FILL RATE</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('modalTourName').innerText = tour.name;
+    document.getElementById('modalContent').innerHTML = `
+        <div class="active-tour-card" style="margin-bottom:20px">
+            <div class="tour-hero" style="background-image:url(${tour.banner}); background-size:cover; height:150px"></div>
+            <div class="tour-info">
+                <div style="text-align:center">
+                    <div class="rating-badge">⭐ ${rating}/10</div>
+                </div>
+                
+                <div class="stat-row" style="margin-top:20px">
+                    <div class="stat-item">
+                        <span class="stat-val">$${tour.totalCost.toLocaleString()}</span>
+                        <span class="stat-lbl">Budget</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">$${tour.revenue.toLocaleString()}</span>
+                        <span class="stat-lbl">Total Gross</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val" style="color:${profitColor}">$${profit.toLocaleString()}</span>
+                        <span class="stat-lbl">${profit >= 0 ? 'PROFIT' : 'LOSS'}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-label">SHOW BREAKDOWN</div>
+        ${showsHTML}
+        
+        <div style="margin-top:20px; padding:15px; background:var(--bg-surface); border-radius:12px; border:1px solid var(--border)">
+            <div style="font-size:11px; color:var(--text-sub); margin-bottom:8px">TOUR STATS</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+                <div><strong>Total Shows:</strong> ${tour.route.length}</div>
+                <div><strong>Continents:</strong> ${tour.continents ? tour.continents.length : 'N/A'}</div>
+                <div><strong>Total Tickets:</strong> ${tour.ticketsSold.toLocaleString()}</div>
+                <div><strong>Capacity:</strong> ${tour.totalCapacity.toLocaleString()}</div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('historyModal').classList.add('active');
+}
+
+function closeHistoryModal() {
+    document.getElementById('historyModal').classList.remove('active');
+}
+
+
+        // ═══════════════════════════════════════════════════════════
+        //  STAGE DESIGNER
+        // ═══════════════════════════════════════════════════════════
+        const ELEM_ICONS = {
+    backdrop:   `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="0.5" y="1" width="4.5" height="14" rx="1"/><rect x="11" y="1" width="4.5" height="14" rx="1"/><path d="M5 1.5 Q8 5 11 1.5" stroke-linecap="round"/></svg>`,
+    dj_booth:   `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="7" width="14" height="8" rx="1"/><circle cx="5" cy="11" r="2.5"/><circle cx="11" cy="11" r="2.5"/><rect x="6.5" y="7.5" width="3" height="1.5" rx="0.5" fill="currentColor" stroke="none"/></svg>`,
+    ctr_screen: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="1" width="14" height="11" rx="1"/><line x1="5.5" y1="12" x2="10.5" y2="12"/><line x1="8" y1="12" x2="8" y2="15"/></svg>`,
+    spot_lights:`<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="5,0 11,0 13,8 3,8" opacity="0.85"/><circle cx="8" cy="12" r="3"/></svg>`,
+    led_wall_l: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="7" height="14" rx="1"/><circle cx="4.5" cy="4" r="1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1" fill="currentColor" stroke="none"/></svg>`,
+    led_wall_r: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="8" y="1" width="7" height="14" rx="1"/><circle cx="11.5" cy="4" r="1" fill="currentColor" stroke="none"/><circle cx="11.5" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="11.5" cy="12" r="1" fill="currentColor" stroke="none"/></svg>`,
+    moving_hds: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="4" r="3"/><line x1="8" y1="7" x2="3" y2="14"/><line x1="8" y1="7" x2="8" y2="14"/><line x1="8" y1="7" x2="13" y2="14"/></svg>`,
+    laser_rig:  `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="2" r="1.5" fill="currentColor"/><line x1="8" y1="3.5" x2="1" y2="15" stroke="#f43f5e" stroke-width="1.5"/><line x1="8" y1="3.5" x2="8" y2="15" stroke="#06b6d4" stroke-width="1.5"/><line x1="8" y1="3.5" x2="15" y2="15" stroke="#10b981" stroke-width="1.5"/></svg>`,
+    b_stage:    `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="9" width="14" height="6" rx="1"/><rect x="4" y="6" width="8" height="4" rx="0.5"/><circle cx="8" cy="3.5" r="2"/></svg>`,
+    pyro:       `<svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 15 Q5 10 6 6 Q7 3 8 1 Q9 3 10 6 Q11 10 8 15Z" fill="#f97316"/><path d="M8 13 Q6.5 9 7.2 6.5 Q7.8 4 8 3 Q8.2 4 8.8 6.5 Q9.5 9 8 13Z" fill="#fef08a"/></svg>`,
+    led_towers: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="4" height="14" rx="0.5"/><rect x="11" y="1" width="4" height="14" rx="0.5"/><rect x="2" y="3" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/><rect x="2" y="7" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/><rect x="2" y="11" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/><rect x="12" y="3" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/><rect x="12" y="7" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/><rect x="12" y="11" width="2" height="1.5" rx="0.3" fill="currentColor" stroke="none"/></svg>`,
+    hydraulic:  `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="10" width="12" height="5" rx="1"/><line x1="8" y1="10" x2="8" y2="4"/><polyline points="5,7 8,3 11,7"/></svg>`,
+    co2:        `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="11" width="6" height="4" rx="1"/><path d="M6 11 Q3 8 4 4"/><path d="M10 11 Q13 8 12 4"/><path d="M4 4 Q8 2 12 4" stroke-linecap="round"/></svg>`,
+    drone_show: `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="2"/><circle cx="2.5" cy="2.5" r="1.5"/><circle cx="13.5" cy="2.5" r="1.5"/><circle cx="2.5" cy="13.5" r="1.5"/><circle cx="13.5" cy="13.5" r="1.5"/><line x1="4" y1="4" x2="6.5" y2="6.5" stroke="currentColor" stroke-width="1"/><line x1="12" y1="4" x2="9.5" y2="6.5" stroke="currentColor" stroke-width="1"/><line x1="4" y1="12" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1"/><line x1="12" y1="12" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1"/></svg>`,
+};
+
+const STAGE_ELEMS = [
+    { id:'backdrop',    label:'Backdrop',           tier:'basic', icon:ELEM_ICONS.backdrop,    def:true  },
+    { id:'dj_booth',    label:'DJ Booth',           tier:'basic', icon:ELEM_ICONS.dj_booth,    def:true  },
+    { id:'ctr_screen',  label:'Center Screen',      tier:'basic', icon:ELEM_ICONS.ctr_screen,  def:false },
+    { id:'spot_lights', label:'Stage Spots',        tier:'basic', icon:ELEM_ICONS.spot_lights, def:false },
+    { id:'led_wall_l',  label:'LED Wall (L)',        tier:'arena', icon:ELEM_ICONS.led_wall_l,  def:false },
+    { id:'led_wall_r',  label:'LED Wall (R)',        tier:'arena', icon:ELEM_ICONS.led_wall_r,  def:false },
+    { id:'moving_hds',  label:'Moving Heads',       tier:'arena', icon:ELEM_ICONS.moving_hds,  def:false },
+    { id:'laser_rig',   label:'Laser Rig',          tier:'arena', icon:ELEM_ICONS.laser_rig,   def:false },
+    { id:'b_stage',     label:'B-Stage',            tier:'arena', icon:ELEM_ICONS.b_stage,     def:false },
+    { id:'pyro',        label:'Pyrotechnics',       tier:'mega',  icon:ELEM_ICONS.pyro,        def:false },
+    { id:'led_towers',  label:'LED Towers',         tier:'mega',  icon:ELEM_ICONS.led_towers,  def:false },
+    { id:'hydraulic',   label:'Hydraulic Platform', tier:'mega',  icon:ELEM_ICONS.hydraulic,   def:false },
+    { id:'co2',         label:'CO₂ Cannons',        tier:'mega',  icon:ELEM_ICONS.co2,         def:false },
+    { id:'drone_show',  label:'Drone Show',         tier:'mega',  icon:ELEM_ICONS.drone_show,  def:false },
+];
+        const TIER_ORDER = { basic:0, arena:1, mega:2 };
+        const TIER_LABELS = { basic:'Basic · $5k', arena:'Arena · $150k', mega:'Mega · $1M' };
+        const TIER_COLORS = { basic:'#10b981', arena:'#3b82f6', mega:'#ec4899' };
+
+        let activeElems = new Set(['backdrop','dj_booth']);
+        let currentMapView = 'arranged';
+
+        function getProdTier() {
+            return draftTour.prod.id || 'basic'; // 'basic' | 'arena' | 'mega'
+        }
+
+            function initStagePage() {
+            const tier = getProdTier();
+            const badge = document.getElementById('stageTierBadge');
+            badge.innerHTML = `<span class="stage-tier-badge" style="background:${TIER_COLORS[tier]}; color:#fff;">${TIER_LABELS[tier].split('·')[0]} RIG</span>`;
+
+            if (tier === 'mega') {
+                activeElems = new Set(['backdrop','dj_booth','ctr_screen','spot_lights','led_wall_l','led_wall_r','laser_rig','pyro']);
+            } else if (tier === 'arena') {
+                activeElems = new Set(['backdrop','dj_booth','ctr_screen','spot_lights','laser_rig']);
+            } else {
+                activeElems = new Set(['backdrop','dj_booth','ctr_screen','spot_lights']);
+            }
+
+            const palette = document.getElementById('elemPalette');
+            palette.innerHTML = STAGE_ELEMS.map(el => {
+                const allowed = TIER_ORDER[tier] >= TIER_ORDER[el.tier];
+                const isOn = activeElems.has(el.id);
+                return `<button class="stage-elem-btn ${isOn ? 'active' : ''} ${!allowed ? 'locked' : ''}"
+                    id="sebtn-${el.id}"
+                    onclick="${allowed ? `toggleStageElem('${el.id}')` : `showToast('Requires ${el.tier.toUpperCase()} budget tier!','error')`}">
+                    <span class="elem-icon">${el.icon}</span>
+                    <span>${el.label}</span>
+                    <span class="tier-dot tier-${el.tier}"></span>
+                </button>`;
+            }).join('');
+
+            renderStagePreview();
+        }
+
+        function renderStagePreview() {
+            const ae = activeElems;
+            const SVG_W = 460, SVG_H = 160;
+
+            const widthPct = (parseInt(document.getElementById('stageWidthSlider')?.value) || 65) / 100;
+            const depthVal = parseInt(document.getElementById('stageDepthSlider')?.value) || 20;
+
+            const stageX = Math.round(SVG_W * (1 - widthPct) / 2);
+            const stageW = Math.round(SVG_W * widthPct);
+            const floorY = 135;
+            const platformH = depthVal;
+            const platformY = floorY - platformH;
+
+            // Gamified Hype Meter Calculation
+            let hypeScore = 1.0 + (ae.size * 0.2);
+            if (ae.has('pyro')) hypeScore += 0.5;
+            if (ae.has('laser_rig')) hypeScore += 0.4;
+            if (ae.has('drone_show')) hypeScore += 0.8;
+            
+            const fillPct = Math.min(100, Math.round((hypeScore / 5.5) * 100));
+            const hypeFillEl = document.getElementById('hypeBarFill');
+            const hypeValEl = document.getElementById('visualHypeVal');
+            if (hypeFillEl) hypeFillEl.style.width = fillPct + '%';
+            if (hypeValEl) hypeValEl.textContent = hypeScore.toFixed(1) + 'x LVL';
+
+            draftTour.prod.hype = parseFloat(hypeScore.toFixed(1));
+
+            // Dynamically Pull Tour Banner URI from Cover Preview if uploaded
+            let bannerImgURI = null;
+            const previewEl = document.getElementById('coverPreview');
+            if (previewEl && previewEl.style.backgroundImage) {
+                bannerImgURI = previewEl.style.backgroundImage.slice(5, -2);
+            }
+
+            let s = `<defs>
+                <linearGradient id="floorG" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1c1c2d"/>
+                    <stop offset="100%" stop-color="#030305"/>
+                </linearGradient>
+                <linearGradient id="screenVolt" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#8b5cf6"/>
+                    <stop offset="100%" stop-color="#3b82f6"/>
+                </linearGradient>
+                <linearGradient id="laserBeam" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ec4899" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0"/>
+                </linearGradient>
+                <filter id="ultraGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <pattern id="gridPat" width="15" height="15" patternUnits="userSpaceOnUse">
+                    <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#2a2a45" stroke-width="0.5"/>
+                </pattern>
+            </defs>`;
+
+            s += `<rect width="${SVG_W}" height="${SVG_H}" fill="#09090e"/>`;
+            s += `<rect width="${SVG_W}" height="${floorY}" fill="url(#gridPat)" opacity="0.3"/>`;
+            s += `<ellipse cx="${SVG_W/2}" cy="${floorY}" rx="${SVG_W*0.6}" ry="25" fill="#3b82f6" opacity="0.15" filter="url(#ultraGlow)"/>`;
+
+            // Rigging Backdrop (Integrates faint banner)
+            if (ae.has('backdrop')) {
+                s += `<rect x="${stageX}" y="8" width="${stageW}" height="${platformY-10}" rx="3" fill="#0c0c14" stroke="#27273a" stroke-width="1.5"/>`;
+                if (bannerImgURI) {
+                    s += `<image href="${bannerImgURI}" x="${stageX}" y="8" width="${stageW}" height="${platformY-10}" preserveAspectRatio="none" opacity="0.3"/>`;
+                }
+            }
+
+            // LED Towers
+            if (ae.has('led_towers')) {
+                const tw = 18;
+                s += `<rect x="${stageX-tw-4}" y="12" width="${tw}" height="${platformY-14}" rx="2" fill="#05050a" stroke="#ec4899" stroke-width="1"/>`;
+                s += `<rect x="${stageX+stageW+4}" y="12" width="${tw}" height="${platformY-14}" rx="2" fill="#05050a" stroke="#ec4899" stroke-width="1"/>`;
+                for(let i=0; i<4; i++) {
+                    const c = i % 2 === 0 ? '#ec4899' : '#06b6d4';
+                    s += `<rect x="${stageX-tw-2}" y="${16 + i*18}" width="${tw-4}" height="10" rx="1" fill="${c}" opacity="0.85"/>`;
+                    s += `<rect x="${stageX+stageW+6}" y="${16 + i*18}" width="${tw-4}" height="10" rx="1" fill="${c}" opacity="0.85"/>`;
+                }
+            }
+
+            const innerX = stageX + 8;
+            const innerW = stageW - 16;
+
+            // Side LED Walls projecting tour artwork
+            if (ae.has('led_wall_l')) {
+                const w = innerW * 0.22;
+                s += `<rect x="${innerX}" y="14" width="${w}" height="${platformY-16}" rx="3" fill="#080816" stroke="#06b6d4" stroke-width="1.5"/>`;
+                if (bannerImgURI) s += `<image href="${bannerImgURI}" x="${innerX}" y="14" width="${w}" height="${platformY-16}" preserveAspectRatio="none" opacity="0.7"/>`;
+            }
+            if (ae.has('led_wall_r')) {
+                const w = innerW * 0.22;
+                const rx = innerX + innerW - w;
+                s += `<rect x="${rx}" y="14" width="${w}" height="${platformY-16}" rx="3" fill="#080816" stroke="#06b6d4" stroke-width="1.5"/>`;
+                if (bannerImgURI) s += `<image href="${bannerImgURI}" x="${rx}" y="14" width="${w}" height="${platformY-16}" preserveAspectRatio="none" opacity="0.7"/>`;
+            }
+
+            // PRIMARY CENTER SCREEN (High-Res Banner Mapping)
+            if (ae.has('ctr_screen')) {
+                const sideW = ae.has('led_wall_l') ? innerW * 0.25 : 0;
+                const scx = innerX + sideW;
+                const scw = innerW - (sideW * 2);
+                const sch = platformY - 16;
+                
+                s += `<rect x="${scx}" y="14" width="${scw}" height="${sch}" rx="4" fill="url(#screenVolt)" stroke="#ffffff" stroke-width="1.5" filter="url(#ultraGlow)"/>`;
+                
+                if (bannerImgURI) {
+                    s += `<image href="${bannerImgURI}" x="${scx}" y="14" width="${scw}" height="${sch}" preserveAspectRatio="xMidYMid meet" rx="4" opacity="0.95"/>`;
+                } else {
+                    s += `<text x="${scx + scw/2}" y="${14 + sch/2 + 3}" font-family="Inter,sans-serif" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="3">LIVE</text>`;
+                }
+            }
+
+            // Truss
+            s += `<rect x="${stageX}" y="8" width="${stageW}" height="4" fill="#1f1f2e"/>`;
+
+            // Spotlights
+            if (ae.has('spot_lights')) {
+                [0.1, 0.3, 0.5, 0.7, 0.9].map(t => stageX + stageW*t).forEach(x => {
+                    s += `<polygon points="${x},12 ${x-25},${floorY} ${x+25},${floorY}" fill="url(#laserBeam)" opacity="0.25"/>`;
+                    s += `<circle cx="${x}" cy="12" r="4" fill="#ffffff" filter="url(#ultraGlow)"/>`;
+                });
+            }
+
+            // Moving Heads
+            if (ae.has('moving_hds')) {
+                [0.2, 0.5, 0.8].forEach((t, i) => {
+                    const x = stageX + stageW*t;
+                    const offset = i === 1 ? 0 : (i === 0 ? -40 : 40);
+                    s += `<polygon points="${x},12 ${x+offset-15},${floorY} ${x+offset+15},${floorY}" fill="rgba(139,92,246,0.3)"/>`;
+                    s += `<circle cx="${x}" cy="12" r="5" fill="#8b5cf6" filter="url(#ultraGlow)"/>`;
+                });
+            }
+
+            // Laser Rig
+            if (ae.has('laser_rig')) {
+                const cx = stageX + stageW/2;
+                const colors = ['#10b981', '#06b6d4', '#ec4899', '#f59e0b', '#8b5cf6'];
+                [-100, -50, 0, 50, 100].forEach((txOffset, idx) => {
+                    s += `<line x1="${cx}" y1="12" x2="${cx + txOffset}" y2="${floorY+5}" stroke="${colors[idx]}" stroke-width="1.5" opacity="0.85" filter="url(#ultraGlow)"/>`;
+                });
+            }
+
+            // Runway Floor & Deck
+            s += `<rect x="0" y="${floorY}" width="${SVG_W}" height="${SVG_H-floorY}" fill="url(#floorG)"/>`;
+            s += `<line x1="0" y1="${floorY}" x2="${SVG_W}" y2="${floorY}" stroke="#3b82f6" stroke-width="1.5"/>`;
+            s += `<line x1="${SVG_W*0.3}" y1="${floorY}" x2="${SVG_W*0.1}" y2="${SVG_H}" stroke="#222238" stroke-width="1"/>`;
+            s += `<line x1="${SVG_W*0.7}" y1="${floorY}" x2="${SVG_W*0.9}" y2="${SVG_H}" stroke="#222238" stroke-width="1"/>`;
+
+            s += `<rect x="${stageX}" y="${platformY}" width="${stageW}" height="${platformH}" fill="#111118" stroke="#3b82f6" stroke-width="1"/>`;
+            s += `<rect x="${stageX}" y="${platformY}" width="${stageW}" height="3" fill="#3b82f6"/>`;
+
+            if (ae.has('b_stage')) {
+                const bw = Math.round(stageW * 0.35);
+                const bx = Math.round(SVG_W/2 - bw/2);
+                const by = floorY + 4;
+                s += `<rect x="${bx}" y="${by}" width="${bw}" height="16" rx="2" fill="#181824" stroke="#8b5cf6" stroke-width="1.5"/>`;
+            }
+
+            if (ae.has('dj_booth')) {
+                const bw = Math.min(80, stageW * 0.4);
+                const bx = SVG_W/2 - bw/2;
+                const by = platformY + 2;
+                s += `<rect x="${bx}" y="${by}" width="${bw}" height="16" rx="2" fill="#09090d" stroke="#ffffff" stroke-width="1.5"/>`;
+                s += `<rect x="${bx+4}" y="${by+4}" width="${bw-8}" height="8" rx="1" fill="#ec4899"/>`;
+            }
+
+            if (ae.has('hydraulic')) {
+                const hw = Math.round(stageW * 0.25);
+                const hx = SVG_W/2 - hw/2;
+                s += `<rect x="${hx}" y="${platformY-16}" width="${hw}" height="8" rx="1" fill="#f59e0b"/>`;
+                s += `<line x1="${hx+8}" y1="${platformY-8}" x2="${hx+8}" y2="${platformY}" stroke="#fff" stroke-width="2"/>`;
+                s += `<line x1="${hx+hw-8}" y1="${platformY-8}" x2="${hx+hw-8}" y2="${platformY}" stroke="#fff" stroke-width="2"/>`;
+            }
+
+            if (ae.has('co2')) {
+                [[stageX+12, platformY], [stageX+stageW-12, platformY]].forEach(([x,y]) => {
+                    s += `<polygon points="${x},${y+2} ${x-18},${y-35} ${x+18},${y-35}" fill="rgba(255,255,255,0.4)"/>`;
+                    s += `<rect x="${x-4}" y="${y-4}" width="8" height="8" rx="1" fill="#fff"/>`;
+                });
+            }
+
+            if (ae.has('pyro')) {
+                [0.15, 0.35, 0.5, 0.65, 0.85].forEach(t => {
+                    const x = stageX + stageW*t;
+                    s += `<path d="M ${x} ${platformY+1} Q ${x-12} ${platformY-20} ${x-6} ${platformY-35} Q ${x} ${platformY-15} ${x+6} ${platformY-35} Q ${x+12} ${platformY-20} ${x} ${platformY+1}" fill="#f97316" filter="url(#ultraGlow)"/>`;
+                });
+            }
+
+            if (ae.has('drone_show')) {
+                const pts = [[90,20],[160,10],[250,12],[340,22],[60,35],[390,30],[220,5]];
+                pts.forEach(([x,y]) => {
+                    s += `<circle cx="${x}" cy="${y}" r="2.5" fill="#10b981" filter="url(#ultraGlow)"/>`;
+                });
+            }
+
+            const svgEl = document.getElementById('stagePreviewSVG');
+            if (svgEl) {
+                svgEl.setAttribute('viewBox', `0 0 ${SVG_W} ${SVG_H}`);
+                svgEl.innerHTML = s;
+            }
+        }
+    
+
+        function toggleStageElem(id) {
+            if (activeElems.has(id)) activeElems.delete(id);
+            else activeElems.add(id);
+            const btn = document.getElementById(`sebtn-${id}`);
+            if (btn) btn.classList.toggle('active', activeElems.has(id));
+            renderStagePreview();
+            // Store design
+            draftTour.stageDesign = [...activeElems];
+        }
+
+        function renderStagePreview() {
+    const ae = activeElems;
+    const SVG_W = 460, SVG_H = 250;
+
+    const widthPct  = (parseInt(document.getElementById('stageWidthSlider')?.value) || 65) / 100;
+    const depthVal  = parseInt(document.getElementById('stageDepthSlider')?.value) || 26;
+
+    const stageX = Math.round(SVG_W * (1 - widthPct) / 2);
+    const stageW = Math.round(SVG_W * widthPct);
+    const floorY = 218;
+    const platformH = depthVal;
+    const platformY = floorY - platformH;
+
+    // Dynamically pull the Tour Banner URI from the Cover Preview
+    let bannerImgURI = null;
+    const previewEl = document.getElementById('coverPreview');
+    if (previewEl && previewEl.style.backgroundImage && previewEl.style.backgroundImage !== 'none') {
+        bannerImgURI = previewEl.style.backgroundImage.slice(4, -1).replace(/['"]/g, "");
+    }
+
+    let s = `<defs>
+        <linearGradient id="floorG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2a2a2a"/>
+            <stop offset="100%" stop-color="#111"/>
+        </linearGradient>
+        <linearGradient id="screenG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#1a1aee" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#060620" stop-opacity="0.9"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>`;
+
+    s += `<rect width="${SVG_W}" height="${SVG_H}" fill="#080808"/>`;
+
+    if (ae.has('backdrop')) {
+        s += `<rect x="${stageX}" y="5" width="${stageW}" height="${platformY-8}" rx="3" fill="#121230" opacity="0.85"/>`;
+        s += `<text x="${SVG_W/2}" y="${(platformY-8)/2+5}" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.05)" text-anchor="middle" letter-spacing="18">· · · · · · · · ·</text>`;
+    }
+
+    const pal = draftTour.palette || ['#ec4899', '#06b6d4', '#8b5cf6', '#10b981', '#f59e0b'];
+    const getC = (i) => pal[i % pal.length];
+
+    if (ae.has('led_towers')) {
+        s += `<rect x="${stageX}" y="12" width="28" height="${platformY-16}" rx="3" fill="#0a0a2a" stroke="${getC(0)}" stroke-width="1" filter="url(#glow)"/>`;
+        s += `<rect x="${stageX+stageW-28}" y="12" width="28" height="${platformY-16}" rx="3" fill="#0a0a2a" stroke="${getC(1)}" stroke-width="1" filter="url(#glow)"/>`;
+        for(let i=0;i<8;i++) {
+            s += `<rect x="${stageX+2}" y="${16+i*17}" width="24" height="12" rx="2" fill="${getC(i)}" opacity="0.8"/>`;
+            s += `<rect x="${stageX+stageW-26}" y="${16+i*17}" width="24" height="12" rx="2" fill="${getC(i+1)}" opacity="0.8"/>`;
+        }
+    }
+
+    const innerX = stageX + (ae.has('led_towers') ? 30 : 2);
+    const innerW = stageW - (ae.has('led_towers') ? 60 : 4);
+
+    const hasL = ae.has('led_wall_l');
+    const hasR = ae.has('led_wall_r');
+    const hasC = ae.has('ctr_screen');
+    const scx = innerX + (hasL ? innerW*0.28 : 0);
+    const scw = innerW - (hasL ? innerW*0.28 : 0) - (hasR ? innerW*0.28 : 0);
+    const rx = innerX + innerW*0.74;
+
+    if (hasL) s += `<rect x="${innerX}" y="18" width="${innerW*0.26}" height="${platformY-22}" rx="3" fill="#050520" stroke="#6366f1" stroke-width="1.5" filter="url(#glow)"/>`;
+    if (hasR) s += `<rect x="${rx}" y="18" width="${innerW*0.26}" height="${platformY-22}" rx="3" fill="#050520" stroke="#6366f1" stroke-width="1.5" filter="url(#glow)"/>`;
+    if (hasC) s += `<rect x="${scx}" y="18" width="${scw}" height="${platformY-22}" rx="4" fill="url(#screenG)" stroke="#3b82f6" stroke-width="1.5" filter="url(#glow)"/>`;
+
+    if (bannerImgURI && (hasL || hasR || hasC)) {
+        s += `<clipPath id="spanClip">`;
+        if (hasL) s += `<rect x="${innerX}" y="18" width="${innerW*0.26}" height="${platformY-22}" rx="3"/>`;
+        if (hasC) s += `<rect x="${scx}" y="18" width="${scw}" height="${platformY-22}" rx="4"/>`;
+        if (hasR) s += `<rect x="${rx}" y="18" width="${innerW*0.26}" height="${platformY-22}" rx="3"/>`;
+        s += `</clipPath>`;
+        s += `<image href="${bannerImgURI}" x="${innerX}" y="18" width="${innerW}" height="${platformY-22}" preserveAspectRatio="xMidYMid meet" clip-path="url(#spanClip)" opacity="0.95"/>`;
+    } else {
+        if (hasL) s += `<text x="${innerX+innerW*0.13}" y="${platformY/2}" font-family="monospace" font-size="7" fill="#6366f155" text-anchor="middle">LED</text>`;
+        if (hasR) s += `<text x="${rx+innerW*0.13}" y="${platformY/2}" font-family="monospace" font-size="7" fill="#6366f155" text-anchor="middle">LED</text>`;
+        if (hasC) s += `<text x="${scx+scw/2}" y="${18 + (platformY-22)/2 + 3}" font-family="Inter,sans-serif" font-size="10" fill="rgba(255,255,255,0.25)" text-anchor="middle" letter-spacing="2">LIVE</text>`;
+    }
+
+    s += `<rect x="${stageX+2}" y="14" width="${stageW-4}" height="7" rx="2" fill="#2a2a2a"/>`;
+    s += `<rect x="${stageX+6}" y="14" width="4" height="${platformY}" fill="#1e1e1e"/>`;
+    s += `<rect x="${stageX+stageW-10}" y="14" width="4" height="${platformY}" fill="#1e1e1e"/>`;
+
+    if (ae.has('spot_lights')) {
+        [0.15,0.3,0.5,0.7,0.85].map(t => stageX + stageW*t).forEach((x, i) => {
+            s += `<polygon points="${x},18 ${x-14},${platformY-8} ${x+14},${platformY-8}" fill="${getC(i)}" opacity="0.15"/>`;
+            s += `<circle cx="${x}" cy="18" r="5" fill="${getC(i)}" filter="url(#glow)"/>`;
+        });
+    }
+
+    if (ae.has('moving_hds')) {
+        [0.2,0.5,0.8].forEach((t,i) => {
+            const x = stageX + stageW*t;
+            s += `<polygon points="${x},18 ${x-20+i*2},${platformY-10} ${x+20-i*2},${platformY-10}" fill="${getC(i+1)}" opacity="0.2"/>`;
+            s += `<circle cx="${x}" cy="18" r="6" fill="${getC(i+1)}" filter="url(#glow)"/>`;
+        });
+    }
+
+    if (ae.has('laser_rig')) {
+        const cx = stageX + stageW/2;
+        [0.1, 0.3, 0.5, 0.7, 0.9].forEach((t, i) => {
+            const x2 = stageX + stageW*t;
+            s += `<line x1="${cx}" y1="20" x2="${x2}" y2="${platformY-5}" stroke="${getC(i)}" stroke-width="1.5" opacity="0.75" filter="url(#glow)"/>`;
+        });
+    }
+
+    s += `<rect x="0" y="${floorY}" width="${SVG_W}" height="${SVG_H-floorY}" fill="url(#floorG)"/>`;
+    s += `<line x1="0" y1="${floorY+4}" x2="${SVG_W}" y2="${floorY+4}" stroke="#333" stroke-width="1"/>`;
+    s += `<rect x="${stageX}" y="${platformY}" width="${stageW}" height="${platformH+2}" rx="2" fill="#181818" stroke="#333" stroke-width="1"/>`;
+
+    const hasLights = ae.has('spot_lights')||ae.has('laser_rig')||ae.has('moving_hds');
+    s += `<rect x="${stageX}" y="${platformY}" width="${stageW}" height="4" rx="1" fill="${hasLights?'#7c3aed':'#2a2a2a'}"/>`;
+    s += `<text x="${SVG_W/2}" y="${SVG_H-4}" font-family="Inter,sans-serif" font-size="8" fill="#444" text-anchor="middle">${Math.round(stageW)}px span · ${depthVal < 25 ? 'Shallow' : depthVal < 40 ? 'Standard' : depthVal < 55 ? 'Deep' : 'Massive'} platform</text>`;
+
+    if (ae.has('b_stage')) {
+        const bw = Math.round(stageW*0.32);
+        const bx = Math.round(SVG_W/2-bw/2);
+        s += `<rect x="${bx}" y="${floorY+6}" width="${bw}" height="24" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="1"/>`;
+        s += `<text x="${SVG_W/2}" y="${floorY+21}" font-family="Inter,sans-serif" font-size="8" fill="#666" text-anchor="middle">B-STAGE</text>`;
+    }
+
+    if (ae.has('dj_booth')) {
+        const bw = Math.min(90, stageW*0.4);
+        const bx = SVG_W/2 - bw/2;
+        s += `<rect x="${bx}" y="${platformY+4}" width="${bw}" height="22" rx="3" fill="#1c1c1c" stroke="#444" stroke-width="1"/>`;
+        s += `<rect x="${bx+6}" y="${platformY+8}" width="${bw-12}" height="13" rx="2" fill="#0d0d0d"/>`;
+        [-1,0,1].forEach(i => {
+            s += `<circle cx="${SVG_W/2+i*Math.round(bw/5)}" cy="${platformY+15}" r="3.5" fill="#333" stroke="#555" stroke-width="1"/>`;
+        });
+    }
+
+    if (ae.has('hydraulic')) {
+        const hw = Math.round(stageW*0.22);
+        const hx = SVG_W/2 - hw/2;
+        s += `<rect x="${hx}" y="${platformY-18}" width="${hw}" height="18" rx="2" fill="#2a2a2a" stroke="#6b7280" stroke-width="1"/>`;
+        s += `<line x1="${hx+8}" y1="${platformY}" x2="${hx+8}" y2="${floorY+10}" stroke="#555" stroke-width="2"/>`;
+        s += `<line x1="${hx+hw-8}" y1="${platformY}" x2="${hx+hw-8}" y2="${floorY+10}" stroke="#555" stroke-width="2"/>`;
+    }
+
+    if (ae.has('co2')) {
+        [[stageX+12,platformY-4],[stageX+stageW-24,platformY-4]].forEach(([x,y]) => {
+            s += `<polygon points="${x+6},${y} ${x-14},${y-38} ${x+26},${y-38}" fill="rgba(200,230,255,0.1)"/>`;
+            s += `<rect x="${x}" y="${y}" width="12" height="16" rx="2" fill="#374151"/>`;
+        });
+    }
+
+    if (ae.has('pyro')) {
+        [0.1,0.28,0.5,0.72,0.9].forEach(t => {
+            const x = stageX + stageW*t;
+            s += `<polygon points="${x},${platformY} ${x-9},${platformY-36} ${x},${platformY-28} ${x+7},${platformY-44} ${x+3},${platformY-28} ${x+11},${platformY-34} ${x+4},${platformY}" fill="rgba(251,146,60,0.75)" filter="url(#glow)"/>`;
+        });
+    }
+
+    if (ae.has('drone_show')) {
+        [[80,30],[150,18],[230,10],[310,22],[380,32],[120,52],[340,48]].forEach(([x,y]) => {
+            s += `<circle cx="${x}" cy="${y}" r="3" fill="#e2e8f0" filter="url(#glow)" opacity="0.85"/>`;
+            s += `<circle cx="${x}" cy="${y}" r="7" fill="rgba(226,232,240,0.08)"/>`;
+        });
+    }
+
+    document.getElementById('stagePreviewSVG').setAttribute('viewBox', `0 0 ${SVG_W} ${SVG_H}`);
+    document.getElementById('stagePreviewSVG').innerHTML = s;
+}
+
+        // ═══════════════════════════════════════════════════════════
+        //  VENUE PREVIEW & SEAT MAP
+        // ═══════════════════════════════════════════════════════════
+        function initVenuePreview() {
+            currentMapView = 'arranged';
+            document.getElementById('vbtn-arranged').classList.add('active');
+            document.getElementById('vbtn-optimal').classList.remove('active');
+            const venue = draftTour.route[0];
+            if (!venue) {
+                document.getElementById('previewVenueInfo').textContent = 'No venue selected yet.';
+                document.getElementById('seatMapContainer').innerHTML = '';
+                return;
+            }
+            const info = `Showing: ${venue.name} · ${venue.location} · ${venue.capacity.toLocaleString()} capacity`;
+            document.getElementById('previewVenueInfo').textContent = info;
+            renderSeatMap(venue.type, venue.capacity, 'arranged', 0);
+        }
+
+        function switchMapView(mode) {
+            currentMapView = mode;
+            document.getElementById('vbtn-arranged').classList.toggle('active', mode === 'arranged');
+            document.getElementById('vbtn-optimal').classList.toggle('active', mode === 'optimal');
+            const venue = draftTour.route[0];
+            if (!venue) return;
+            renderSeatMap(venue.type, venue.capacity, mode, 0);
+        }
+
+        function renderSeatMap(venueType, capacity, mode, fillRate, containerEl) {
+    const el = containerEl || document.getElementById('seatMapContainer');
+    if (!el) return;
+    let svg = mode === 'optimal'
+        ? generateDotMap(venueType, capacity, fillRate)
+        : generateArrangedMap(venueType, capacity, fillRate);
+    svg = svg.replace('<svg ', '<svg style="display:block;width:100%;height:auto;" ');
+    el.innerHTML = svg;
+}
+
+        // ── ARRANGED MAP ──────────────────────────────────────────
+        function generateArrangedMap(venueType, capacity, fillRate) {
+            const sold = fillRate >= 1;
+            // Color by fill: if a section is "sold out" it goes grey
+            // We'll split sections: all grey if fillRate=1, gradient if partial
+            // For simplicity: sections sold in order from cheapest outward
+            const sectionFill = (tier, idx, total) => {
+                const tierColors = { disc:'#4f46e5', gen:'#7c3aed', vip:'#d97706' };
+                const soldFrac = fillRate;
+                // Approximate: disc sells first, then gen, then vip
+                const tierOrder = ['disc','gen','vip'];
+                const tierShare = { disc:0.20, gen:0.60, vip:0.20 };
+                let cumulative = 0;
+                for (const t of tierOrder) {
+                    const share = tierShare[t];
+                    if (tier === t) {
+                        const sectionStart = cumulative;
+                        const sectionFrac = (idx / total);
+                        const absPos = sectionStart + share * sectionFrac;
+                        return soldFrac > absPos ? '#3f3f46' : tierColors[t];
+                    }
+                    cumulative += share;
+                }
+                return '#3f3f46';
+            };
+            const lbl = (txt, x, y, size=10) =>
+                `<text x="${x}" y="${y}" font-family="Inter,sans-serif" font-size="${size}" font-weight="700" fill="rgba(255,255,255,0.75)" text-anchor="middle" dominant-baseline="central">${txt}</text>`;
+
+            if (venueType === 'clubs') return clubArranged(capacity, sectionFill, lbl);
+            if (venueType === 'theaters') return theaterArranged(capacity, sectionFill, lbl);
+            if (venueType === 'stadiums') return stadiumArranged(capacity, sectionFill, lbl);
+            return arenaArranged(capacity, sectionFill, lbl); // arenas + default
+        }
+
+function arenaArranged(capacity, sf, lbl) {
+    const W=640, H=480;
+    const GREY='#6b7280';
+    let s = `<svg viewBox="-22 -22 684 524" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto;">
+    <defs>
+        <radialGradient id="arVD" cx="50%" cy="56%" r="60%"><stop offset="20%" stop-color="transparent"/><stop offset="100%" stop-color="rgba(0,0,0,0.48)"/></radialGradient>
+        <clipPath id="arArC"><rect x="-8" y="-8" width="656" height="496" rx="30"/></clipPath>
+    </defs>`;
+    s += `<rect x="-22" y="-22" width="684" height="524" fill="#060810"/>`;
+    s += `<rect x="-18" y="-18" width="676" height="516" rx="26" fill="#111827" stroke="#344060" stroke-width="3"/>`;
+    s += `<rect x="-8" y="-8" width="656" height="496" rx="30" fill="#0d1121" stroke="#1a2840" stroke-width="1.5"/>`;
+    s += `<g clip-path="url(#arArC)">`;
+
+    // ── GREY: right end — production/restricted (no sightline to stage) ──
+    s += `<rect x="524" y="0" width="116" height="90" fill="${GREY}" opacity="0.72"/>`;
+    s += lbl('PROD',582,45,8);
+    s += `<rect x="524" y="368" width="116" height="104" fill="${GREY}" opacity="0.72"/>`;
+    s += lbl('PROD',582,418,8);
+
+    // ── STAGE ──
+    s += `<rect x="196" y="394" width="248" height="78" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5" style="cursor:pointer" onclick="showSectionPrice('vip','Stage')"/>`;
+    s += lbl('STAGE',320,433,10);
+
+    // ── VIP ──
+    s += `<rect x="0" y="394" width="190" height="78" rx="3" fill="${sf('vip',0,3)}" style="cursor:pointer" onclick="showSectionPrice('vip','VIP-L')"/>`;
+    s += lbl('VIP L',95,433,10);
+    s += `<rect x="450" y="394" width="190" height="78" rx="3" fill="${sf('vip',1,3)}" style="cursor:pointer" onclick="showSectionPrice('vip','VIP-R')"/>`;
+    s += lbl('VIP R',545,433,10);
+
+    // ── GA FLOOR ──
+    s += `<rect x="124" y="130" width="392" height="250" rx="4" fill="${sf('disc',0,1)}" opacity="0.85" style="cursor:pointer" onclick="showSectionPrice('disc','GA')"/>`;
+    s += lbl('GENERAL ADMISSION',320,248,12);
+    s += lbl('GA FLOOR',320,265,9);
+    s += `<rect x="244" y="274" width="152" height="32" rx="3" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
+    s += lbl('MIX',320,290,9);
+
+    // ── INNER BOWL TOP ──
+    [[101,58,128],[102,192,124],[103,322,124],[104,452,130]].forEach(([n,x,w],i)=>{
+        const h=(i===0||i===3)?58:52, y=66;
+        s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${sf('disc',i+1,8)}" style="cursor:pointer" onclick="showSectionPrice('disc','${n}')"/>`;
+        s+=lbl(n,x+w/2,y+h/2,10);
+    });
+
+    // ── INNER BOWL LEFT ──
+    [[105,130,74],[106,210,74],[107,290,90]].forEach(([n,y,h])=>{
+        s+=`<rect x="58" y="${y}" width="60" height="${h}" rx="3" fill="${sf('disc',0,8)}" style="cursor:pointer" onclick="showSectionPrice('disc','${n}')"/>`;
+        s+=lbl(n,88,y+h/2,10);
+    });
+
+    // ── INNER BOWL RIGHT ──
+    [[108,130,74],[109,210,74],[110,290,90]].forEach(([n,y,h])=>{
+        s+=`<rect x="522" y="${y}" width="60" height="${h}" rx="3" fill="${sf('disc',0,8)}" style="cursor:pointer" onclick="showSectionPrice('disc','${n}')"/>`;
+        s+=lbl(n,552,y+h/2,10);
+    });
+
+    // ── OUTER BOWL TOP ──
+    [[301,0,0,106,60],[302,112,3,94,54],[303,212,5,94,50],[304,312,5,94,50],[305,412,3,94,54],[306,512,0,128,60]].forEach(([n,x,y,w,h],i)=>{
+        s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${sf('gen',i,6)}" style="cursor:pointer" onclick="showSectionPrice('gen','${n}')"/>`;
+        s+=lbl(n,x+w/2,y+h/2,9);
+    });
+
+    // ── OUTER BOWL SIDES ──
+    [66,146,226,306].forEach((y,i)=>{
+        s+=`<rect x="0" y="${y}" width="52" height="74" rx="2" fill="${sf('gen',i+6,4)}" style="cursor:pointer" onclick="showSectionPrice('gen','UL')"/>`;
+        s+=`<rect x="588" y="${y}" width="52" height="74" rx="2" fill="${sf('gen',i+10,4)}" style="cursor:pointer" onclick="showSectionPrice('gen','UR')"/>`;
+    });
+
+    [[58,66,60,308,6],[520,66,60,308,6],[0,66,52,308,5],[588,66,52,308,5]].forEach(([x,y,w,h,n])=>{for(let i=1;i<n;i++){const ry=(y+h/n*i).toFixed(0);s+=`<line x1="${x+2}" y1="${ry}" x2="${x+w-2}" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;} });
+    [[68,66,516,60,3],[68,74,516,50,3]].forEach(([x,y,w,h,n])=>{for(let i=1;i<n;i++){const ry=(y+h/n*i).toFixed(0);s+=`<line x1="${x+2}" y1="${ry}" x2="${x+w-2}" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;} });
+
+    // ── RISER SHADOWS (tier elevation depth) ──
+    s+=`<rect x="-8" y="58" width="656" height="8" fill="rgba(0,0,0,0.55)" pointer-events="none"/>`;
+    s+=`<rect x="50" y="66" width="8" height="326" fill="rgba(0,0,0,0.5)" pointer-events="none"/>`;
+    s+=`<rect x="-8" y="122" width="656" height="8" fill="rgba(0,0,0,0.45)" pointer-events="none"/>`;
+    s+=`<rect x="118" y="130" width="8" height="252" fill="rgba(0,0,0,0.4)" pointer-events="none"/>`;
+
+    s+=`<rect width="${W}" height="${H}" fill="url(#arVD)" pointer-events="none"/>`;
+    s += `</g>`;
+    s += '</svg>'; return s;
+}
+        function clubArranged(capacity, sf, lbl) {
+    const W=380, H=340;
+    const GREY='#6b7280';
+    let s = `<svg viewBox="-14 -14 408 368" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="clVD" cx="50%" cy="35%" r="68%"><stop offset="18%" stop-color="transparent"/><stop offset="100%" stop-color="rgba(0,0,0,0.55)"/></radialGradient>
+        <clipPath id="clArC"><rect x="-2" y="-2" width="384" height="344" rx="22"/></clipPath>
+    </defs>`;
+    s+=`<rect x="-14" y="-14" width="408" height="368" fill="#060810"/>`;
+    s+=`<rect x="-10" y="-10" width="400" height="360" rx="22" fill="#111827" stroke="#344060" stroke-width="2.5"/>`;
+    s+=`<rect x="-2" y="-2" width="384" height="344" rx="22" fill="#0d1121" stroke="#1a2840" stroke-width="1.5"/>`;
+    s+=`<g clip-path="url(#clArC)">`;
+
+    // ── GREY: bar/service strip along left wall ──
+    s+=`<rect x="-2" y="74" width="14" height="116" fill="${GREY}" opacity="0.5"/>`;
+    s+=`<rect x="370" y="74" width="14" height="116" fill="${GREY}" opacity="0.5"/>`;
+
+    // ── STAGE + DJ ──
+    s+=`<rect x="140" y="12" width="100" height="36" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`;s+=lbl('STAGE',190,30,9);
+    s+=`<rect x="164" y="50" width="52" height="20" rx="2" fill="rgba(217,119,6,0.2)" stroke="#d97706" stroke-width="0.8"/>`;s+=lbl('DJ',190,60,7);
+
+    // ── VIP BOOTHS ──
+    s+=`<rect x="12" y="12" width="124" height="58" rx="3" fill="${sf('vip',0,2)}"/>`;s+=lbl('VIP BOOTH L',74,41,9);
+    s+=`<rect x="244" y="12" width="124" height="58" rx="3" fill="${sf('vip',1,2)}"/>`;s+=lbl('VIP BOOTH R',306,41,9);
+
+    // ── DANCE FLOOR ──
+    s+=`<rect x="12" y="74" width="356" height="116" rx="4" fill="${sf('disc',0,1)}" opacity="0.85"/>`;s+=lbl('DANCE FLOOR / GA',190,132,12);
+
+    // ── RISER SHADOW: dance floor → general ──
+    s+=`<rect x="-2" y="188" width="384" height="6" fill="rgba(0,0,0,0.55)" pointer-events="none"/>`;
+
+    // ── GENERAL SECTIONS ──
+    s+=`<rect x="12" y="194" width="84" height="54" rx="3" fill="${sf('gen',0,3)}"/>`;s+=lbl('SIDE L',54,221,9);
+    s+=`<rect x="284" y="194" width="84" height="54" rx="3" fill="${sf('gen',1,3)}"/>`;s+=lbl('SIDE R',326,221,9);
+    s+=`<rect x="100" y="194" width="180" height="54" rx="3" fill="${sf('gen',2,3)}"/>`;s+=lbl('GENERAL',190,221,11);
+    for(let i=1;i<4;i++){const ry=(194+54/4*i).toFixed(0);s+=`<line x1="102" y1="${ry}" x2="278" y2="${ry}" stroke="rgba(255,255,255,0.1)" stroke-width="0.7"/>`;}
+
+    // ── RISER SHADOW: general → mezzanine ──
+    s+=`<rect x="-2" y="246" width="384" height="8" fill="rgba(0,0,0,0.5)" pointer-events="none"/>`;
+
+    // ── MEZZANINE ──
+    s+=`<rect x="12" y="254" width="356" height="72" rx="3" fill="${sf('gen',2,3)}" opacity="0.72"/>`;s+=lbl('MEZZANINE',190,290,11);
+    for(let i=1;i<6;i++){const ry=(254+72/6*i).toFixed(0);s+=`<line x1="14" y1="${ry}" x2="366" y2="${ry}" stroke="rgba(255,255,255,0.1)" stroke-width="0.7"/>`;}
+
+    s+=`<rect width="${W}" height="${H}" fill="url(#clVD)" pointer-events="none"/>`;
+    s+=`</g>`;
+    s += '</svg>'; return s;
+}
+        function theaterArranged(capacity, sf, lbl) {
+    const W=440, H=370;
+    const GREY='#6b7280';
+    let s = `<svg viewBox="-14 -14 468 398" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="thD" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,0.52)"/></linearGradient>
+        <clipPath id="thArC"><rect x="-2" y="-2" width="444" height="374" rx="22"/></clipPath>
+    </defs>`;
+    s+=`<rect x="-14" y="-14" width="468" height="398" fill="#060810"/>`;
+    s+=`<rect x="-10" y="-10" width="460" height="390" rx="22" fill="#111827" stroke="#344060" stroke-width="2.5"/>`;
+    s+=`<rect x="-2" y="-2" width="444" height="374" rx="22" fill="#0d1121" stroke="#1a2840" stroke-width="1.5"/>`;
+    s+=`<g clip-path="url(#thArC)">`;
+
+    // ── STAGE ──
+    s += `<rect x="155" y="14" width="130" height="44" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`; s += lbl('STAGE',220,36,9);
+
+    // ── GREY: orchestra pit (gap between stage and seating) ──
+    s += `<rect x="-2" y="56" width="444" height="8" fill="${GREY}" opacity="0.35"/>`;
+
+    // ── ORCHESTRA ──
+    s += `<rect x="10" y="62" width="100" height="110" rx="3" fill="${sf('disc',0,3)}"/>`; s += lbl('ORCH L',60,117,10);
+    for(let i=1;i<7;i++){const ry=(62+110/7*i).toFixed(0);s+=`<line x1="12" y1="${ry}" x2="108" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+    // ── GREY: aisle between orch sections ──
+    s += `<rect x="112" y="62" width="51" height="110" fill="${GREY}" opacity="0.22"/>`;
+    s += `<rect x="277" y="62" width="51" height="110" fill="${GREY}" opacity="0.22"/>`;
+    s += `<rect x="165" y="62" width="110" height="110" rx="3" fill="${sf('vip',0,2)}"/>`; s += lbl('ORCH CTR',220,117,10);
+    for(let i=1;i<7;i++){const ry=(62+110/7*i).toFixed(0);s+=`<line x1="167" y1="${ry}" x2="273" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+    s += `<rect x="330" y="62" width="100" height="110" rx="3" fill="${sf('disc',1,3)}"/>`; s += lbl('ORCH R',380,117,10);
+    for(let i=1;i<7;i++){const ry=(62+110/7*i).toFixed(0);s+=`<line x1="332" y1="${ry}" x2="428" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+
+    // ── RISER SHADOW: orchestra → box/mezzanine ──
+    s+=`<rect x="-2" y="170" width="444" height="8" fill="rgba(0,0,0,0.55)" pointer-events="none"/>`;
+
+    // ── BOXES + MEZZANINE ──
+    s += `<rect x="10" y="176" width="70" height="70" rx="3" fill="${sf('vip',1,2)}"/>`; s += lbl('BOX L',45,211,9);
+    s += `<rect x="360" y="176" width="70" height="70" rx="3" fill="${sf('vip',1,2)}"/>`; s += lbl('BOX R',395,211,9);
+    s += `<rect x="84" y="176" width="272" height="70" rx="3" fill="${sf('gen',0,3)}"/>`; s += lbl('MEZZANINE',220,211,11);
+    for(let i=1;i<5;i++){const ry=(176+70/5*i).toFixed(0);s+=`<line x1="86" y1="${ry}" x2="354" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+
+    // ── RISER SHADOW: mezzanine → balcony ──
+    s+=`<rect x="-2" y="244" width="444" height="8" fill="rgba(0,0,0,0.5)" pointer-events="none"/>`;
+
+    // ── BALCONY ──
+    s += `<rect x="10" y="252" width="420" height="55" rx="3" fill="${sf('gen',1,3)}"/>`; s += lbl('BALCONY',220,279,11);
+    for(let i=1;i<5;i++){const ry=(252+55/5*i).toFixed(0);s+=`<line x1="12" y1="${ry}" x2="428" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+
+    // ── RISER SHADOW: balcony → upper balcony ──
+    s+=`<rect x="-2" y="305" width="444" height="7" fill="rgba(0,0,0,0.45)" pointer-events="none"/>`;
+
+    // ── UPPER BALCONY ──
+    s += `<rect x="10" y="312" width="420" height="45" rx="3" fill="${sf('gen',2,3)}" opacity="0.78"/>`; s += lbl('UPPER BALCONY',220,334,10);
+    for(let i=1;i<5;i++){const ry=(312+45/4*i).toFixed(0);s+=`<line x1="12" y1="${ry}" x2="428" y2="${ry}" stroke="rgba(255,255,255,0.09)" stroke-width="0.7"/>`;}
+
+    s+=`<rect width="${W}" height="${H}" fill="url(#thD)" pointer-events="none"/>`;
+    s+=`</g>`;
+    s += '</svg>'; return s;
+}
+                function stadiumArranged(capacity, sf, lbl) {
+            const W=700, H=490;
+            const GREY='#6b7280';
+            let s=`<svg viewBox="-8 -8 716 506" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto;">`;
+            s+=`<defs>
+                <radialGradient id="stVD" cx="34%" cy="50%" r="72%">
+                    <stop offset="16%" stop-color="transparent"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0.52)"/>
+                </radialGradient>
+                <clipPath id="stadClip">
+                    <rect x="28" y="28" width="644" height="434" rx="90"/>
+                </clipPath>
+            </defs>`;
+            s+=`<rect x="-8" y="-8" width="716" height="506" fill="#060810"/>`;
+            s+=`<rect x="18" y="18" width="664" height="454" rx="100" fill="#111827" stroke="#344060" stroke-width="3"/>`;
+            s+=`<rect x="26" y="26" width="648" height="438" rx="92" fill="#0d1121" stroke="#1a2840" stroke-width="1.5"/>`;
+            s+=`<g clip-path="url(#stadClip)">`;
+
+            // ── UPPER TIER (GEN) — highest elevation, individual blocks with gaps ──
+            // Top: 6 sections starting from x=28 so the CORNERS get filled (clip rounds them)
+            [['541',28],['542',114],['543',200],['544',286],['545',372],['546',458]].forEach(([n,x])=>{
+                s+=`<rect x="${x}" y="28" width="82" height="50" fill="${sf('gen',0,3)}" style="cursor:pointer" onclick="showSectionPrice('gen','${n}')"/>`;
+                s+=lbl(n,x+41,53,8);
+            });
+            // Left end cap (fills left curved corner naturally)
+            s+=`<rect x="28" y="82" width="82" height="328" fill="${sf('gen',1,3)}" style="cursor:pointer" onclick="showSectionPrice('gen','540')"/>`;
+            s+=lbl('540',69,246,8);
+            // Bottom: 6 sections also from x=28
+            [['521',28],['522',114],['523',200],['524',286],['525',372],['526',458]].forEach(([n,x])=>{
+                s+=`<rect x="${x}" y="414" width="82" height="48" fill="${sf('gen',2,3)}" style="cursor:pointer" onclick="showSectionPrice('gen','${n}')"/>`;
+                s+=lbl(n,x+41,438,8);
+            });
+            // Right end — GREY behind stage
+            s+=`<rect x="546" y="28" width="160" height="140" fill="${GREY}" opacity="0.82"/>`;
+            s+=lbl('501',618,96,8);
+            s+=`<rect x="546" y="332" width="160" height="130" fill="${GREY}" opacity="0.82"/>`;
+            s+=lbl('502',618,396,8);
+
+            // ── STAIRCASE RISER SHADOWS — upper tier overhangs lower (elevation effect) ──
+            s+=`<rect x="28" y="70" width="514" height="8" fill="rgba(0,0,0,0.55)" pointer-events="none"/>`;
+            s+=`<rect x="102" y="82" width="8" height="328" fill="rgba(0,0,0,0.5)" pointer-events="none"/>`;
+
+            // ── LOWER TIER (DISC) — mid elevation, individual blocks with gaps ──
+            // Top: 5 sections
+            [['141',118],['142',202],['143',286],['144',370],['145',454]].forEach(([n,x])=>{
+                s+=`<rect x="${x}" y="84" width="80" height="46" fill="${sf('disc',0,3)}" style="cursor:pointer" onclick="showSectionPrice('disc','${n}')"/>`;
+                s+=lbl(n,x+40,107,8);
+            });
+            // Left strip
+            s+=`<rect x="118" y="134" width="64" height="222" fill="${sf('disc',1,3)}" style="cursor:pointer" onclick="showSectionPrice('disc','140')"/>`;
+            s+=lbl('140',150,245,8);
+            // Bottom: 5 sections
+            [['131',118],['132',202],['133',286],['134',370],['135',454]].forEach(([n,x])=>{
+                s+=`<rect x="${x}" y="360" width="80" height="46" fill="${sf('disc',2,3)}" style="cursor:pointer" onclick="showSectionPrice('disc','${n}')"/>`;
+                s+=lbl(n,x+40,383,8);
+            });
+            // Right end — GREY
+            s+=`<rect x="542" y="84" width="90" height="84" fill="${GREY}" opacity="0.72"/>`;
+            s+=lbl('100',582,126,8);
+            s+=`<rect x="542" y="332" width="90" height="84" fill="${GREY}" opacity="0.72"/>`;
+            s+=lbl('101',582,374,8);
+
+            // ── STAIRCASE RISER SHADOWS — lower tier overhangs field ──
+            s+=`<rect x="118" y="122" width="420" height="8" fill="rgba(0,0,0,0.45)" pointer-events="none"/>`;
+            s+=`<rect x="174" y="132" width="8" height="226" fill="rgba(0,0,0,0.4)" pointer-events="none"/>`;
+
+            // ── FIELD / FLOOR — ground level ──
+            s+=`<rect x="190" y="138" width="196" height="218" rx="4" fill="${sf('disc',0,1)}" opacity="0.85" style="cursor:pointer" onclick="showSectionPrice('disc','GA')"/>`;
+            s+=lbl('GENERAL',288,238,11);
+            s+=lbl('ADMISSION',288,254,11);
+            s+=`<rect x="390" y="138" width="132" height="218" rx="4" fill="${sf('vip',0,1)}" opacity="0.85" style="cursor:pointer" onclick="showSectionPrice('vip','FZ')"/>`;
+            s+=lbl('FRONT ZONE',456,238,10);
+            s+=lbl('STANDING',456,254,10);
+
+            // ── STAGE ──
+            s+=`<rect x="526" y="170" width="62" height="156" rx="5" fill="#140f07" stroke="#d97706" stroke-width="2" style="cursor:pointer" onclick="showSectionPrice('vip','Stage')"/>`;
+            s+=`<text x="557" y="248" font-family="Inter,sans-serif" font-size="9" font-weight="900" fill="#d97706" text-anchor="middle" dominant-baseline="central" transform="rotate(-90,557,248)" letter-spacing="3">STAGE</text>`;
+
+            s+=`</g>`;
+            s+=`<rect x="-8" y="-8" width="716" height="506" fill="url(#stVD)" pointer-events="none"/>`;
+            s+='</svg>';return s;
+        }
+        // ── DOT / OPTIMAL MAP ─────────────────────────────────────
+        function generateDotMap(venueType, capacity, fillRate) {
+            if (venueType === 'arenas')   return arenaOptimalMap(capacity, fillRate);
+            if (venueType === 'stadiums') return stadiumOptimalMap(capacity, fillRate);
+            if (venueType === 'clubs')    return clubOptimalMap(capacity, fillRate);
+            if (venueType === 'theaters') return theatreOptimalMap(capacity, fillRate);
+    const W=460, H=390;
+            let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><rect width="${W}" height="${H}" fill="#080810"/>`;
+            // Stage
+            s += `<rect x="152" y="${H-58}" width="156" height="46" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`;
+            s += `<text x="230" y="${H-28}" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#d97706" text-anchor="middle" letter-spacing="3">STAGE</text>`;
+
+            const cx = W/2, cy = H - 68;
+            const dotR = 3.5, gap = 9.5;
+            // Tier zones: vip inner, disc mid, gen outer
+            const zones = [
+                // [rows, startRadius, deltaR, startDeg, endDeg, tier]
+                { rows:3, r0:75,  dr:16, a0:200, a1:340, tier:'vip',  color:'#d97706' },
+                { rows:5, r0:128, dr:18, a0:195, a1:345, tier:'disc', color:'#4f46e5' },
+                { rows:8, r0:226, dr:18, a0:188, a1:352, tier:'gen',  color:'#7c3aed' },
+            ];
+            const allDots = [];
+            zones.forEach(z => {
+                for (let row=0; row<z.rows; row++) {
+                    const radius = z.r0 + row * z.dr;
+                    const arcDeg = z.a1 - z.a0;
+                    const arcLen = Math.PI * arcDeg / 180 * radius;
+                    const n = Math.max(4, Math.floor(arcLen / (dotR*2 + gap)));
+                    for (let d=0; d<n; d++) {
+                        const deg = z.a0 + (arcDeg / n) * d;
+                        const rad = deg * Math.PI / 180;
+                        const x = cx + Math.cos(rad) * radius;
+                        const y = cy + Math.sin(rad) * radius;
+                        allDots.push({ x, y, color: z.color });
+                    }
+                }
+            });
+            const soldCount = Math.floor(allDots.length * Math.min(1, fillRate));
+            allDots.forEach((dot, i) => {
+                const isSold = i < soldCount;
+                const c = isSold ? '#3f3f46' : dot.color;
+                const op = isSold ? '0.4' : '0.85';
+                s += `<circle cx="${dot.x.toFixed(1)}" cy="${dot.y.toFixed(1)}" r="${dotR}" fill="${c}" opacity="${op}"/>`;
+            });
+            s += '</svg>';
+            return s;
+        }
+    // AFTER — dots perfectly mirror the arranged sections above
+function arenaOptimalMap(capacity, fillRate) {
+    const W=640, H=480;
+    const cols={disc:'#4f46e5',gen:'#7c3aed',vip:'#d97706'};
+    const GREY='#6b7280';
+    const r=3.5, sp=12, PAD=8;
+    const allDots=[], greyDots=[];
+    const fill=(x1,x2,y1,y2,tier)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)allDots.push({x,y,tier});};
+    const fillG=(x1,x2,y1,y2)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)greyDots.push({x,y});};
+
+    fill(134,506,140,370,'disc');  // GA floor
+    fill(68,176,74,118,'disc');    // 101
+    fill(200,310,74,112,'disc');   // 102-103
+    fill(460,574,74,118,'disc');   // 104
+    fill(66,110,138,372,'disc');   // 105-107 left
+    fill(530,574,138,372,'disc');  // 108-110 right
+    fill(8,98,8,52,'gen');         // 301
+    fill(120,198,10,52,'gen');     // 302
+    fill(220,298,13,48,'gen');     // 303
+    fill(320,398,13,48,'gen');     // 304
+    fill(420,498,10,52,'gen');     // 305
+    fill(520,632,8,52,'gen');      // 306
+    fill(8,46,74,372,'gen');       // outer left strips
+    fill(594,632,74,372,'gen');    // outer right strips
+    fill(8,182,402,464,'vip');     // VIP-L
+    fill(458,632,402,464,'vip');   // VIP-R
+    fillG(186,458,402,464);        // grey: centre stage-end floor gap
+    fillG(110,530,372,402);        // grey: lower-bowl walkway ring
+
+    const soldCount=Math.floor(allDots.length*Math.min(1,fillRate));
+    let s=`<svg viewBox="-8 -8 656 496" xmlns="http://www.w3.org/2000/svg">`;
+    s+=`<defs><clipPath id="arenaClip"><rect x="4" y="4" width="632" height="472" rx="40"/></clipPath></defs>`;
+    s+=`<rect x="-8" y="-8" width="656" height="496" fill="#060810"/>`;
+    s+=`<rect x="4" y="4" width="632" height="472" rx="40" fill="#111827" stroke="#344060" stroke-width="2"/>`;
+    s+=`<g clip-path="url(#arenaClip)">`;
+    greyDots.forEach(d=>{s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${GREY}" opacity="0.4"/>`;});
+    allDots.forEach((d,i)=>{
+        const sold=i<soldCount;
+        s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${sold?'#e4e4e7':cols[d.tier]}" opacity="${sold?0.9:0.85}"/>`;
+    });
+    s+=`<rect x="196" y="394" width="248" height="78" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`;
+    s+=`<text x="320" y="433" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#d97706" text-anchor="middle" dominant-baseline="central" letter-spacing="3">STAGE</text>`;
+    s+=`</g>`;
+    s+='</svg>'; return s;
+}
+        function stadiumOptimalMap(capacity, fillRate) {
+            const W=700, H=490;
+            const r=3, sp=15;  // wider spacing = breathing room, not a sea of dots
+            const cols={disc:'#4f46e5', gen:'#7c3aed', vip:'#d97706'};
+            const GREY='#6b7280';
+            const allDots=[], greyDots=[];
+            const PAD=9; // inset from each section boundary → visible gap between sections
+            const fill=(x1,x2,y1,y2,tier)=>{
+                for(let x=x1+PAD;x<=x2-PAD;x+=sp)
+                    for(let y=y1+PAD;y<=y2-PAD;y+=sp)
+                        allDots.push({x,y,tier});
+            };
+            const fillG=(x1,x2,y1,y2)=>{
+                for(let x=x1+PAD;x<=x2-PAD;x+=sp)
+                    for(let y=y1+PAD;y<=y2-PAD;y+=sp)
+                        greyDots.push({x,y});
+            };
+
+            // Field
+            fill(190,386,138,356,'disc');
+            fill(390,522,138,356,'vip');
+
+            // Upper tier — each named section is its own dot zone (gap between each)
+            [[28,110],[114,196],[200,282],[286,368],[372,454],[458,540]].forEach(([x1,x2])=>{
+                fill(x1,x2,28,78,'gen');    // top sections 541-546
+                fill(x1,x2,414,462,'gen'); // bottom sections 521-526
+            });
+            fill(28,110,82,410,'gen');      // left cap 540
+
+            // Lower tier — individual section zones
+            [[118,198],[202,282],[286,366],[370,450],[454,534]].forEach(([x1,x2])=>{
+                fill(x1,x2,84,130,'disc');  // top 141-145
+                fill(x1,x2,360,406,'disc'); // bottom 131-135
+            });
+            fill(118,182,134,356,'disc');   // left strip 140
+
+            // Grey — behind stage right end
+            fillG(546,680,28,168);
+            fillG(546,680,330,462);
+
+            const soldCount=Math.floor(allDots.length*Math.min(1,fillRate));
+            let s=`<svg viewBox="-8 -8 716 506" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="stadDotClip"><rect x="28" y="28" width="644" height="434" rx="90"/></clipPath></defs>`;
+            s+=`<rect x="-8" y="-8" width="716" height="506" fill="#060810"/>`;
+            s+=`<rect x="18" y="18" width="664" height="454" rx="100" fill="#111827" stroke="#344060" stroke-width="2"/>`;
+            s+=`<g clip-path="url(#stadDotClip)">`;
+            greyDots.forEach(d=>{s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${GREY}" opacity="0.45"/>`;});
+            allDots.forEach((d,i)=>{
+                const sold=i<soldCount;
+                s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${sold?'#e4e4e7':cols[d.tier]}" opacity="${sold?0.9:0.82}"/>`;
+            });
+            s+=`<rect x="526" y="170" width="62" height="156" rx="5" fill="#1E1E1E" stroke="#d97706" stroke-width="2"/>`;
+            s+=`<text x="557" y="248" font-family="Inter,sans-serif" font-size="9" font-weight="900" fill="#a1a1aa" text-anchor="middle" dominant-baseline="central" transform="rotate(-90,557,248)" letter-spacing="2">STAGE</text>`;
+            s+=`</g>`;
+            s+='</svg>';return s;
+        }
+
+function clubOptimalMap(capacity, fillRate) {
+    const W=380, H=340;
+    const cols={disc:'#4f46e5',gen:'#7c3aed',vip:'#d97706'};
+    const GREY='#6b7280';
+    const r=3, sp=9, PAD=6;
+    const allDots=[], greyDots=[];
+    const fill=(x1,x2,y1,y2,tier)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)allDots.push({x,y,tier});};
+    const fillG=(x1,x2,y1,y2)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)greyDots.push({x,y});};
+
+    fill(14,134,14,68,'vip');    // VIP Booth L
+    fill(246,366,14,68,'vip');   // VIP Booth R
+    fill(14,366,76,188,'disc');  // Dance Floor / GA
+    fill(14,94,196,248,'gen');   // Side L
+    fill(102,278,196,248,'gen'); // General
+    fill(286,366,196,248,'gen'); // Side R
+    fill(14,366,256,324,'gen');  // Mezzanine
+    fillG(138,242,14,68);        // grey: service zone behind stage
+    fillG(14,366,190,206);       // grey: walkway between floor & general
+
+    const soldCount=Math.floor(allDots.length*Math.min(1,fillRate));
+    let s=`<svg viewBox="-8 -8 396 356" xmlns="http://www.w3.org/2000/svg">`;
+    s+=`<defs><clipPath id="clubClip"><rect x="4" y="4" width="372" height="332" rx="16"/></clipPath></defs>`;
+    s+=`<rect x="-8" y="-8" width="396" height="356" fill="#060810"/>`;
+    s+=`<rect x="4" y="4" width="372" height="332" rx="16" fill="#111827" stroke="#344060" stroke-width="2"/>`;
+    s+=`<g clip-path="url(#clubClip)">`;
+    greyDots.forEach(d=>{s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${GREY}" opacity="0.35"/>`;});
+    allDots.forEach((d,i)=>{
+        const sold=i<soldCount;
+        s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${sold?'#e4e4e7':cols[d.tier]}" opacity="${sold?0.9:0.85}"/>`;
+    });
+    s+=`<rect x="140" y="12" width="100" height="36" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`;
+    s+=`<text x="190" y="30" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#d97706" text-anchor="middle" dominant-baseline="central" letter-spacing="2">STAGE</text>`;
+    s+=`</g>`;
+    s+='</svg>';return s;
+}
+
+function theatreOptimalMap(capacity, fillRate) {
+    const W=440, H=370;
+    const cols={disc:'#4f46e5',gen:'#7c3aed',vip:'#d97706'};
+    const GREY='#6b7280';
+    const r=3, sp=9, PAD=6;
+    const allDots=[], greyDots=[];
+    const fill=(x1,x2,y1,y2,tier)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)allDots.push({x,y,tier});};
+    const fillG=(x1,x2,y1,y2)=>{for(let x=x1+PAD;x<=x2-PAD;x+=sp)for(let y=y1+PAD;y<=y2-PAD;y+=sp)greyDots.push({x,y});};
+
+    fill(12,108,64,170,'disc');  // Orch L
+    fill(167,273,64,170,'vip');  // Orch Ctr
+    fill(332,428,64,170,'disc'); // Orch R
+    fill(12,78,178,244,'vip');   // Box L
+    fill(362,428,178,244,'vip'); // Box R
+    fill(86,354,178,244,'gen');  // Mezzanine
+    fill(12,428,254,305,'gen');  // Balcony
+    fill(12,428,314,355,'gen');  // Upper Balcony
+    fillG(12,428,14,58);         // grey: pit gap between stage & orchestra
+    fillG(82,166,178,244);       // grey: aisle between box & mezzanine L
+    fillG(274,358,178,244);      // grey: aisle between box & mezzanine R
+
+    const soldCount=Math.floor(allDots.length*Math.min(1,fillRate));
+    let s=`<svg viewBox="-8 -8 456 386" xmlns="http://www.w3.org/2000/svg">`;
+    s+=`<defs><clipPath id="theatreClip"><rect x="4" y="4" width="432" height="362" rx="24"/></clipPath></defs>`;
+    s+=`<rect x="-8" y="-8" width="456" height="386" fill="#060810"/>`;
+    s+=`<rect x="4" y="4" width="432" height="362" rx="24" fill="#111827" stroke="#344060" stroke-width="2"/>`;
+    s+=`<g clip-path="url(#theatreClip)">`;
+    greyDots.forEach(d=>{s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${GREY}" opacity="0.35"/>`;});
+    allDots.forEach((d,i)=>{
+        const sold=i<soldCount;
+        s+=`<circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${sold?'#e4e4e7':cols[d.tier]}" opacity="${sold?0.9:0.85}"/>`;
+    });
+    s+=`<rect x="155" y="14" width="130" height="44" rx="4" fill="#140f07" stroke="#d97706" stroke-width="1.5"/>`;
+    s+=`<text x="220" y="36" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#d97706" text-anchor="middle" dominant-baseline="central" letter-spacing="2">STAGE</text>`;
+    s+=`</g>`;
+    s+='</svg>';return s;
+}
+        // ═══════════════════════════════════════════════════════════
+        //  ACTIVE TOUR VENUE MODAL
+        // ═══════════════════════════════════════════════════════════
+        function openVenueModal(tourId) {
+            const tours = JSON.parse(localStorage.getItem('tycoon_tours') || '[]');
+            const tour = tours.find(t => t.id === tourId);
+            if (!tour) return;
+            document.getElementById('vlModalTitle').textContent = tour.name;
+            renderVenueList(tour);
+            document.getElementById('venueListModal').classList.add('active');
+        }
+
+        function closeVenueModal() {
+            document.getElementById('venueListModal').classList.remove('active');
+        }
+
+        function renderVenueList(tour) {
+            const body = document.getElementById('vlModalBody');
+            let vm = 'arranged';
+
+            const listHTML = tour.route.map((venue, idx) => {
+                const isDone = idx < (tour.currentStop || 0);
+                const isLive = idx === (tour.currentStop || 0) && tour.status === 'touring';
+                const statusLabel = isDone ? 'DONE' : isLive ? 'LIVE NOW' : 'UPCOMING';
+                const statusClass = isDone ? 'vm-done' : isLive ? 'vm-live' : 'vm-upcoming';
+                return `<div class="venue-modal-row" onclick="showVenueDetail(${JSON.stringify(tour).replace(/"/g,'&quot;')}, ${idx})">
+                    <div class="vm-name">${venue.name} <span class="vm-status ${statusClass}">${statusLabel}</span></div>
+                    <div class="vm-meta">${venue.location} · ${venue.capacity.toLocaleString()} cap · ${venue.type}</div>
+                </div>`;
+            }).join('');
+
+            body.innerHTML = `<div style="font-size:11px;color:var(--text-sub);margin-bottom:14px;">${tour.route.length} venues · tap any to see seat map</div>${listHTML}`;
+        }
+
+        function showVenueDetail(tour, idx) {
+            const venue = tour.route[idx];
+            const isDone = idx < (tour.currentStop || 0);
+            const totalCap = tour.totalCapacity || 1;
+            const perVenueFill = isDone ? (venue.fillRate || (tour.ticketsSold / totalCap)) : 0;
+
+    // Per-venue revenue estimate
+    let avgPrice = 0;
+    if (tour.prices) avgPrice = (tour.prices.discount*0.2) + (tour.prices.general*0.6) + (tour.prices.vip*0.2);
+    const venueRevenue = isDone ? Math.floor(venue.capacity * perVenueFill * avgPrice) : 0;
+    const venueSold = isDone ? (venue.ticketsSold || Math.floor(venue.capacity * perVenueFill)) : 0;
+
+            const body = document.getElementById('vlModalBody');
+            const mapDiv = document.createElement('div');
+
+            let vmView = 'arranged';
+            const renderMap = (mode) => {
+                mapDiv.innerHTML = generateDotMap(venue.type, venue.capacity, perVenueFill).replace(
+                    '<svg ', `<svg style="display:block;width:100%;height:auto;" `);
+                if (mode === 'arranged') mapDiv.innerHTML = generateArrangedMap(venue.type, venue.capacity, perVenueFill).replace('<svg ', `<svg style="display:block;width:100%;height:auto;" `);
+            };
+
+            body.innerHTML = `
+                <button class="back-to-list" onclick="renderVenueList(${JSON.stringify(tour).replace(/"/g,"'")})">← Back to venues</button>
+                <div style="font-weight:800;font-size:18px;margin-bottom:4px;">${venue.name}</div>
+                <div style="font-size:12px;color:var(--text-sub);margin-bottom:14px;">${venue.location} · ${venue.capacity.toLocaleString()} capacity</div>
+                <div class="view-toggle" style="margin-bottom:12px;">
+                    <button class="view-btn active" id="vd-arr" onclick="vdSwitch('arranged',this)">Arranged</button>
+                    <button class="view-btn" id="vd-opt" onclick="vdSwitch('optimal',this)">Optimal</button>
+                </div>
+                <div class="seat-map-wrap" id="vdMapWrap"></div>
+                <div class="seat-legend" style="padding:8px 0;">
+                    <div class="seat-leg"><div class="seat-dot" style="background:#4f46e5;"></div>Discount</div>
+                    <div class="seat-leg"><div class="seat-dot" style="background:#7c3aed;"></div>General</div>
+                    <div class="seat-leg"><div class="seat-dot" style="background:#d97706;"></div>VIP</div>
+                    <div class="seat-leg"><div class="seat-dot" style="background:#3f3f46;"></div>Sold</div>
+                </div>
+                ${isDone ? `
+                <div class="vm-stats-row">
+                    <div class="vm-stat"><span class="vm-stat-val">$${venueRevenue.toLocaleString()}</span><span class="vm-stat-lbl">Revenue</span></div>
+                    <div class="vm-stat"><span class="vm-stat-val">${venueSold.toLocaleString()}</span><span class="vm-stat-lbl">Sold</span></div>
+                    <div class="vm-stat"><span class="vm-stat-val">${Math.round(perVenueFill*100)}%</span><span class="vm-stat-lbl">Fill Rate</span></div>
+                </div>
+                <div style="margin-top:12px;background:var(--bg-element);border-radius:8px;padding:12px;">
+                    <div style="font-size:10px;color:var(--text-sub);margin-bottom:8px;">TICKET PRICES</div>
+                    <div style="display:flex;gap:8px;justify-content:space-between;">
+                        <div style="text-align:center;"><div style="font-size:10px;color:#4f46e5;font-weight:700;">DISCOUNT</div><div style="font-weight:800;">$${(tour.prices||{}).discount||'—'}</div></div>
+                        <div style="text-align:center;"><div style="font-size:10px;color:#7c3aed;font-weight:700;">GENERAL</div><div style="font-weight:800;">$${(tour.prices||{}).general||'—'}</div></div>
+                        <div style="text-align:center;"><div style="font-size:10px;color:#d97706;font-weight:700;">VIP</div><div style="font-weight:800;">$${(tour.prices||{}).vip||'—'}</div></div>
+                    </div>
+                </div>` : '<div style="padding:14px;background:var(--bg-element);border-radius:8px;text-align:center;font-size:12px;color:var(--text-sub);margin-top:12px;">Seat sales begin once the tour reaches this venue.</div>'}
+            `;
+            // Draw initial map
+            const wrap = document.getElementById('vdMapWrap');
+            wrap._venue = venue; wrap._fill = perVenueFill;
+            renderSeatMap(venue.type, venue.capacity, 'arranged', perVenueFill, wrap);
+        }
+
+        window.vdSwitch = function(mode, btn) {
+            document.getElementById('vd-arr').classList.toggle('active', mode==='arranged');
+            document.getElementById('vd-opt').classList.toggle('active', mode==='optimal');
+            const wrap = document.getElementById('vdMapWrap');
+            if (wrap && wrap._venue) renderSeatMap(wrap._venue.type, wrap._venue.capacity, mode, wrap._fill, wrap);
+        };
+
+    </script>
+
+
+</body></html>
